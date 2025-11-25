@@ -1,0 +1,25 @@
+{
+  "pages": {
+    "/receipts/page": [
+      "static/chunks/4b6e1_next_dist_516136c2._.js",
+      "static/chunks/e-receipt_src_app_favicon_ico_mjs_2ab81130._.js",
+      "static/chunks/[root-of-the-server]__7678c242._.css",
+      "static/chunks/4b6e1_3f807a15._.js",
+      "static/chunks/e-receipt_src_9fc282c9._.js",
+      "static/chunks/e-receipt_src_app_layout_tsx_530433dc._.js",
+      "static/chunks/4b6e1_next_dist_client_components_builtin_global-error_e5437a52.js",
+      "static/chunks/4b6e1_73a87ee2._.js",
+      "static/chunks/e-receipt_src_app_receipts_page_tsx_8e132d1c._.js",
+      "static/chunks/e-receipt_src_app_receipts_page_tsx_e5437a52._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_69aec91d._.js",
+      "static/chunks/4b6e1_next_dist_compiled_react-dom_b4865f89._.js",
+      "static/chunks/4b6e1_next_dist_compiled_next-devtools_index_98987327.js",
+      "static/chunks/4b6e1_next_dist_compiled_7512146f._.js",
+      "static/chunks/4b6e1_next_dist_client_000ae459._.js",
+      "static/chunks/4b6e1_next_dist_7601e5a5._.js",
+      "static/chunks/4b6e1_@swc_helpers_cjs_fe68b946._.js",
+      "static/chunks/e-receipt_a0ff3932._.js",
+      "static/chunks/turbopack-e-receipt_6e7041e8._.js"
+    ]
+  }
+}

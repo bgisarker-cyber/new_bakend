@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@radix-ui/react-select": "^2.2.6",
+    "react-data-table-component": "^7.7.0"
+  }
+}
