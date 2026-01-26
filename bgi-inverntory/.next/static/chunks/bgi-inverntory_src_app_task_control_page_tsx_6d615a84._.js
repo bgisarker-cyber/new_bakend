@@ -1,0 +1,8 @@
+(globalThis.TURBOPACK_CHUNK_LISTS || (globalThis.TURBOPACK_CHUNK_LISTS = [])).push({
+    script: typeof document === "object" ? document.currentScript : undefined,
+    chunks: [
+  "static/chunks/65e69_44763bba._.js",
+  "static/chunks/bgi-inverntory_src_app_task_control_page_tsx_0fa4c769._.js"
+],
+    source: "dynamic"
+});

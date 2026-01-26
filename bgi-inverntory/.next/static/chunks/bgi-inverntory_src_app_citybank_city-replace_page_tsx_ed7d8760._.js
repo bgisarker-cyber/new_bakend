@@ -20,7 +20,7 @@ const API_BASE = "http://127.0.0.1:8000/city_replace";
 function CityReplacePage() {
     _s();
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
-    /* ---------------- state ---------------- */ const [records, setRecords] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [records, setRecords] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [filteredRecords, setFilteredRecords] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
@@ -36,7 +36,7 @@ function CityReplacePage() {
     const [editingRow, setEditingRow] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [formData, setFormData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({});
     const [counterTerminal, setCounterTerminal] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
-    /* ---------- auth ---------- */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "CityReplacePage.useEffect": ()=>{
             const t = localStorage.getItem("access_token");
             if (!t) router.push("/login");
@@ -45,7 +45,7 @@ function CityReplacePage() {
     }["CityReplacePage.useEffect"], [
         router
     ]);
-    /* ---------- fetch ---------- */ const fetchRecords = async ()=>{
+    const fetchRecords = async ()=>{
         try {
             setLoading(true);
             if (!token) throw new Error("Please log in.");
@@ -73,7 +73,7 @@ function CityReplacePage() {
     }["CityReplacePage.useEffect"], [
         token
     ]);
-    /* ---------- filter ---------- */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "CityReplacePage.useEffect": ()=>{
             const filtered = records.filter({
                 "CityReplacePage.useEffect.filtered": (r)=>{
@@ -100,7 +100,7 @@ function CityReplacePage() {
         posSerialFilter,
         records
     ]);
-    /* ---------- crud ---------- */ const handleDelete = async (sl)=>{
+    const handleDelete = async (sl)=>{
         if (!confirm("Delete this record?")) return;
         try {
             const res = await fetch("".concat(API_BASE, "/delete/").concat(sl), {
@@ -135,7 +135,7 @@ function CityReplacePage() {
             alert("❌ " + err.message);
         }
     };
-    /* ---------- upload / export ---------- */ const handleUploadExcel = async ()=>{
+    const handleUploadExcel = async ()=>{
         if (!excelFile) return alert("Select a file!");
         try {
             const form = new FormData();
@@ -194,7 +194,7 @@ function CityReplacePage() {
             alert("Export failed: " + err.message);
         }
     };
-    /* ---------- table ---------- */ const columns = [
+    const columns = [
         {
             name: "SL",
             selector: (r)=>r.SL,
@@ -264,7 +264,7 @@ function CityReplacePage() {
                             children: "✏️"
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                            lineNumber: 231,
+                            lineNumber: 223,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -273,165 +273,166 @@ function CityReplacePage() {
                             children: "🗑️"
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                            lineNumber: 240,
+                            lineNumber: 232,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                    lineNumber: 230,
+                    lineNumber: 222,
                     columnNumber: 9
                 }, this)
         }
     ];
-    /* ---------- render ---------- */ if (loading) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+    if (loading) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+        className: "text-center mt-20",
         children: "Loading..."
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-        lineNumber: 252,
+        lineNumber: 243,
         columnNumber: 23
     }, this);
     if (error) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-        className: "text-red-500",
+        className: "text-red-500 text-center mt-20",
         children: error
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-        lineNumber: 253,
+        lineNumber: 244,
         columnNumber: 21
     }, this);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "p-6 relative",
+        className: "min-h-screen bg-[#e6e9ef] p-6 flex flex-col items-center",
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                className: "text-2xl font-bold mb-4",
-                children: "🔵 CBL Replace Records"
-            }, void 0, false, {
-                fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                lineNumber: 257,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex flex-wrap items-center justify-between gap-4 mb-6",
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
+                className: "flex flex-col items-center mb-6",
                 children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                        className: "text-3xl font-bold text-gray-800 mb-2 text-center",
+                        children: "CBL Replace Records"
+                    }, void 0, false, {
+                        fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
+                        lineNumber: 252,
+                        columnNumber: 9
+                    }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                        className: "text-xl font-bold",
+                        className: "text-xl font-semibold text-gray-700 text-center",
                         children: [
                             "Total Terminals: ",
                             counterTerminal
                         ]
                     }, void 0, true, {
                         fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                        lineNumber: 261,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex flex-wrap items-center gap-3",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: ()=>{
-                                    if (!token) return alert("Authentication required!");
-                                    window.location.href = "/citybank";
-                                },
-                                className: "bg-white text-black font-semibold px-4 py-2 rounded-lg border border-gray-400 hover:bg-gray-100 transition",
-                                children: "🟢 Live"
-                            }, void 0, false, {
-                                fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                                lineNumber: 264,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: ()=>{
-                                    if (!token) return alert("Authentication required!");
-                                    window.location.href = "/citybank/city-replace";
-                                },
-                                className: "bg-white text-black font-semibold px-4 py-2 rounded-lg border border-gray-400 hover:bg-gray-100 transition",
-                                children: "🔵 Replace"
-                            }, void 0, false, {
-                                fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                                lineNumber: 274,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: handleExportExcel,
-                                className: "bg-white text-black font-semibold px-4 py-2 rounded-lg border border-gray-400 hover:bg-gray-100 transition",
-                                children: "⬇️ Export Excel"
-                            }, void 0, false, {
-                                fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                                lineNumber: 285,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: ()=>setShowUploadModal(true),
-                                className: "bg-white text-black font-semibold px-4 py-2 rounded-lg border border-gray-400 hover:bg-gray-100 transition",
-                                children: "📂 Upload Excel"
-                            }, void 0, false, {
-                                fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                                lineNumber: 291,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                        lineNumber: 263,
+                        lineNumber: 253,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                lineNumber: 260,
+                lineNumber: 251,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "grid grid-cols-1 md:grid-cols-6 gap-4 mb-4",
+                className: "flex flex-col md:flex-row items-center justify-between w-full max-w-7xl mb-4 gap-4",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                            onClick: handleExportExcel,
+                            className: "px-6 py-3 rounded-2xl bg-[#e6e9ef]   shadow-[8px_8px_16px_rgba(0,0,0,0.18),-6px_-6px_#ffffff]   hover:shadow-[4px_4px_12px_rgba(0,0,0,0.22),-4px_-4px_#ffffff]   transition-all font-semibold text-gray-800",
+                            children: "⬇️ Export Excel"
+                        }, void 0, false, {
+                            fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
+                            lineNumber: 261,
+                            columnNumber: 11
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
+                        lineNumber: 260,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex flex-wrap gap-4",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: ()=>router.push("/citybank"),
+                                className: "px-6 py-3 rounded-2xl bg-[#e6e9ef]   shadow-[8px_8px_16px_rgba(0,0,0,0.18),-6px_-6px_#ffffff]   hover:shadow-[4px_4px_12px_rgba(0,0,0,0.22),-4px_-4px_#ffffff]   transition-all font-semibold text-gray-800",
+                                children: "🔵 Live"
+                            }, void 0, false, {
+                                fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
+                                lineNumber: 273,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: ()=>setShowUploadModal(true),
+                                className: "px-6 py-3 rounded-2xl bg-[#e6e9ef]   shadow-[8px_8px_16px_rgba(0,0,0,0.18),-6px_-6px_#ffffff]   hover:shadow-[4px_4px_12px_rgba(0,0,0,0.22),-4px_-4px_#ffffff]   transition-all font-semibold text-gray-800",
+                                children: "📂 Upload Excel"
+                            }, void 0, false, {
+                                fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
+                                lineNumber: 283,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
+                        lineNumber: 272,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
+                lineNumber: 259,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "grid grid-cols-1 md:grid-cols-6 gap-4 mb-4 max-w-7xl w-full",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         placeholder: "MID",
                         value: midFilter,
                         onChange: (e)=>setMidFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                        lineNumber: 302,
+                        lineNumber: 297,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         placeholder: "TID",
                         value: tidFilter,
                         onChange: (e)=>setTidFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                        lineNumber: 303,
+                        lineNumber: 298,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         placeholder: "City",
                         value: cityFilter,
                         onChange: (e)=>setCityFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                        lineNumber: 304,
+                        lineNumber: 299,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         placeholder: "Location",
                         value: locationFilter,
                         onChange: (e)=>setLocationFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                        lineNumber: 305,
+                        lineNumber: 300,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         placeholder: "POS Serial",
                         value: posSerialFilter,
                         onChange: (e)=>setPosSerialFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                        lineNumber: 306,
+                        lineNumber: 301,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -442,37 +443,37 @@ function CityReplacePage() {
                             setLocationFilter("");
                             setPosSerialFilter("");
                         },
-                        className: "bg-gray-200 px-4 py-2 rounded hover:bg-gray-300",
+                        className: "px-4 py-2 rounded-2xl bg-gray-200 hover:bg-gray-300 font-semibold",
                         children: "Clear"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                        lineNumber: 307,
+                        lineNumber: 302,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                lineNumber: 301,
+                lineNumber: 296,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "bg-white rounded shadow-md p-2 overflow-x-auto",
+                className: "bg-white rounded-2xl shadow-md p-2 overflow-x-auto w-full max-w-7xl",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$react$2d$data$2d$table$2d$component$2f$dist$2f$index$2e$cjs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                     columns: columns,
                     data: filteredRecords,
                     pagination: true,
-                    highlightOnHover: true,
                     striped: true,
+                    highlightOnHover: true,
                     dense: true,
                     persistTableHead: true
                 }, void 0, false, {
                     fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                    lineNumber: 323,
+                    lineNumber: 312,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                lineNumber: 322,
+                lineNumber: 311,
                 columnNumber: 7
             }, this),
             editingRow && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -488,7 +489,7 @@ function CityReplacePage() {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                            lineNumber: 338,
+                            lineNumber: 327,
                             columnNumber: 13
                         }, this),
                         Object.keys(editingRow).map((key)=>key === "SL" || key === "created_at" || key === "updated_at" ? null : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -499,7 +500,7 @@ function CityReplacePage() {
                                         children: key
                                     }, void 0, false, {
                                         fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                                        lineNumber: 342,
+                                        lineNumber: 331,
                                         columnNumber: 19
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -512,13 +513,13 @@ function CityReplacePage() {
                                         className: "border w-full p-2 rounded"
                                     }, void 0, false, {
                                         fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                                        lineNumber: 343,
+                                        lineNumber: 332,
                                         columnNumber: 19
                                     }, this)
                                 ]
                             }, key, true, {
                                 fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                                lineNumber: 341,
+                                lineNumber: 330,
                                 columnNumber: 17
                             }, this)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -530,7 +531,7 @@ function CityReplacePage() {
                                     children: "Save"
                                 }, void 0, false, {
                                     fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                                    lineNumber: 353,
+                                    lineNumber: 342,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -539,37 +540,37 @@ function CityReplacePage() {
                                     children: "Cancel"
                                 }, void 0, false, {
                                     fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                                    lineNumber: 356,
+                                    lineNumber: 345,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                            lineNumber: 352,
+                            lineNumber: 341,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                    lineNumber: 337,
+                    lineNumber: 326,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                lineNumber: 336,
+                lineNumber: 325,
                 columnNumber: 9
             }, this),
             showUploadModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "bg-white p-6 rounded-lg w-full max-w-md",
+                    className: "bg-[#e6e9ef] p-6 rounded-2xl w-full max-w-md shadow-[8px_8px_16px_rgba(0,0,0,0.18),-6px_-6px_#ffffff]",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                            className: "text-xl font-semibold mb-4",
+                            className: "text-xl font-semibold mb-4 text-center",
                             children: "📤 Upload Excel"
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                            lineNumber: 368,
+                            lineNumber: 357,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -579,27 +580,27 @@ function CityReplacePage() {
                                 var _e_target_files;
                                 return setExcelFile(((_e_target_files = e.target.files) === null || _e_target_files === void 0 ? void 0 : _e_target_files[0]) || null);
                             },
-                            className: "border rounded w-full p-2 mb-3"
+                            className: "border rounded-2xl w-full p-2 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                            lineNumber: 369,
+                            lineNumber: 358,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                             onClick: handleUploadExcel,
-                            className: "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full",
+                            className: "bg-green-600 text-white px-4 py-2 rounded-2xl hover:bg-green-700 w-full font-semibold mb-2",
                             children: "Upload"
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                            lineNumber: 375,
+                            lineNumber: 364,
                             columnNumber: 13
                         }, this),
                         uploadMsg && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("pre", {
-                            className: "bg-gray-100 p-2 mt-3 rounded text-sm",
+                            className: "bg-gray-100 p-2 mt-2 rounded text-sm",
                             children: uploadMsg
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                            lineNumber: 381,
+                            lineNumber: 370,
                             columnNumber: 27
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -607,43 +608,43 @@ function CityReplacePage() {
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                     onClick: handleDownloadTemplate,
-                                    className: "text-blue-600 underline",
+                                    className: "text-blue-600 underline font-semibold",
                                     children: "📥 Download Template"
                                 }, void 0, false, {
                                     fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                                    lineNumber: 383,
+                                    lineNumber: 372,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                     onClick: ()=>setShowUploadModal(false),
-                                    className: "bg-gray-300 px-4 py-2 rounded",
+                                    className: "bg-gray-300 px-4 py-2 rounded-2xl font-semibold",
                                     children: "Close"
                                 }, void 0, false, {
                                     fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                                    lineNumber: 386,
+                                    lineNumber: 375,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                            lineNumber: 382,
+                            lineNumber: 371,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                    lineNumber: 367,
+                    lineNumber: 356,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-                lineNumber: 366,
+                lineNumber: 355,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/bgi-inverntory/src/app/citybank/city-replace/page.tsx",
-        lineNumber: 256,
+        lineNumber: 247,
         columnNumber: 5
     }, this);
 }

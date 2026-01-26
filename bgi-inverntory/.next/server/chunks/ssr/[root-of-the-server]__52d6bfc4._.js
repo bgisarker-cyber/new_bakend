@@ -122,7 +122,7 @@ const UsersPage = ()=>{
     const columns = [
         {
             name: "SL",
-            selector: (_r, i)=>i + 1,
+            selector: (row)=>row.id,
             width: "60px"
         },
         {
@@ -148,7 +148,7 @@ const UsersPage = ()=>{
                     children: "Delete"
                 }, void 0, false, {
                     fileName: "[project]/bgi-inverntory/src/app/user-show/page.tsx",
-                    lineNumber: 138,
+                    lineNumber: 141,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0)),
             width: "120px"
@@ -161,7 +161,7 @@ const UsersPage = ()=>{
         children: "Loading..."
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/app/user-show/page.tsx",
-        lineNumber: 155,
+        lineNumber: 158,
         columnNumber: 23
     }, ("TURBOPACK compile-time value", void 0));
     if (error) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -169,7 +169,7 @@ const UsersPage = ()=>{
         children: error
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/app/user-show/page.tsx",
-        lineNumber: 156,
+        lineNumber: 159,
         columnNumber: 21
     }, ("TURBOPACK compile-time value", void 0));
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -180,7 +180,7 @@ const UsersPage = ()=>{
                 children: "User Management"
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/user-show/page.tsx",
-                lineNumber: 160,
+                lineNumber: 163,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -194,7 +194,7 @@ const UsersPage = ()=>{
                         className: "border rounded px-3 py-2"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/user-show/page.tsx",
-                        lineNumber: 164,
+                        lineNumber: 167,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -205,7 +205,7 @@ const UsersPage = ()=>{
                         className: "border rounded px-3 py-2"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/user-show/page.tsx",
-                        lineNumber: 171,
+                        lineNumber: 174,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -216,7 +216,7 @@ const UsersPage = ()=>{
                         className: "border rounded px-3 py-2"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/user-show/page.tsx",
-                        lineNumber: 178,
+                        lineNumber: 181,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -229,13 +229,13 @@ const UsersPage = ()=>{
                         children: "Clear"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/user-show/page.tsx",
-                        lineNumber: 185,
+                        lineNumber: 188,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/bgi-inverntory/src/app/user-show/page.tsx",
-                lineNumber: 163,
+                lineNumber: 166,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -249,12 +249,12 @@ const UsersPage = ()=>{
                     dense: true
                 }, void 0, false, {
                     fileName: "[project]/bgi-inverntory/src/app/user-show/page.tsx",
-                    lineNumber: 199,
+                    lineNumber: 202,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/user-show/page.tsx",
-                lineNumber: 198,
+                lineNumber: 201,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             showDeleteModal && selectedUser && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -267,7 +267,7 @@ const UsersPage = ()=>{
                             children: "Confirm Delete"
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/user-show/page.tsx",
-                            lineNumber: 213,
+                            lineNumber: 216,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -279,14 +279,14 @@ const UsersPage = ()=>{
                                     children: selectedUser.username
                                 }, void 0, false, {
                                     fileName: "[project]/bgi-inverntory/src/app/user-show/page.tsx",
-                                    lineNumber: 216,
+                                    lineNumber: 219,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 "?"
                             ]
                         }, void 0, true, {
                             fileName: "[project]/bgi-inverntory/src/app/user-show/page.tsx",
-                            lineNumber: 214,
+                            lineNumber: 217,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -298,7 +298,7 @@ const UsersPage = ()=>{
                                     children: "Cancel"
                                 }, void 0, false, {
                                     fileName: "[project]/bgi-inverntory/src/app/user-show/page.tsx",
-                                    lineNumber: 219,
+                                    lineNumber: 222,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -307,30 +307,30 @@ const UsersPage = ()=>{
                                     children: "Delete"
                                 }, void 0, false, {
                                     fileName: "[project]/bgi-inverntory/src/app/user-show/page.tsx",
-                                    lineNumber: 225,
+                                    lineNumber: 228,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/bgi-inverntory/src/app/user-show/page.tsx",
-                            lineNumber: 218,
+                            lineNumber: 221,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/bgi-inverntory/src/app/user-show/page.tsx",
-                    lineNumber: 212,
+                    lineNumber: 215,
                     columnNumber: 11
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/user-show/page.tsx",
-                lineNumber: 211,
+                lineNumber: 214,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/bgi-inverntory/src/app/user-show/page.tsx",
-        lineNumber: 159,
+        lineNumber: 162,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };

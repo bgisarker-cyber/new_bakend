@@ -9,6 +9,7 @@ import DataTable, { TableColumn } from "react-data-table-component";
 type User = {
   id: number;
   username: string;
+  password: string;
   email: string;
   role: string;
   created_at?: string;
@@ -128,9 +129,11 @@ const UsersPage = () => {
   // Table Columns
   // ==========================
   const columns: TableColumn<User>[] = [
-    { name: "SL", selector: (_r, i) => i + 1, width: "60px" },
+    { name: "SL", selector: (row) => row.id, width: "60px" },
     { name: "Username", selector: (row) => row.username },
     { name: "Email", selector: (row) => row.email },
+    
+
     { name: "Role", selector: (row) => row.role },
     {
       name: "Actions",

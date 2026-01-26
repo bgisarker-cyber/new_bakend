@@ -1,153 +1,216 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import {
-  Activity,
-  Cpu,
-  Bug,
-  Factory,
-  PackageSearch,
-  ClipboardList,
-} from "lucide-react";
-import React from "react";
+import { Activity, Factory, Cpu, Loader2 } from "lucide-react";
+import React, { useState, useEffect } from "react";
 
 /* ---------- icon map ---------- */
 const iconMap: any = {
   live: Activity,
   store: Factory,
-  demo: ClipboardList,
-  debug: Bug,
-  faulty: PackageSearch,
   tasks: Cpu,
 };
 
-/* ---------- card component ---------- */
-function DashboardCard({ title, gradient, onClick, icon: Icon }: any) {
+/* ---------- neumorphic dashboard card ---------- */
+function DashboardCard({
+  title,
+  onClick,
+  icon: Icon,
+  isLoading,
+}: any) {
   return (
-    <div
+    <button
       onClick={onClick}
+      disabled={isLoading}
       className={`
-        cursor-pointer select-none
-        rounded-3xl
-        py-10 px-10
-        shadow-lg
-        bg-gradient-to-br ${gradient}
-        hover:shadow-2xl hover:scale-[1.03]
-        transition-all duration-300
+        relative
+        w-full max-w-sm sm:w-80 h-40 sm:h-48
+        rounded-2xl
+        bg-[#e6e9ef]
         flex flex-col items-center justify-center
-        w-[300px] h-[180px]
+        transition-all duration-300 ease-in-out
+
+        /* dark outer shadow for visibility */
+        shadow-[10px_10px_18px_rgba(0,0,0,0.18),-8px_-8px_16px_#ffffff]
+
+        hover:shadow-[6px_6px_14px_rgba(0,0,0,0.22),-6px_-6px_14px_#ffffff]
+
+        active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25),inset_-6px_-6px_12px_#ffffff]
+
+        disabled:opacity-60 disabled:cursor-not-allowed
+        focus:outline-none
       `}
     >
-      <Icon className="w-12 h-12 mb-3 opacity-90 text-white" />
-      <h2 className="text-xl font-semibold text-white text-center drop-shadow-sm">
+      {isLoading && (
+        <div className="absolute inset-0 rounded-2xl bg-white/60 flex items-center justify-center">
+          <Loader2 className="w-8 h-8 text-gray-700 animate-spin" />
+        </div>
+      )}
+
+      <Icon className="w-11 h-11 sm:w-12 sm:h-12 mb-4 text-gray-800" />
+      <h2 className="text-base sm:text-lg font-semibold text-gray-800 text-center tracking-wide">
         {title}
       </h2>
-    </div>
+    </button>
   );
 }
 
 /* ---------- hook: read role from JWT ---------- */
 function useRole() {
-  const [role, setRole] = React.useState<string>("");
-  React.useEffect(() => {
+  const [role, setRole] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
     const token = localStorage.getItem("access_token");
-    if (!token) return;
+    if (!token) {
+      setIsLoading(false);
+      return;
+    }
     try {
       const payload = JSON.parse(atob(token.split(".")[1]));
       setRole(payload.role ?? "");
     } catch {
       setRole("");
+    } finally {
+      setIsLoading(false);
     }
   }, []);
-  return role;
+
+  return { role, isLoading };
+}
+
+/* ---------- mobile navigation bar ---------- */
+function MobileNav({ onLogout }: { onLogout: () => void }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  return (
+    <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-[#e6e9ef] shadow-md">
+      <div className="flex justify-between items-center p-4">
+        <span className="text-lg font-bold text-gray-800">BGI</span>
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="
+            p-2 rounded-lg
+            shadow-[6px_6px_10px_rgba(0,0,0,0.2),-4px_-4px_8px_#ffffff]
+          "
+        >
+          <svg
+            className="w-6 h-6 text-gray-800"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+
+      {isMenuOpen && (
+        <div className="p-4">
+          <button
+            onClick={onLogout}
+            className="
+              w-full py-2 rounded-xl text-red-600 font-medium
+              shadow-[6px_6px_10px_rgba(0,0,0,0.2),-4px_-4px_8px_#ffffff]
+              active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.25),inset_-4px_-4px_8px_#ffffff]
+            "
+          >
+            Logout
+          </button>
+        </div>
+      )}
+    </div>
+  );
 }
 
 /* ---------- main dashboard ---------- */
 export default function HomePage() {
   const router = useRouter();
-  const role = useRole();
+  const { role, isLoading } = useRole();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  /* ---------- buttons that exist for each role ---------- */
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      const token = localStorage.getItem("access_token");
+      if (token) {
+        await fetch("http://127.0.0.1:8000/auth/logout", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+      }
+    } catch (err) {
+      console.error("Logout API error:", err);
+    } finally {
+      localStorage.removeItem("access_token");
+      router.replace("/login");
+    }
+  };
+
   const buttons = React.useMemo(() => {
+    if (isLoading) return [];
+
     const all = [
-      {
-        name: "Live Terminals",
-        gradient: "from-green-400 to-green-600",
-        route: "/live",
-        icon: iconMap.live,
-      },
-      {
-        name: "Task Update",
-        gradient: "from-pink-400 to-pink-600",
-        route: "/task-manager",
-        icon: iconMap.tasks,
-      },
+      { name: "Live Terminals", route: "/live", icon: iconMap.live },
+      { name: "Task Update", route: "/task-manager", icon: iconMap.tasks },
     ];
 
-    /* super-admin extra cards */
     if (role === "superadmin") {
-      all.push(
-        {
-          name: "Inventory Terminals",
-          gradient: "from-blue-400 to-blue-600",
-          route: "/inventory",
-          icon: iconMap.store,
-        },
-        {
-          name: "Debug Terminal",
-          gradient: "from-red-400 to-red-600",
-          route: "/debug",
-          icon: iconMap.debug,
-        },
-        {
-          name: "Demo Terminal",
-          gradient: "from-purple-400 to-purple-600",
-          route: "/demo",
-          icon: iconMap.demo,
-        },
-        {
-          name: "Faulty Terminal",
-          gradient: "from-yellow-400 to-yellow-600",
-          route: "/faulty",
-          icon: iconMap.faulty,
-        }
-      );
+      all.push({
+        name: "Inventory Terminals",
+        route: "/inventory",
+        icon: iconMap.store,
+      });
     }
 
     return all;
-  }, [role]);
+  }, [role, isLoading]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#e6e9ef]">
+        <Loader2 className="w-10 h-10 text-gray-800 animate-spin" />
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gradient-to-b from-gray-50 to-gray-200">
-      {/* header */}
-      <header className="w-full bg-white shadow-md flex flex-col items-center py-4">
-        <h1 className="text-2xl font-bold text-gray-700 tracking-wide text-center">
+    <div className="min-h-screen flex flex-col items-center bg-[#e6e9ef]">
+      <MobileNav onLogout={handleLogout} />
+
+      {/* Header (moved slightly down) */}
+      <header className="hidden md:flex mt-10">
+        <h1 className="text-3xl font-bold text-gray-800 tracking-wide">
           BGI INVENTORY SYSTEM
         </h1>
-        <img
-          src="/BGI-logo.jpg"
-          alt="BGI Logo"
-          className="h-24 object-contain mt-1"
-        />
       </header>
 
-      {/* main */}
-      <main className="flex-1 flex flex-col items-center w-full p-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 mt-10">
+      {/* Mobile Header */}
+      <div className="md:hidden mt-12 pt-20">
+        <h1 className="text-xl font-bold text-gray-800 text-center">
+          BGI INVENTORY SYSTEM
+        </h1>
+      </div>
+
+      {/* Cards */}
+      <main className="flex-1 flex items-center justify-center w-full px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
           {buttons.map((btn) => (
             <DashboardCard
               key={btn.name}
               title={btn.name}
-              gradient={btn.gradient}
               onClick={() => router.push(btn.route)}
               icon={btn.icon}
+              isLoading={isLoggingOut}
             />
           ))}
         </div>
       </main>
 
-      {/* footer */}
-      <footer className="w-full py-6 bg-white border-t text-center text-gray-500 text-sm">
+      <footer className="w-full py-6 text-center text-gray-600 text-sm">
         © {new Date().getFullYear()} BGI • All Rights Reserved
       </footer>
     </div>

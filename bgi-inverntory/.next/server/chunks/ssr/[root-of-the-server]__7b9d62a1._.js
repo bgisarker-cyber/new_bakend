@@ -43,53 +43,53 @@ function StandardPOSPage() {
     }, [
         router
     ]);
-    /* ---------- fetch ---------- */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        const fetchRecords = async ()=>{
-            try {
-                if (!token) throw new Error("Please log in.");
-                const res = await fetch(`${API_BASE}/all`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                if (!res.ok) {
-                    const txt = await res.text();
-                    throw new Error(`${res.status}  ${txt}`);
+    /* ---------- fetch records ---------- */ const fetchRecords = async (authToken)=>{
+        try {
+            setLoading(true);
+            const res = await fetch(`${API_BASE}/all`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
                 }
-                const json = await res.json();
-                /* ======  defensive: ensure array  ====== */ const data = Array.isArray(json?.data) ? json.data : [];
-                const mapped = data.map((r)=>({
-                        sl: r["SL"],
-                        purpose: r["PURPOSE"] ?? "",
-                        configdate: r["CONFIGDATE"] ?? "",
-                        mid: String(r["MID"] ?? ""),
-                        tid: String(r["TID"] ?? ""),
-                        dba_name: r["DBA NAME"] ?? "",
-                        address: r["ADDRESS"] ?? "",
-                        city: r["CITY"] ?? "",
-                        location: r["LOCATION"] ?? "",
-                        pos_type: r["POS TYPE"] ?? "",
-                        pos_model: r["POS MODEL"] ?? "",
-                        pos_serial: r["POS SERIAL"] ?? "",
-                        app_version: r["APP VERSION"] ?? "",
-                        roll_out_date: r["ROLL OUT DATE"] ?? "",
-                        engineer_name: r["ENGINEER NAME"] ?? "",
-                        ip_address: r["IP ADDRESS"] ?? "",
-                        port_number: String(r["PORT NUMBER"] ?? ""),
-                        contact_number: String(r["CONTACT NUMBER"] ?? ""),
-                        handover_to: r["HANDOVER TO"] ?? "",
-                        handover_date: r["HANDOVER DATE"] ?? "",
-                        create_time: r["create_time"] ?? ""
-                    }));
-                setRecords(mapped);
-                setFilteredRecords(mapped);
-            } catch (e) {
-                setError(e.message);
-            } finally{
-                setLoading(false);
+            });
+            if (!res.ok) {
+                const txt = await res.text();
+                throw new Error(`${res.status}  ${txt}`);
             }
-        };
-        if (token) fetchRecords();
+            const json = await res.json();
+            const data = Array.isArray(json?.data) ? json.data : [];
+            const mapped = data.map((r)=>({
+                    sl: Number(r["SL"] ?? 0),
+                    purpose: String(r["PURPOSE"] ?? ""),
+                    configdate: String(r["CONFIGDATE"] ?? ""),
+                    mid: String(r["MID"] ?? ""),
+                    tid: String(r["TID"] ?? ""),
+                    dba_name: String(r["DBA NAME"] ?? ""),
+                    address: String(r["ADDRESS"] ?? ""),
+                    city: String(r["CITY"] ?? ""),
+                    location: String(r["LOCATION"] ?? ""),
+                    pos_type: String(r["POS TYPE"] ?? ""),
+                    pos_model: String(r["POS MODEL"] ?? ""),
+                    pos_serial: String(r["POS SERIAL"] ?? ""),
+                    app_version: String(r["APP VERSION"] ?? ""),
+                    roll_out_date: String(r["ROLL OUT DATE"] ?? ""),
+                    engineer_name: String(r["ENGINEER NAME"] ?? ""),
+                    ip_address: String(r["IP ADDRESS"] ?? ""),
+                    port_number: String(r["PORT NUMBER"] ?? ""),
+                    contact_number: String(r["CONTACT NUMBER"] ?? ""),
+                    handover_to: String(r["HANDOVER TO"] ?? ""),
+                    handover_date: String(r["HANDOVER DATE"] ?? ""),
+                    create_time: String(r["create_time"] ?? "")
+                }));
+            setRecords(mapped);
+            setFilteredRecords(mapped);
+        } catch (e) {
+            setError(e.message);
+        } finally{
+            setLoading(false);
+        }
+    };
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        if (token) fetchRecords(token);
     }, [
         token
     ]);
@@ -103,7 +103,7 @@ function StandardPOSPage() {
         posSerialFilter,
         records
     ]);
-    /* ---------- upload ---------- */ const handleUploadExcel = async ()=>{
+    /* ---------- Excel Upload ---------- */ const handleUploadExcel = async ()=>{
         if (!excelFile) return alert("Select a file!");
         if (!token) return alert("Authentication required!");
         const form = new FormData();
@@ -120,55 +120,18 @@ function StandardPOSPage() {
                 const txt = await res.text();
                 throw new Error(txt);
             }
-            const result = await res.json();
             setUploadMsg("✅ Upload successful!");
             setExcelFile(null);
             setShowUploadModal(false);
-            // refresh
-            const upd = await fetch(`${API_BASE}/all`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            if (!upd.ok) {
-                const txt = await upd.text();
-                throw new Error(txt);
-            }
-            const json = await upd.json();
-            const data = Array.isArray(json?.data) ? json.data : [];
-            const mapped = data.map((r)=>({
-                    sl: r["SL"],
-                    purpose: r["PURPOSE"] ?? "",
-                    configdate: r["CONFIGDATE"] ?? "",
-                    mid: String(r["MID"] ?? ""),
-                    tid: String(r["TID"] ?? ""),
-                    dba_name: r["DBA NAME"] ?? "",
-                    address: r["ADDRESS"] ?? "",
-                    city: r["CITY"] ?? "",
-                    location: r["LOCATION"] ?? "",
-                    pos_type: r["POS TYPE"] ?? "",
-                    pos_model: r["POS MODEL"] ?? "",
-                    pos_serial: r["POS SERIAL"] ?? "",
-                    app_version: r["APP VERSION"] ?? "",
-                    roll_out_date: r["ROLL OUT DATE"] ?? "",
-                    engineer_name: r["ENGINEER NAME"] ?? "",
-                    ip_address: r["IP ADDRESS"] ?? "",
-                    port_number: String(r["PORT NUMBER"] ?? ""),
-                    contact_number: String(r["CONTACT NUMBER"] ?? ""),
-                    handover_to: r["HANDOVER TO"] ?? "",
-                    handover_date: r["HANDOVER DATE"] ?? "",
-                    create_time: r["create_time"] ?? ""
-                }));
-            setRecords(mapped);
-            setFilteredRecords(mapped);
-        } catch (e) {
-            setUploadMsg("❌ " + e.message);
+            await fetchRecords(token);
+        } catch (err) {
+            setUploadMsg("❌ " + err.message);
         }
     };
-    const handleDownloadTemplate = async ()=>{
+    /* ---------- Excel Download ---------- */ const downloadExcelFile = async (endpoint, filename)=>{
         if (!token) return alert("Please log in first.");
         try {
-            const res = await fetch(`${API_BASE}/template`, {
+            const res = await fetch(`${API_BASE}/${endpoint}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -181,36 +144,15 @@ function StandardPOSPage() {
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = "StandardPOS_Template.xlsx";
+            a.download = filename;
             a.click();
             window.URL.revokeObjectURL(url);
         } catch (err) {
-            alert("Download failed: " + err.message);
+            alert(`Download failed: ${err.message}`);
         }
     };
-    const handleExportExcel = async ()=>{
-        if (!token) return alert("Please log in first.");
-        try {
-            const res = await fetch(`${API_BASE}/download`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            if (!res.ok) {
-                const txt = await res.text();
-                throw new Error(txt);
-            }
-            const blob = await res.blob();
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "StandardPOS_Export.xlsx";
-            a.click();
-            window.URL.revokeObjectURL(url);
-        } catch (err) {
-            alert("Export failed: " + err.message);
-        }
-    };
+    const handleDownloadTemplate = ()=>downloadExcelFile("template", "StandardPOS_Template.xlsx");
+    const handleExportExcel = ()=>downloadExcelFile("download", "StandardPOS_Export.xlsx");
     /* ---------- table ---------- */ const columns = [
         {
             name: "SL",
@@ -305,119 +247,111 @@ function StandardPOSPage() {
         }
     ];
     /* ---------- render ---------- */ if (loading) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+        className: "text-center mt-20",
         children: "Loading..."
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-        lineNumber: 246,
+        lineNumber: 201,
         columnNumber: 23
     }, this);
     if (error) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-        className: "text-red-500",
+        className: "text-red-500 text-center mt-20",
         children: error
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-        lineNumber: 247,
+        lineNumber: 202,
         columnNumber: 21
     }, this);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "p-6 relative",
+        className: "min-h-screen p-6 bg-[#e6e9ef] flex flex-col items-center",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                className: "text-2xl font-bold mb-4",
-                children: "STANDARD BANK POS RECORDS"
+                className: "text-3xl font-bold mb-6 text-center",
+                children: "SDBL LIVE TERMINALS"
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                lineNumber: 251,
+                lineNumber: 206,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex justify-between items-center flex-wrap gap-4 mb-6",
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                className: "text-xl font-semibold text-gray-700 text-center",
                 children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                        className: "text-xl font-bold",
-                        children: [
-                            "Total Terminals: ",
-                            records.length
-                        ]
-                    }, void 0, true, {
+                    "Total Terminals: ",
+                    records.length
+                ]
+            }, void 0, true, {
+                fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
+                lineNumber: 208,
+                columnNumber: 9
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex justify-between items-center w-full max-w-7xl mb-6 px-4",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        onClick: handleExportExcel,
+                        className: "px-6 py-3 rounded-2xl bg-[#e6e9ef] shadow-[6px_6px_12px_rgba(0,0,0,0.15),-6px_-6px_#ffffff] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_#ffffff] transition-all font-semibold",
+                        children: "⬇️ Export Excel"
+                    }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                        lineNumber: 255,
+                        lineNumber: 214,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex flex-wrap items-center gap-3",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: handleExportExcel,
-                                className: "bg-white text-black px-6 py-3 rounded-lg border hover:bg-gray-100",
-                                children: "⬇️ Export Excel"
-                            }, void 0, false, {
-                                fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                                lineNumber: 257,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: ()=>setShowUploadModal(true),
-                                className: "bg-white text-black px-6 py-3 rounded-lg border hover:bg-gray-100",
-                                children: "📂 Upload Excel"
-                            }, void 0, false, {
-                                fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                                lineNumber: 260,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        onClick: ()=>setShowUploadModal(true),
+                        className: "px-6 py-3 rounded-2xl bg-[#e6e9ef] shadow-[6px_6px_12px_rgba(0,0,0,0.15),-6px_-6px_#ffffff] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_#ffffff] transition-all font-semibold",
+                        children: "📂 Upload Excel"
+                    }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                        lineNumber: 256,
+                        lineNumber: 223,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                lineNumber: 254,
+                lineNumber: 212,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "grid grid-cols-1 md:grid-cols-5 gap-4 mb-4",
+                className: "grid grid-cols-1 md:grid-cols-5 gap-4 mb-4 max-w-7xl w-full px-4",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         placeholder: "MID",
                         value: midFilter,
                         onChange: (e)=>setMidFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                        lineNumber: 268,
+                        lineNumber: 233,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         placeholder: "TID",
                         value: tidFilter,
                         onChange: (e)=>setTidFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                        lineNumber: 269,
+                        lineNumber: 234,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         placeholder: "City",
                         value: cityFilter,
                         onChange: (e)=>setCityFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                        lineNumber: 270,
+                        lineNumber: 235,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         placeholder: "POS Serial",
                         value: posSerialFilter,
                         onChange: (e)=>setPosSerialFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                        lineNumber: 271,
+                        lineNumber: 236,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -427,21 +361,21 @@ function StandardPOSPage() {
                             setCityFilter("");
                             setPosSerialFilter("");
                         },
-                        className: "bg-gray-200 px-4 py-2 rounded hover:bg-gray-300",
+                        className: "px-4 py-2 rounded-2xl bg-gray-200 hover:bg-gray-300 font-semibold",
                         children: "Clear"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                        lineNumber: 272,
+                        lineNumber: 237,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                lineNumber: 267,
+                lineNumber: 232,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "bg-white rounded shadow-md p-2 overflow-x-auto",
+                className: "bg-white rounded-2xl shadow-md p-2 overflow-x-auto w-full max-w-7xl px-4",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$react$2d$data$2d$table$2d$component$2f$dist$2f$index$2e$es$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                     columns: columns,
                     data: filteredRecords,
@@ -452,52 +386,52 @@ function StandardPOSPage() {
                     persistTableHead: true
                 }, void 0, false, {
                     fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                    lineNumber: 279,
+                    lineNumber: 247,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                lineNumber: 278,
+                lineNumber: 246,
                 columnNumber: 7
             }, this),
             showUploadModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "bg-white p-6 rounded-lg w-full max-w-md",
+                    className: "bg-[#e6e9ef] p-6 rounded-2xl w-full max-w-md shadow-[8px_8px_16px_rgba(0,0,0,0.18),-6px_-6px_#ffffff]",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                            className: "text-xl font-semibold mb-4",
+                            className: "text-xl font-semibold mb-4 text-center",
                             children: "📤 Upload Excel"
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                            lineNumber: 286,
+                            lineNumber: 262,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                             type: "file",
                             accept: ".xlsx,.xls",
-                            onChange: (e)=>setExcelFile(e.target.files?.[0] || null),
-                            className: "border rounded w-full p-2 mb-3"
+                            onChange: (e)=>setExcelFile(e.target.files?.[0] ?? null),
+                            className: "border rounded-2xl w-full p-2 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                            lineNumber: 287,
+                            lineNumber: 263,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                             onClick: handleUploadExcel,
-                            className: "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full",
+                            className: "bg-green-600 text-white px-4 py-2 rounded-2xl hover:bg-green-700 w-full font-semibold mb-2",
                             children: "Upload"
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                            lineNumber: 288,
+                            lineNumber: 269,
                             columnNumber: 13
                         }, this),
                         uploadMsg && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("pre", {
-                            className: "bg-gray-100 p-2 mt-3 rounded text-sm",
+                            className: "bg-gray-100 p-2 mt-2 rounded text-sm",
                             children: uploadMsg
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                            lineNumber: 291,
+                            lineNumber: 275,
                             columnNumber: 27
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -505,43 +439,43 @@ function StandardPOSPage() {
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                     onClick: handleDownloadTemplate,
-                                    className: "text-blue-600 underline",
+                                    className: "text-blue-600 underline font-semibold",
                                     children: "📥 Download Template"
                                 }, void 0, false, {
                                     fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                                    lineNumber: 293,
+                                    lineNumber: 277,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                     onClick: ()=>setShowUploadModal(false),
-                                    className: "bg-gray-300 px-4 py-2 rounded",
+                                    className: "bg-gray-300 px-4 py-2 rounded-2xl font-semibold",
                                     children: "Close"
                                 }, void 0, false, {
                                     fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                                    lineNumber: 296,
+                                    lineNumber: 280,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                            lineNumber: 292,
+                            lineNumber: 276,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                    lineNumber: 285,
+                    lineNumber: 261,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-                lineNumber: 284,
+                lineNumber: 260,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/bgi-inverntory/src/app/standardbank/page.tsx",
-        lineNumber: 250,
+        lineNumber: 205,
         columnNumber: 5
     }, this);
 }

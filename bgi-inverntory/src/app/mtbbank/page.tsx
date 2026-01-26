@@ -243,84 +243,52 @@ const MTBPOSPage = () => {
   // ==========================
   // Render UI
   // ==========================
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (loading) return <p className="text-center mt-20">Loading...</p>;
+  if (error) return <p className="text-red-500 text-center mt-20">{error}</p>;
 
   return (
-    <div className="p-6 relative">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">MTBL LIVE TERMINALS</h1>
-      </div>
+    <div className="min-h-screen p-6 bg-[#e6e9ef] flex flex-col items-center">
+      <h1 className="text-3xl font-bold mb-6 text-center">MTBL LIVE TERMINALS</h1>
 
-      {/* Buttons */}
-      <div className="flex justify-between gap-4 mb-6">
-        <div>
-          <h2 className="text-xl font-bold">Total Terminals: {counter_terminal}</h2>
-        </div>
-        <div>
-          <button
-            onClick={() => window.open("http://127.0.0.1:8000/mtb/download", "_blank")}
-            className="mr-2 bg-white text-black font-bold text-lg px-6 py-3 rounded-lg border border-gray-400 hover:bg-gray-100 transition-all duration-200"
-          >
-            ⬇️ Export Excel
-          </button>
-          <button
-            onClick={() => setShowUploadModal(true)}
-            className="bg-white text-black font-bold text-lg px-6 py-3 rounded-lg border border-gray-400 hover:bg-gray-100 transition-all duration-200"
-          >
-            📂 Upload Excel
-          </button>
-        </div>
+      {/* Top Bar */}
+      <div className="flex justify-between items-center w-full max-w-7xl mb-6 px-4">
+        {/* Left: Export */}
+        <button
+          onClick={() => window.open("http://127.0.0.1:8000/mtb/download", "_blank")}
+          className="px-6 py-3 rounded-2xl bg-[#e6e9ef] shadow-[6px_6px_12px_rgba(0,0,0,0.15),-6px_-6px_#ffffff] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_#ffffff] font-semibold"
+        >
+          ⬇️ Export Excel
+        </button>
+
+        {/* Center: Total Terminals */}
+        <h2 className="text-xl font-semibold text-center">Total Terminals: {counter_terminal}</h2>
+
+        {/* Right: Upload */}
+        <button
+          onClick={() => setShowUploadModal(true)}
+          className="px-6 py-3 rounded-2xl bg-[#e6e9ef] shadow-[6px_6px_12px_rgba(0,0,0,0.15),-6px_-6px_#ffffff] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_#ffffff] font-semibold"
+        >
+          📂 Upload Excel
+        </button>
       </div>
 
       {/* Filters */}
-      <div className="grid grid-cols-1 md:grid-cols-6 gap-4 mb-4">
-        <input
-          placeholder="TID"
-          value={tidFilter}
-          onChange={(e) => setTidFilter(e.target.value)}
-          className="border rounded px-3 py-2"
-        />
-        <input
-          placeholder="City"
-          value={cityFilter}
-          onChange={(e) => setCityFilter(e.target.value)}
-          className="border rounded px-3 py-2"
-        />
-        <input
-          placeholder="POS Serial"
-          value={posSerialFilter}
-          onChange={(e) => setPosSerialFilter(e.target.value)}
-          className="border rounded px-3 py-2"
-        />
-        <input
-          placeholder="Zone Area"
-          value={zoneAreaFilter}
-          onChange={(e) => setZoneAreaFilter(e.target.value)}
-          className="border rounded px-3 py-2"
-        />
-        <input
-          placeholder="DBA Name"
-          value={dbaNameFilter}
-          onChange={(e) => setDbaNameFilter(e.target.value)}
-          className="border rounded px-3 py-2"
-        />
+      <div className="grid grid-cols-1 md:grid-cols-6 gap-4 mb-4 max-w-7xl w-full px-4">
+        <input placeholder="TID" value={tidFilter} onChange={(e) => setTidFilter(e.target.value)} className="px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        <input placeholder="City" value={cityFilter} onChange={(e) => setCityFilter(e.target.value)} className="px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        <input placeholder="POS Serial" value={posSerialFilter} onChange={(e) => setPosSerialFilter(e.target.value)} className="px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        <input placeholder="Zone Area" value={zoneAreaFilter} onChange={(e) => setZoneAreaFilter(e.target.value)} className="px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        <input placeholder="DBA Name" value={dbaNameFilter} onChange={(e) => setDbaNameFilter(e.target.value)} className="px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" />
         <button
-          onClick={() => {
-            setTidFilter("");
-            setCityFilter("");
-            setPosSerialFilter("");
-            setZoneAreaFilter("");
-            setDbaNameFilter("");
-          }}
-          className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
+          onClick={() => { setTidFilter(""); setCityFilter(""); setPosSerialFilter(""); setZoneAreaFilter(""); setDbaNameFilter(""); }}
+          className="px-4 py-2 rounded-2xl bg-gray-200 hover:bg-gray-300 font-semibold"
         >
           Clear
         </button>
       </div>
 
       {/* Data Table */}
-      <div className="bg-white rounded shadow-md p-2 overflow-x-auto">
+      <div className="bg-white rounded-2xl shadow-md p-2 overflow-x-auto w-full max-w-7xl px-4">
         <DataTable
           columns={columns}
           data={filteredRecords}
@@ -334,36 +302,15 @@ const MTBPOSPage = () => {
 
       {/* Upload Modal */}
       {showUploadModal && (
-        <div className="absolute top-20 left-1/2 transform -translate-x-1/2 z-50">
-          <div className="bg-white p-6 rounded shadow-xl w-full max-w-md border border-gray-200">
-            <h2 className="text-xl font-semibold mb-4">Upload via Excel</h2>
-            <input
-              type="file"
-              accept=".xlsx,.xls"
-              onChange={(e) => setExcelFile(e.target.files?.[0] || null)}
-              className="border rounded w-full p-2 mb-3"
-            />
-            <button
-              onClick={handleUploadExcel}
-              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full"
-            >
-              Upload
-            </button>
-
-            {uploadMsg && (
-              <pre className="bg-gray-100 p-2 mt-3 rounded text-sm">{uploadMsg}</pre>
-            )}
-
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+          <div className="bg-[#e6e9ef] p-6 rounded-2xl w-full max-w-md shadow-[8px_8px_16px_rgba(0,0,0,0.18),-6px_-6px_#ffffff]">
+            <h2 className="text-xl font-semibold mb-4 text-center">📤 Upload Excel</h2>
+            <input type="file" accept=".xlsx,.xls" onChange={(e) => setExcelFile(e.target.files?.[0] || null)} className="border rounded-2xl w-full p-2 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            <button onClick={handleUploadExcel} className="bg-green-600 text-white px-4 py-2 rounded-2xl hover:bg-green-700 w-full font-semibold mb-2">Upload</button>
+            {uploadMsg && <pre className="bg-gray-100 p-2 mt-2 rounded text-sm">{uploadMsg}</pre>}
             <div className="flex justify-between mt-4">
-              <button onClick={handleDownloadTemplate} className="text-blue-600 underline">
-                📥 Download Template
-              </button>
-              <button
-                onClick={() => setShowUploadModal(false)}
-                className="bg-gray-300 px-4 py-2 rounded"
-              >
-                Close
-              </button>
+              <button onClick={handleDownloadTemplate} className="text-blue-600 underline font-semibold">📥 Download Template</button>
+              <button onClick={() => setShowUploadModal(false)} className="bg-gray-300 px-4 py-2 rounded-2xl font-semibold">Close</button>
             </div>
           </div>
         </div>

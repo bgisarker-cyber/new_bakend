@@ -21,6 +21,9 @@ function UserLogsPage() {
     const [actionFilter, setActionFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
     const [dateFilter, setDateFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
     const [roleFilter, setRoleFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
+    // Pagination
+    const [currentPage, setCurrentPage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(1);
+    const itemsPerPage = 20;
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         const fetchLogs = async ()=>{
             try {
@@ -50,6 +53,7 @@ function UserLogsPage() {
         if (roleFilter) filtered = filtered.filter((log)=>log.user_role?.toLowerCase().includes(roleFilter.toLowerCase()));
         if (dateFilter) filtered = filtered.filter((log)=>new Date(log.timestamp).toLocaleDateString() === new Date(dateFilter).toLocaleDateString());
         setFilteredLogs(filtered);
+        setCurrentPage(1); // Reset to first page on filter change
     }, [
         emailFilter,
         actionFilter,
@@ -57,193 +61,208 @@ function UserLogsPage() {
         dateFilter,
         logs
     ]);
+    // Pagination calculations
+    const totalPages = Math.ceil(filteredLogs.length / itemsPerPage);
+    const paginatedLogs = filteredLogs.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
     if (loading) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-        className: "p-6 text-gray-600",
+        className: "p-6 text-gray-600 text-center text-lg font-medium",
         children: "Loading logs..."
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-        lineNumber: 65,
-        columnNumber: 23
+        lineNumber: 79,
+        columnNumber: 7
     }, this);
     if (error) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-        className: "p-6 text-red-500",
+        className: "p-6 text-red-500 text-center text-lg font-medium",
         children: error
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-        lineNumber: 66,
-        columnNumber: 21
+        lineNumber: 85,
+        columnNumber: 7
     }, this);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "p-6",
+        className: "p-6 min-h-screen bg-gray-50",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                className: "text-2xl font-bold mb-6",
+                className: "text-3xl font-bold mb-6 text-center text-gray-800",
                 children: "User Activity Logs"
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                lineNumber: 70,
+                lineNumber: 90,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                        type: "text",
-                        placeholder: "Filter by Gmail",
-                        value: emailFilter,
-                        onChange: (e)=>setEmailFilter(e.target.value),
-                        className: "border p-2 rounded-lg w-full focus:ring focus:ring-blue-200 outline-none"
-                    }, void 0, false, {
-                        fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                        lineNumber: 74,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                        type: "text",
-                        placeholder: "Filter by Action",
-                        value: actionFilter,
-                        onChange: (e)=>setActionFilter(e.target.value),
-                        className: "border p-2 rounded-lg w-full focus:ring focus:ring-blue-200 outline-none"
-                    }, void 0, false, {
-                        fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                        lineNumber: 81,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                        type: "text",
-                        placeholder: "Filter by Role",
-                        value: roleFilter,
-                        onChange: (e)=>setRoleFilter(e.target.value),
-                        className: "border p-2 rounded-lg w-full focus:ring focus:ring-blue-200 outline-none"
-                    }, void 0, false, {
-                        fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                        lineNumber: 88,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                        type: "date",
-                        value: dateFilter,
-                        onChange: (e)=>setDateFilter(e.target.value),
-                        className: "border p-2 rounded-lg w-full focus:ring focus:ring-blue-200 outline-none"
-                    }, void 0, false, {
-                        fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                        lineNumber: 95,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
+                className: "sticky top-0 bg-gray-50 z-20 py-4 max-w-5xl mx-auto",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                            type: "text",
+                            placeholder: "Filter by Email",
+                            value: emailFilter,
+                            onChange: (e)=>setEmailFilter(e.target.value),
+                            className: "border border-gray-300 rounded-xl p-2 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                        }, void 0, false, {
+                            fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
+                            lineNumber: 97,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                            type: "text",
+                            placeholder: "Filter by Action",
+                            value: actionFilter,
+                            onChange: (e)=>setActionFilter(e.target.value),
+                            className: "border border-gray-300 rounded-xl p-2 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                        }, void 0, false, {
+                            fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
+                            lineNumber: 104,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                            type: "text",
+                            placeholder: "Filter by Role",
+                            value: roleFilter,
+                            onChange: (e)=>setRoleFilter(e.target.value),
+                            className: "border border-gray-300 rounded-xl p-2 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                        }, void 0, false, {
+                            fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
+                            lineNumber: 111,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                            type: "date",
+                            value: dateFilter,
+                            onChange: (e)=>setDateFilter(e.target.value),
+                            className: "border border-gray-300 rounded-xl p-2 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                        }, void 0, false, {
+                            fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
+                            lineNumber: 118,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
+                    lineNumber: 96,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                lineNumber: 73,
+                lineNumber: 95,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "overflow-x-auto rounded-lg shadow",
+                className: "overflow-x-auto rounded-2xl shadow-lg bg-white max-w-5xl mx-auto",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("table", {
-                    className: "w-full border-collapse border border-gray-300",
+                    className: "min-w-full border-collapse table-auto text-sm",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("thead", {
-                            className: "bg-blue-50 text-gray-700",
+                            className: "bg-blue-50 sticky top-0 z-10",
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                        className: "border p-2",
+                                        className: "border-b p-2 text-left text-gray-700 w-1/4",
                                         children: "User Email"
                                     }, void 0, false, {
                                         fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                                        lineNumber: 108,
+                                        lineNumber: 132,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                        className: "border p-2",
+                                        className: "border-b p-2 text-left text-gray-700 w-1/6",
                                         children: "Role"
                                     }, void 0, false, {
                                         fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                                        lineNumber: 109,
+                                        lineNumber: 133,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                        className: "border p-2",
+                                        className: "border-b p-2 text-left text-gray-700 w-1/6",
                                         children: "Action"
                                     }, void 0, false, {
                                         fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                                        lineNumber: 110,
+                                        lineNumber: 134,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                        className: "border p-2",
+                                        className: "border-b p-2 text-left text-gray-700 w-1/3",
                                         children: "Description"
                                     }, void 0, false, {
                                         fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                                        lineNumber: 111,
+                                        lineNumber: 135,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                        className: "border p-2",
+                                        className: "border-b p-2 text-left text-gray-700 w-1/6",
                                         children: "Timestamp"
                                     }, void 0, false, {
                                         fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                                        lineNumber: 112,
+                                        lineNumber: 136,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                                lineNumber: 107,
+                                lineNumber: 131,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                            lineNumber: 106,
+                            lineNumber: 130,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
-                            children: filteredLogs.length > 0 ? filteredLogs.map((log)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
-                                    className: "hover:bg-gray-50 transition-colors",
+                            children: paginatedLogs.length > 0 ? paginatedLogs.map((log, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                                    className: `border-b transition-colors ${idx % 2 === 0 ? "bg-white" : "bg-gray-50"} hover:bg-gray-100`,
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                            className: "border p-2",
+                                            className: "p-2 truncate",
+                                            title: log.user_email,
                                             children: log.user_email
                                         }, void 0, false, {
                                             fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                                            lineNumber: 122,
+                                            lineNumber: 148,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                            className: "border p-2",
+                                            className: "p-2 truncate",
+                                            title: log.user_role,
                                             children: log.user_role
                                         }, void 0, false, {
                                             fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                                            lineNumber: 123,
+                                            lineNumber: 149,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                            className: "border p-2 font-semibold text-blue-600",
+                                            className: "p-2 font-semibold text-blue-600 truncate",
+                                            title: log.action,
                                             children: log.action
                                         }, void 0, false, {
                                             fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                                            lineNumber: 124,
+                                            lineNumber: 150,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                            className: "border p-2",
+                                            className: "p-2 truncate",
+                                            title: log.description || "-",
                                             children: log.description || "-"
                                         }, void 0, false, {
                                             fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                                            lineNumber: 127,
+                                            lineNumber: 151,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                            className: "border p-2",
+                                            className: "p-2 truncate",
+                                            title: new Date(log.timestamp).toLocaleString(),
                                             children: new Date(log.timestamp).toLocaleString()
                                         }, void 0, false, {
                                             fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                                            lineNumber: 128,
+                                            lineNumber: 152,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, log.id, true, {
                                     fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                                    lineNumber: 118,
+                                    lineNumber: 142,
                                     columnNumber: 17
                                 }, this)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -252,34 +271,76 @@ function UserLogsPage() {
                                     children: "No logs found matching your filters."
                                 }, void 0, false, {
                                     fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                                    lineNumber: 135,
+                                    lineNumber: 159,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                                lineNumber: 134,
+                                lineNumber: 158,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                            lineNumber: 115,
+                            lineNumber: 139,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                    lineNumber: 105,
+                    lineNumber: 129,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-                lineNumber: 104,
+                lineNumber: 128,
                 columnNumber: 7
+            }, this),
+            totalPages > 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex justify-center items-center gap-2 mt-4",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        onClick: ()=>setCurrentPage((prev)=>Math.max(prev - 1, 1)),
+                        disabled: currentPage === 1,
+                        className: "px-3 py-1 rounded bg-blue-500 text-white disabled:bg-gray-300 hover:bg-blue-600 transition text-sm",
+                        children: "Prev"
+                    }, void 0, false, {
+                        fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
+                        lineNumber: 171,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        className: "px-2 py-1 text-sm",
+                        children: [
+                            "Page ",
+                            currentPage,
+                            " of ",
+                            totalPages
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
+                        lineNumber: 178,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        onClick: ()=>setCurrentPage((prev)=>Math.min(prev + 1, totalPages)),
+                        disabled: currentPage === totalPages,
+                        className: "px-3 py-1 rounded bg-blue-500 text-white disabled:bg-gray-300 hover:bg-blue-600 transition text-sm",
+                        children: "Next"
+                    }, void 0, false, {
+                        fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
+                        lineNumber: 181,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
+                lineNumber: 170,
+                columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/bgi-inverntory/src/app/user-log/page.tsx",
-        lineNumber: 69,
+        lineNumber: 89,
         columnNumber: 5
     }, this);
 }

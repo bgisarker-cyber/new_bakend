@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import DataTable, { TableColumn } from "react-data-table-component";
 
 type PubaliPOS = {
@@ -42,18 +41,17 @@ type PubaliPOS = {
 const API_BASE = "http://127.0.0.1:8000/pubali";
 
 const PubaliPOSPage = () => {
-  const router = useRouter();
   const [records, setRecords] = useState<PubaliPOS[]>([]);
   const [filteredRecords, setFilteredRecords] = useState<PubaliPOS[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [counter_terminal, setCounter_terminal] = useState("");
+  const [counter_terminal, setCounter_terminal] = useState(0);
 
   // Filters
   const [midFilter, setMidFilter] = useState("");
   const [tidFilter, setTidFilter] = useState("");
   const [districtFilter, setDistrictFilter] = useState("");
-  const [pos_serialFilter, setpos_serialFilter] = useState("");
+  const [posSerialFilter, setPosSerialFilter] = useState("");
   const [zoneFilter, setZoneFilter] = useState("");
 
   // Upload
@@ -69,7 +67,7 @@ const PubaliPOSPage = () => {
     setToken(stored);
   }, []);
 
-  // ✅ Helper: Map API response keys
+  // Map API response keys
   const mapApiData = (data: any[]): PubaliPOS[] => {
     return data.map((r) => ({
       id: r.id,
@@ -107,7 +105,7 @@ const PubaliPOSPage = () => {
     }));
   };
 
-  // ✅ Fetch Data (Authenticated)
+  // Fetch Data (Authenticated)
   useEffect(() => {
     const fetchRecords = async () => {
       try {
@@ -122,7 +120,6 @@ const PubaliPOSPage = () => {
 
         const data = await res.json();
         setCounter_terminal(data.data?.length || 0);
-
         const formatted = mapApiData(data.data || data);
         setRecords(formatted);
         setFilteredRecords(formatted);
@@ -136,7 +133,7 @@ const PubaliPOSPage = () => {
     if (token) fetchRecords();
   }, [token]);
 
-  // ✅ Filter logic
+  // Filter logic
   useEffect(() => {
     const filtered = records.filter(
       (r) =>
@@ -144,12 +141,12 @@ const PubaliPOSPage = () => {
         r.tid.toLowerCase().includes(tidFilter.toLowerCase()) &&
         r.district.toLowerCase().includes(districtFilter.toLowerCase()) &&
         r.zone.toLowerCase().includes(zoneFilter.toLowerCase()) &&
-        r.pos_sn.toLowerCase().includes(pos_serialFilter.toLowerCase())
+        r.pos_sn.toLowerCase().includes(posSerialFilter.toLowerCase())
     );
     setFilteredRecords(filtered);
-  }, [midFilter, tidFilter, districtFilter, zoneFilter, pos_serialFilter, records]);
+  }, [midFilter, tidFilter, districtFilter, zoneFilter, posSerialFilter, records]);
 
-  // ✅ Upload Excel
+  // Upload Excel
   const handleUploadExcel = async () => {
     if (!excelFile) return alert("Please select an Excel file!");
     if (!token) return alert("Authentication required!");
@@ -183,7 +180,7 @@ const PubaliPOSPage = () => {
     }
   };
 
-  // ✅ Download Template
+  // Download Template
   const handleDownloadTemplate = async () => {
     if (!token) return alert("Please log in first.");
     try {
@@ -191,7 +188,6 @@ const PubaliPOSPage = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -204,7 +200,7 @@ const PubaliPOSPage = () => {
     }
   };
 
-  // ✅ Export Excel
+  // Export Excel
   const handleExportExcel = async () => {
     if (!token) return alert("Please log in first.");
     try {
@@ -212,7 +208,6 @@ const PubaliPOSPage = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -225,7 +220,7 @@ const PubaliPOSPage = () => {
     }
   };
 
-  // ✅ Table Columns
+  // Table Columns
   const columns: TableColumn<PubaliPOS>[] = [
     { name: "S/N", selector: (r) => r.sn, width: "80px" },
     { name: "Config Date", selector: (r) => r.configuration_date, minWidth: "120px" },
@@ -242,110 +237,60 @@ const PubaliPOSPage = () => {
     { name: "Created Time", selector: (r) => r.create_time, minWidth: "180px" },
   ];
 
-  // ✅ Page Rendering
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (loading) return <p className="text-center mt-20">Loading...</p>;
+  if (error) return <p className="text-red-500 text-center mt-20">{error}</p>;
 
   return (
-    <div className="p-6 relative">
-      <h1 className="text-2xl font-bold mb-4">PBL LIVE TERMINALS</h1>
+    <div className="min-h-screen p-6 bg-[#e6e9ef] flex flex-col items-center">
+      <h1 className="text-3xl font-bold mb-6 text-center">PBL LIVE TERMINALS</h1>
 
-      {/* Buttons Section */}
-      {/* Buttons */}
-<div className="flex justify-between items-center flex-wrap gap-4 mb-6">
-  <h1 className="text-xl font-bold">Total Terminals: {counter_terminal}</h1>
+      {/* Top Bar */}
+      <div className="flex justify-between items-center w-full max-w-7xl mb-6 flex-wrap">
+        {/* Left: Live / Withdraw / Replace */}
+        <div className="flex gap-3 flex-wrap">
+          <button className="bg-white px-5 py-2 rounded-2xl border border-gray-300 hover:bg-gray-100 font-semibold">🟢 Live</button>
+          <button className="bg-white px-5 py-2 rounded-2xl border border-gray-300 hover:bg-gray-100 font-semibold">🟠 Withdraw</button>
+          <button className="bg-white px-5 py-2 rounded-2xl border border-gray-300 hover:bg-gray-100 font-semibold">🔵 Replace</button>
+        </div>
 
-  <div className="flex flex-wrap items-center gap-3">
-    {/* 🔘 Switch Buttons */}
-    <button
-      onClick={() => {
-        if (!token) return alert("Authentication required! Please log in.");
-        window.location.href = "/pubalibank";
-      }}
-      className="bg-white text-black font-semibold text-base px-6 py-3 rounded-lg border border-gray-400 hover:bg-gray-100 transition-all duration-200 flex items-center gap-2"
-    >
-      🟢 Live
-    </button>
+        {/* Center: Total Terminals */}
+        <div className="text-xl font-semibold text-center flex-1">
+          Total Terminals: {counter_terminal}
+        </div>
 
-    <button
-      onClick={() => {
-        if (!token) return alert("Authentication required! Please log in.");
-        window.location.href = "/pubalibank/pubali-withdraw";
-      }}
-      className="bg-white text-black font-semibold text-base px-6 py-3 rounded-lg border border-gray-400 hover:bg-gray-100 transition-all duration-200 flex items-center gap-2"
-    >
-      🟠 Withdraw
-    </button>
+        {/* Right: Export / Upload */}
+        <div className="flex gap-3 flex-wrap">
+          <button onClick={handleExportExcel} className="bg-white px-5 py-2 rounded-2xl border border-gray-300 hover:bg-gray-100 font-semibold">⬇️ Export Excel</button>
+          <button onClick={() => setShowUploadModal(true)} className="bg-white px-5 py-2 rounded-2xl border border-gray-300 hover:bg-gray-100 font-semibold">📂 Upload Excel</button>
+        </div>
+      </div>
 
-    <button
-      onClick={() => {
-        if (!token) return alert("Authentication required! Please log in.");
-        window.location.href = "/pubalibank/pubali-replace";
-      }}
-      className="bg-white text-black font-semibold text-base px-6 py-3 rounded-lg border border-gray-400 hover:bg-gray-100 transition-all duration-200 flex items-center gap-2"
-    >
-      🔵 Replace
-    </button>
-
-    {/* Existing Export & Upload */}
-    <button
-      onClick={handleExportExcel}
-      className="bg-white text-black font-semibold text-base px-6 py-3 rounded-lg border border-gray-400 hover:bg-gray-100 transition-all duration-200 flex items-center gap-2"
-    >
-      ⬇️ Export Excel
-    </button>
-
-    <button
-      onClick={() => setShowUploadModal(true)}
-      className="bg-white text-black font-semibold text-base px-6 py-3 rounded-lg border border-gray-400 hover:bg-gray-100 transition-all duration-200 flex items-center gap-2"
-    >
-      📂 Upload Excel
-    </button>
-  </div>
-</div>
       {/* Filters */}
-      <div className="grid grid-cols-1 md:grid-cols-6 gap-4 mb-4">
-        <input placeholder="MID" value={midFilter} onChange={(e) => setMidFilter(e.target.value)} className="border rounded px-3 py-2" />
-        <input placeholder="TID" value={tidFilter} onChange={(e) => setTidFilter(e.target.value)} className="border rounded px-3 py-2" />
-        <input placeholder="District" value={districtFilter} onChange={(e) => setDistrictFilter(e.target.value)} className="border rounded px-3 py-2" />
-        <input placeholder="Zone" value={zoneFilter} onChange={(e) => setZoneFilter(e.target.value)} className="border rounded px-3 py-2" />
-        <input placeholder="POS Serial" value={pos_serialFilter} onChange={(e) => setpos_serialFilter(e.target.value)} className="border rounded px-3 py-2" />
-        <button
-          onClick={() => {
-            setMidFilter("");
-            setTidFilter("");
-            setDistrictFilter("");
-            setZoneFilter("");
-            setpos_serialFilter("");
-          }}
-          className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
-        >
-          Clear
-        </button>
+      <div className="grid grid-cols-1 md:grid-cols-6 gap-4 mb-4 max-w-7xl w-full">
+        <input placeholder="MID" value={midFilter} onChange={(e) => setMidFilter(e.target.value)} className="px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        <input placeholder="TID" value={tidFilter} onChange={(e) => setTidFilter(e.target.value)} className="px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        <input placeholder="District" value={districtFilter} onChange={(e) => setDistrictFilter(e.target.value)} className="px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        <input placeholder="Zone" value={zoneFilter} onChange={(e) => setZoneFilter(e.target.value)} className="px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        <input placeholder="POS Serial" value={posSerialFilter} onChange={(e) => setPosSerialFilter(e.target.value)} className="px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        <button onClick={() => { setMidFilter(""); setTidFilter(""); setDistrictFilter(""); setZoneFilter(""); setPosSerialFilter(""); }} className="px-4 py-2 rounded-2xl bg-gray-200 hover:bg-gray-300 font-semibold">Clear</button>
       </div>
 
       {/* Data Table */}
-      <div className="bg-white rounded shadow-md p-2 overflow-x-auto">
+      <div className="bg-white rounded-2xl shadow-md p-2 overflow-x-auto w-full max-w-7xl">
         <DataTable columns={columns} data={filteredRecords} pagination striped highlightOnHover dense persistTableHead />
       </div>
 
       {/* Upload Modal */}
       {showUploadModal && (
-        <div className="absolute top-20 left-1/2 transform -translate-x-1/2 z-50">
-          <div className="bg-white p-6 rounded shadow-xl w-full max-w-md border border-gray-200">
-            <h2 className="text-xl font-semibold mb-4">Upload via Excel</h2>
-            <input type="file" accept=".xlsx,.xls" onChange={(e) => setExcelFile(e.target.files?.[0] || null)} className="border rounded w-full p-2 mb-3" />
-            <button onClick={handleUploadExcel} className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full">
-              Upload
-            </button>
-            {uploadMsg && <pre className="bg-gray-100 p-2 mt-3 rounded text-sm">{uploadMsg}</pre>}
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+          <div className="bg-[#e6e9ef] p-6 rounded-2xl w-full max-w-md shadow-xl">
+            <h2 className="text-xl font-semibold mb-4 text-center">📤 Upload Excel</h2>
+            <input type="file" accept=".xlsx,.xls" onChange={(e) => setExcelFile(e.target.files?.[0] || null)} className="border rounded-2xl w-full p-2 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            <button onClick={handleUploadExcel} className="bg-green-600 text-white px-4 py-2 rounded-2xl hover:bg-green-700 w-full font-semibold mb-2">Upload</button>
+            {uploadMsg && <pre className="bg-gray-100 p-2 mt-2 rounded text-sm">{uploadMsg}</pre>}
             <div className="flex justify-between mt-4">
-              <button onClick={handleDownloadTemplate} className="text-blue-600 underline">
-                📥 Download Template
-              </button>
-              <button onClick={() => setShowUploadModal(false)} className="bg-gray-300 px-4 py-2 rounded">
-                Close
-              </button>
+              <button onClick={handleDownloadTemplate} className="text-blue-600 underline font-semibold">📥 Download Template</button>
+              <button onClick={() => setShowUploadModal(false)} className="bg-gray-300 px-4 py-2 rounded-2xl font-semibold">Close</button>
             </div>
           </div>
         </div>

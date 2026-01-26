@@ -19,20 +19,18 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 // ==========================
-// ✅ Validation Schema
+// Validation Schema
 // ==========================
 const loginSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
+  email: z.string().email("Please enter a valid email address").trim(),
   password: z.string().min(6, "Password must be at least 6 characters long"),
-  role: z.enum(["superadmin", "admin", "support"], {
-    required_error: "Please select a role",
-  }),
+  role: z.enum(["superadmin", "admin", "support"], { error: "Please select a role" }),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 // ==========================
-// ✅ Component
+// Component
 // ==========================
 export default function LoginPage() {
   const router = useRouter();
@@ -46,54 +44,37 @@ export default function LoginPage() {
     formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-      role: undefined,
-    },
+    defaultValues: { email: "", password: "", role: undefined },
   });
 
   const selectedRole = watch("role");
 
   // ==========================
-  // ✅ Handle Form Submit
+  // Handle Form Submit
   // ==========================
   const onSubmit = async (data: LoginFormValues) => {
     setError("");
     try {
-      // ✅ Send JSON body (not form data)
       const response = await axios.post(
         "http://127.0.0.1:8000/auth/login",
-        {
-          email: data.email,
-          password: data.password,
-          role: data.role,
-        },
+        { email: data.email, password: data.password, role: data.role },
         { headers: { "Content-Type": "application/json" } }
       );
 
-      // ✅ Save token and redirect
       localStorage.setItem("access_token", response.data.access_token);
       localStorage.setItem("auth", "true");
       localStorage.setItem("role", data.role);
 
-      if (data.role === "superadmin") router.push("/dashboard");
-      else if (data.role === "admin") router.push("/dashboard");
-      else router.push("/dashboard");
+      router.push("/dashboard");
     } catch (err: any) {
       console.error("Login error:", err);
-
-      if (err.message === "Network Error") {
-        setError("Cannot connect to the server. Make sure FastAPI is running.");
-        return;
-      }
-
       const detail = err.response?.data?.detail;
       if (Array.isArray(detail)) {
-        const msg = detail.map((d: any) => d.msg).join(", ");
-        setError(msg);
+        setError(detail.map((d: any) => d.msg).join(", "));
       } else if (typeof detail === "string") {
         setError(detail);
+      } else if (err.message === "Network Error") {
+        setError("Cannot connect to the server. Make sure FastAPI is running.");
       } else {
         setError("Login failed. Please try again.");
       }
@@ -101,26 +82,27 @@ export default function LoginPage() {
   };
 
   // ==========================
-  // ✅ Render UI
+  // Render UI
   // ==========================
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted">
-      <Card className="w-full max-w-md shadow-lg border border-border">
-        <CardHeader>
-          <CardTitle className="text-center text-2xl font-bold">
+    <div className="min-h-screen flex items-center justify-center bg-[#e6e9ef] px-4">
+      <Card className="w-full max-w-md rounded-3xl shadow-[10px_10px_20px_rgba(0,0,0,0.15),-8px_-8px_16px_#ffffff] border border-gray-200">
+        <CardHeader className="flex flex-col items-center">
+          <CardTitle className="text-3xl font-bold text-gray-800 text-center tracking-wide mb-2">
             Login
           </CardTitle>
         </CardHeader>
 
         <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {/* Email */}
-            <div className="space-y-2">
+            <div className="space-y-1">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
                 placeholder="you@example.com"
+                className="bg-[#f0f3f7] border-gray-300 focus:border-blue-400 focus:ring focus:ring-blue-200"
                 {...register("email")}
               />
               {errors.email && (
@@ -129,12 +111,13 @@ export default function LoginPage() {
             </div>
 
             {/* Password */}
-            <div className="space-y-2">
+            <div className="space-y-1">
               <Label htmlFor="password">Password</Label>
               <Input
                 id="password"
                 type="password"
                 placeholder="••••••••"
+                className="bg-[#f0f3f7] border-gray-300 focus:border-blue-400 focus:ring focus:ring-blue-200"
                 {...register("password")}
               />
               {errors.password && (
@@ -143,13 +126,13 @@ export default function LoginPage() {
             </div>
 
             {/* Role */}
-            <div className="space-y-2">
+            <div className="space-y-1">
               <Label htmlFor="role">Role</Label>
               <Select
                 onValueChange={(value) => setValue("role", value as any)}
                 value={selectedRole}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full bg-[#f0f3f7] border-gray-300 focus:border-blue-400 focus:ring focus:ring-blue-200">
                   <SelectValue placeholder="Select your role" />
                 </SelectTrigger>
                 <SelectContent>
@@ -166,7 +149,7 @@ export default function LoginPage() {
             {/* Login Button */}
             <Button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-3 text-lg font-semibold bg-gradient-to-r from-blue-400 to-blue-600 hover:scale-[1.02] transition-transform duration-300"
               disabled={isSubmitting}
             >
               {isSubmitting ? "Signing in..." : "Sign In"}
@@ -174,9 +157,7 @@ export default function LoginPage() {
 
             {/* Error Message */}
             {error && (
-              <p className="text-red-500 text-center mt-2 font-medium">
-                {error}
-              </p>
+              <p className="text-red-500 text-center mt-2 font-medium">{error}</p>
             )}
           </form>
         </CardContent>

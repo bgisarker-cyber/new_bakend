@@ -299,7 +299,7 @@ const DemoPage = () => {
   // Table Columns
   // ==========================
   const columns: TableColumn<Demo>[] = [
-    { name: "SL", selector: (_row, i) => i + 1, width: "60px" },
+    { name: "SL", selector: (row) => row.id, width: "60px" },
     { name: "POS Serial", selector: (row) => row.pos_serial },
     { name: "Model", selector: (row) => row.model },
     { name: "OEM", selector: (row) => row.oem },

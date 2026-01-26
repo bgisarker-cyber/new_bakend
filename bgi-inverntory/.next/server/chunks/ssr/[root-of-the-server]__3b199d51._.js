@@ -24,9 +24,10 @@ const IslamiPOSPage = ()=>{
     const [filteredRecords, setFilteredRecords] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(true);
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
-    const [counter_terminal, setCounter_terminal] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
+    const [counter_terminal, setCounter_terminal] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(0);
+    // REMOVE MID FILTER, KEEP OTHERS AND ADD AREA FILTER
     const [serialFilter, setSerialFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
-    const [midFilter, setMidFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
+    const [areaFilter, setAreaFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(""); // ✅ NEW: Area filter
     const [tidFilter, setTidFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
     const [cityFilter, setCityFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
     const [branchFilter, setBranchFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
@@ -39,7 +40,7 @@ const IslamiPOSPage = ()=>{
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         const fetchRecords = async ()=>{
             try {
-                const res = await fetch("http://127.0.0.1:8000/islami/all");
+                const res = await fetch("http://127.0.0.1:8000/islami/all ");
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 const data = await res.json();
                 setCounter_terminal(data.data.length);
@@ -54,19 +55,20 @@ const IslamiPOSPage = ()=>{
         fetchRecords();
     }, []);
     // ==========================
-    // Filter logic
+    // Filter logic - UPDATED TO USE AREA FILTER
     // ==========================
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        const filtered = records.filter((r)=>r.pos_serial?.toLowerCase().includes(serialFilter.toLowerCase()) && r.mid?.toLowerCase().includes(midFilter.toLowerCase()) && r.tid?.toLowerCase().includes(tidFilter.toLowerCase()) && r.city?.toLowerCase().includes(cityFilter.toLowerCase()) && r.branch?.toLowerCase().includes(branchFilter.toLowerCase()));
+        const filtered = records.filter((r)=>r.pos_serial?.toLowerCase().includes(serialFilter.toLowerCase()) && r.area?.toLowerCase().includes(areaFilter.toLowerCase()) && // ✅ NEW: Area filter
+            r.tid?.toLowerCase().includes(tidFilter.toLowerCase()) && r.city?.toLowerCase().includes(cityFilter.toLowerCase()) && r.branch?.toLowerCase().includes(branchFilter.toLowerCase()));
         setFilteredRecords(filtered);
     }, [
         serialFilter,
-        midFilter,
+        areaFilter,
         tidFilter,
         cityFilter,
         branchFilter,
         records
-    ]);
+    ]); // ✅ UPDATED dependencies
     // ==========================
     // Upload Excel
     // ==========================
@@ -75,7 +77,7 @@ const IslamiPOSPage = ()=>{
         const form = new FormData();
         form.append("file", excelFile);
         try {
-            const res = await fetch("http://127.0.0.1:8000/islami/upload", {
+            const res = await fetch("http://127.0.0.1:8000/islami/upload ", {
                 method: "POST",
                 body: form
             });
@@ -83,7 +85,7 @@ const IslamiPOSPage = ()=>{
             if (!res.ok) throw new Error(result.detail || "Upload failed");
             setUploadMsg("✅ Upload successful!");
             setExcelFile(null);
-            const updated = await fetch("http://127.0.0.1:8000/islami/all");
+            const updated = await fetch("http://127.0.0.1:8000/islami/all ");
             const newData = await updated.json();
             setRecords(newData.data || newData);
             setFilteredRecords(newData.data || newData);
@@ -95,7 +97,7 @@ const IslamiPOSPage = ()=>{
     // Download Template
     // ==========================
     const handleDownloadTemplate = ()=>{
-        window.open("http://127.0.0.1:8000/islami/template", "_blank");
+        window.open("http://127.0.0.1:8000/islami/template ", "_blank");
     };
     // ==========================
     // Table Columns
@@ -103,23 +105,13 @@ const IslamiPOSPage = ()=>{
     const columns = [
         {
             name: "SL",
-            selector: (_row, i)=>i + 1,
-            width: "50px"
+            selector: (row)=>row.id,
+            width: "60px"
         },
         {
             name: "Config Date",
             selector: (r)=>r.configdate,
             minWidth: "100px"
-        },
-        {
-            name: "Old MID",
-            selector: (r)=>r.old_mid,
-            minWidth: "100px"
-        },
-        {
-            name: "Old TID",
-            selector: (r)=>r.old_tid,
-            minWidth: "80px"
         },
         {
             name: "MID",
@@ -132,7 +124,7 @@ const IslamiPOSPage = ()=>{
             minWidth: "120px"
         },
         {
-            name: "MERCHANT SIGNBOARD Name",
+            name: "MERCHANT SIGNBOARD",
             selector: (r)=>r.merchant_signboard,
             minWidth: "250px"
         },
@@ -276,161 +268,146 @@ const IslamiPOSPage = ()=>{
         }
     ];
     if (loading) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+        className: "text-center mt-20",
         children: "Loading..."
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-        lineNumber: 176,
+        lineNumber: 173,
         columnNumber: 23
     }, ("TURBOPACK compile-time value", void 0));
     if (error) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-        className: "text-red-500",
+        className: "text-red-500 text-center mt-20",
         children: error
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-        lineNumber: 177,
+        lineNumber: 174,
         columnNumber: 21
     }, ("TURBOPACK compile-time value", void 0));
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "p-6 relative",
+        className: "min-h-screen p-6 bg-[#e6e9ef] flex flex-col items-center",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                className: "text-2xl font-bold mb-4",
+                className: "text-3xl font-bold mb-6 text-center",
                 children: "IBBL LIVE TERMINALS"
             }, void 0, false, {
+                fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
+                lineNumber: 178,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0)),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex justify-between items-center w-full max-w-7xl mb-6 px-4",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        onClick: ()=>window.open("http://127.0.0.1:8000/islami/download ", "_blank"),
+                        className: "px-6 py-3 rounded-2xl bg-[#e6e9ef] shadow-[6px_6px_12px_rgba(0,0,0,0.15),-6px_-6px_#ffffff] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_#ffffff] font-semibold",
+                        children: "⬇️ Export Excel"
+                    }, void 0, false, {
+                        fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
+                        lineNumber: 183,
+                        columnNumber: 9
+                    }, ("TURBOPACK compile-time value", void 0)),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                        className: "text-xl font-semibold text-center",
+                        children: [
+                            "Total Terminals: ",
+                            counter_terminal
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
+                        lineNumber: 191,
+                        columnNumber: 9
+                    }, ("TURBOPACK compile-time value", void 0)),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        onClick: ()=>setShowUploadModal(true),
+                        className: "px-6 py-3 rounded-2xl bg-[#e6e9ef] shadow-[6px_6px_12px_rgba(0,0,0,0.15),-6px_-6px_#ffffff] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_#ffffff] font-semibold",
+                        children: "📂 Upload Excel"
+                    }, void 0, false, {
+                        fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
+                        lineNumber: 194,
+                        columnNumber: 9
+                    }, ("TURBOPACK compile-time value", void 0))
+                ]
+            }, void 0, true, {
                 fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
                 lineNumber: 181,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex justify-between gap-4 mb-6",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "",
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                            className: "text-xl font-bold mb-4 ",
-                            children: [
-                                "Total Terminals: ",
-                                counter_terminal
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                            lineNumber: 188,
-                            columnNumber: 12
-                        }, ("TURBOPACK compile-time value", void 0))
-                    }, void 0, false, {
-                        fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                        lineNumber: 187,
-                        columnNumber: 8
-                    }, ("TURBOPACK compile-time value", void 0)),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: ()=>window.open("http://127.0.0.1:8000/islami/download", "_blank"),
-                                className: "mr-2 bg-white text-black font-bold text-lg px-6 py-3 rounded-lg border border-gray-400 hover:bg-gray-100 transition-all duration-200",
-                                children: "⬇️ Export Excel"
-                            }, void 0, false, {
-                                fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                                lineNumber: 192,
-                                columnNumber: 11
-                            }, ("TURBOPACK compile-time value", void 0)),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: ()=>setShowUploadModal(true),
-                                className: "bg-white text-black font-bold text-lg px-6 py-3 rounded-lg border border-gray-400 hover:bg-gray-100 transition-all duration-200",
-                                children: "📂 Upload Excel"
-                            }, void 0, false, {
-                                fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                                lineNumber: 200,
-                                columnNumber: 9
-                            }, ("TURBOPACK compile-time value", void 0))
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                        lineNumber: 191,
-                        columnNumber: 7
-                    }, ("TURBOPACK compile-time value", void 0))
-                ]
-            }, void 0, true, {
-                fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                lineNumber: 185,
-                columnNumber: 2
-            }, ("TURBOPACK compile-time value", void 0)),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "grid grid-cols-1 md:grid-cols-6 gap-4 mb-4",
+                className: "grid grid-cols-1 md:grid-cols-6 gap-4 mb-4 max-w-7xl w-full px-4",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                        placeholder: "Pos_Serial",
+                        placeholder: "POS Serial",
                         value: serialFilter,
                         onChange: (e)=>setSerialFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                        lineNumber: 211,
+                        lineNumber: 204,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                        placeholder: "MID",
-                        value: midFilter,
-                        onChange: (e)=>setMidFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        placeholder: "Area",
+                        value: areaFilter,
+                        onChange: (e)=>setAreaFilter(e.target.value),
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                        lineNumber: 212,
+                        lineNumber: 210,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         placeholder: "TID",
                         value: tidFilter,
                         onChange: (e)=>setTidFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                        lineNumber: 213,
+                        lineNumber: 216,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         placeholder: "City",
                         value: cityFilter,
                         onChange: (e)=>setCityFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                        lineNumber: 214,
+                        lineNumber: 222,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         placeholder: "Branch",
                         value: branchFilter,
                         onChange: (e)=>setBranchFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                        lineNumber: 215,
+                        lineNumber: 228,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                         onClick: ()=>{
                             setSerialFilter("");
-                            setMidFilter("");
+                            setAreaFilter(""); // ✅ NEW: Clear area filter
                             setTidFilter("");
                             setCityFilter("");
                             setBranchFilter("");
                         },
-                        className: "bg-gray-200 px-4 py-2 rounded hover:bg-gray-300",
+                        className: "px-4 py-2 rounded-2xl bg-gray-200 hover:bg-gray-300 font-semibold",
                         children: "Clear"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                        lineNumber: 216,
+                        lineNumber: 234,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                lineNumber: 210,
+                lineNumber: 203,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "bg-white rounded shadow-md p-2 overflow-x-auto",
+                className: "bg-white rounded-2xl shadow-md p-2 overflow-x-auto w-full max-w-7xl px-4",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$react$2d$data$2d$table$2d$component$2f$dist$2f$index$2e$es$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                     columns: columns,
                     data: filteredRecords,
@@ -441,96 +418,96 @@ const IslamiPOSPage = ()=>{
                     persistTableHead: true
                 }, void 0, false, {
                     fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                    lineNumber: 232,
+                    lineNumber: 250,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                lineNumber: 231,
+                lineNumber: 249,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             showUploadModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "absolute top-20 left-1/2 transform -translate-x-1/2 z-50",
+                className: "fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "bg-white p-6 rounded shadow-xl w-full max-w-md border border-gray-200",
+                    className: "bg-[#e6e9ef] p-6 rounded-2xl w-full max-w-md shadow-[8px_8px_16px_rgba(0,0,0,0.18),-6px_-6px_#ffffff]",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                            className: "text-xl font-semibold mb-4",
-                            children: "Upload via Excel"
+                            className: "text-xl font-semibold mb-4 text-center",
+                            children: "📤 Upload Excel"
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                            lineNumber: 247,
+                            lineNumber: 265,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                             type: "file",
                             accept: ".xlsx,.xls",
                             onChange: (e)=>setExcelFile(e.target.files?.[0] || null),
-                            className: "border rounded w-full p-2 mb-3"
+                            className: "border rounded-2xl w-full p-2 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                            lineNumber: 248,
+                            lineNumber: 266,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                             onClick: handleUploadExcel,
-                            className: "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full",
+                            className: "bg-green-600 text-white px-4 py-2 rounded-2xl hover:bg-green-700 w-full font-semibold mb-2",
                             children: "Upload"
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                            lineNumber: 254,
+                            lineNumber: 267,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0)),
                         uploadMsg && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("pre", {
-                            className: "bg-gray-100 p-2 mt-3 rounded text-sm",
+                            className: "bg-gray-100 p-2 mt-2 rounded text-sm",
                             children: uploadMsg
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                            lineNumber: 262,
-                            columnNumber: 15
+                            lineNumber: 268,
+                            columnNumber: 27
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "flex justify-between mt-4",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                     onClick: handleDownloadTemplate,
-                                    className: "text-blue-600 underline",
+                                    className: "text-blue-600 underline font-semibold",
                                     children: "📥 Download Template"
                                 }, void 0, false, {
                                     fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                                    lineNumber: 266,
+                                    lineNumber: 270,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                     onClick: ()=>setShowUploadModal(false),
-                                    className: "bg-gray-300 px-4 py-2 rounded",
+                                    className: "bg-gray-300 px-4 py-2 rounded-2xl font-semibold",
                                     children: "Close"
                                 }, void 0, false, {
                                     fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                                    lineNumber: 272,
+                                    lineNumber: 271,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                            lineNumber: 265,
+                            lineNumber: 269,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                    lineNumber: 246,
+                    lineNumber: 264,
                     columnNumber: 11
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-                lineNumber: 245,
+                lineNumber: 263,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/bgi-inverntory/src/app/islamibank/page.tsx",
-        lineNumber: 180,
+        lineNumber: 177,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };

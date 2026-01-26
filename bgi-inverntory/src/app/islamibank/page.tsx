@@ -5,7 +5,6 @@ import DataTable, { TableColumn } from "react-data-table-component";
 
 type IslamiPOS = {
   id: number;
-
   configdate: string;
   old_mid: string;
   old_tid: string;
@@ -48,10 +47,11 @@ const IslamiPOSPage = () => {
   const [filteredRecords, setFilteredRecords] = useState<IslamiPOS[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-    const [counter_terminal, setCounter_terminal] = useState("");
+  const [counter_terminal, setCounter_terminal] = useState(0);
 
+  // REMOVE MID FILTER, KEEP OTHERS AND ADD AREA FILTER
   const [serialFilter, setSerialFilter] = useState("");
-  const [midFilter, setMidFilter] = useState("");
+  const [areaFilter, setAreaFilter] = useState(""); // ✅ NEW: Area filter
   const [tidFilter, setTidFilter] = useState("");
   const [cityFilter, setCityFilter] = useState("");
   const [branchFilter, setBranchFilter] = useState("");
@@ -59,8 +59,6 @@ const IslamiPOSPage = () => {
   const [excelFile, setExcelFile] = useState<File | null>(null);
   const [uploadMsg, setUploadMsg] = useState("");
   const [showUploadModal, setShowUploadModal] = useState(false);
-  
-
 
   // ==========================
   // Fetch Records
@@ -68,7 +66,7 @@ const IslamiPOSPage = () => {
   useEffect(() => {
     const fetchRecords = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:8000/islami/all");
+        const res = await fetch("http://127.0.0.1:8000/islami/all ");
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         setCounter_terminal(data.data.length);
@@ -84,19 +82,19 @@ const IslamiPOSPage = () => {
   }, []);
 
   // ==========================
-  // Filter logic
+  // Filter logic - UPDATED TO USE AREA FILTER
   // ==========================
   useEffect(() => {
     const filtered = records.filter(
       (r) =>
         r.pos_serial?.toLowerCase().includes(serialFilter.toLowerCase()) &&
-        r.mid?.toLowerCase().includes(midFilter.toLowerCase()) &&
+        r.area?.toLowerCase().includes(areaFilter.toLowerCase()) && // ✅ NEW: Area filter
         r.tid?.toLowerCase().includes(tidFilter.toLowerCase()) &&
         r.city?.toLowerCase().includes(cityFilter.toLowerCase()) &&
         r.branch?.toLowerCase().includes(branchFilter.toLowerCase())
     );
     setFilteredRecords(filtered);
-  }, [serialFilter, midFilter, tidFilter, cityFilter, branchFilter, records]);
+  }, [serialFilter, areaFilter, tidFilter, cityFilter, branchFilter, records]); // ✅ UPDATED dependencies
 
   // ==========================
   // Upload Excel
@@ -107,7 +105,7 @@ const IslamiPOSPage = () => {
     form.append("file", excelFile);
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/islami/upload", {
+      const res = await fetch("http://127.0.0.1:8000/islami/upload ", {
         method: "POST",
         body: form,
       });
@@ -117,7 +115,7 @@ const IslamiPOSPage = () => {
       setUploadMsg("✅ Upload successful!");
       setExcelFile(null);
 
-      const updated = await fetch("http://127.0.0.1:8000/islami/all");
+      const updated = await fetch("http://127.0.0.1:8000/islami/all ");
       const newData = await updated.json();
       setRecords(newData.data || newData);
       setFilteredRecords(newData.data || newData);
@@ -130,23 +128,22 @@ const IslamiPOSPage = () => {
   // Download Template
   // ==========================
   const handleDownloadTemplate = () => {
-    window.open("http://127.0.0.1:8000/islami/template", "_blank");
+    window.open("http://127.0.0.1:8000/islami/template ", "_blank");
   };
 
   // ==========================
   // Table Columns
   // ==========================
   const columns: TableColumn<IslamiPOS>[] = [
-    { name: "SL", selector: (_row, i) => i + 1, width: "50px" },
+    { name: "SL", selector: (row) => row.id, width: "60px" },
     { name: "Config Date", selector: (r) => r.configdate, minWidth: "100px" },
-    { name: "Old MID", selector: (r) => r.old_mid, minWidth: "100px" },
-    { name: "Old TID", selector: (r) => r.old_tid, minWidth: "80px" },
+    
     { name: "MID", selector: (r) => r.mid, minWidth: "150px" },
     { name: "TID", selector: (r) => r.tid, minWidth: "120px" },
-    { name: "MERCHANT SIGNBOARD Name", selector: (r) => r.merchant_signboard, minWidth: "250px" },
+    { name: "MERCHANT SIGNBOARD", selector: (r) => r.merchant_signboard, minWidth: "250px" },
     { name: "Address", selector: (r) => r.address, minWidth: "250px", wrap: true },
     { name: "City", selector: (r) => r.city, minWidth: "130px" },
-    { name: "Area", selector: (r) => r.area, minWidth: "130px" },
+    { name: "Area", selector: (r) => r.area, minWidth: "130px" }, // ✅ Area column already exists
     { name: "Branch", selector: (r) => r.branch, minWidth: "180px" },
     { name: "Vendor", selector: (r) => r.vendor, minWidth: "100px" },
     { name: "POS Model", selector: (r) => r.pos_model, minWidth: "100px" },
@@ -173,62 +170,83 @@ const IslamiPOSPage = () => {
     { name: "Created Time", selector: (r) => r.create_time, minWidth: "200px", wrap: true },
   ];
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (loading) return <p className="text-center mt-20">Loading...</p>;
+  if (error) return <p className="text-red-500 text-center mt-20">{error}</p>;
 
   return (
-    <div className="p-6 relative">
-      <h1 className="text-2xl font-bold mb-4">IBBL LIVE TERMINALS</h1>
+    <div className="min-h-screen p-6 bg-[#e6e9ef] flex flex-col items-center">
+      <h1 className="text-3xl font-bold mb-6 text-center">IBBL LIVE TERMINALS</h1>
 
-      {/* Buttons */}
-     {/* Buttons */}
- <div className="flex justify-between gap-4 mb-6">
-        
-       <div className="">
-           <h1 className="text-xl font-bold mb-4 ">Total Terminals: {counter_terminal}</h1>
-       </div>
-       
-      <div className="">
-          <button
-           onClick={() => window.open("http://127.0.0.1:8000/islami/download", "_blank")}
-          className="mr-2 bg-white text-black font-bold text-lg px-6 py-3 rounded-lg border border-gray-400 hover:bg-gray-100 transition-all duration-200"
+      {/* Top Bar */}
+      <div className="flex justify-between items-center w-full max-w-7xl mb-6 px-4">
+        {/* Left: Export */}
+        <button
+          onClick={() => window.open("http://127.0.0.1:8000/islami/download ", "_blank")}
+          className="px-6 py-3 rounded-2xl bg-[#e6e9ef] shadow-[6px_6px_12px_rgba(0,0,0,0.15),-6px_-6px_#ffffff] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_#ffffff] font-semibold"
         >
           ⬇️ Export Excel
         </button>
-        
 
+        {/* Center: Total Terminals */}
+        <h2 className="text-xl font-semibold text-center">Total Terminals: {counter_terminal}</h2>
+
+        {/* Right: Upload */}
         <button
           onClick={() => setShowUploadModal(true)}
-          className="bg-white text-black font-bold text-lg px-6 py-3 rounded-lg border border-gray-400 hover:bg-gray-100 transition-all duration-200"
+          className="px-6 py-3 rounded-2xl bg-[#e6e9ef] shadow-[6px_6px_12px_rgba(0,0,0,0.15),-6px_-6px_#ffffff] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_#ffffff] font-semibold"
         >
           📂 Upload Excel
         </button>
       </div>
-      </div>
 
-      {/* Filters */}
-      <div className="grid grid-cols-1 md:grid-cols-6 gap-4 mb-4">
-        <input placeholder="Pos_Serial" value={serialFilter} onChange={(e) => setSerialFilter(e.target.value)} className="border rounded px-3 py-2" />
-        <input placeholder="MID" value={midFilter} onChange={(e) => setMidFilter(e.target.value)} className="border rounded px-3 py-2" />
-        <input placeholder="TID" value={tidFilter} onChange={(e) => setTidFilter(e.target.value)} className="border rounded px-3 py-2" />
-        <input placeholder="City" value={cityFilter} onChange={(e) => setCityFilter(e.target.value)} className="border rounded px-3 py-2" />
-        <input placeholder="Branch" value={branchFilter} onChange={(e) => setBranchFilter(e.target.value)} className="border rounded px-3 py-2" />
+      {/* Filters - UPDATED: Replaced MID with Area */}
+      <div className="grid grid-cols-1 md:grid-cols-6 gap-4 mb-4 max-w-7xl w-full px-4">
+        <input 
+          placeholder="POS Serial" 
+          value={serialFilter} 
+          onChange={(e) => setSerialFilter(e.target.value)} 
+          className="px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" 
+        />
+        <input 
+          placeholder="Area" // ✅ NEW: Area filter
+          value={areaFilter} 
+          onChange={(e) => setAreaFilter(e.target.value)} 
+          className="px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" 
+        />
+        <input 
+          placeholder="TID" 
+          value={tidFilter} 
+          onChange={(e) => setTidFilter(e.target.value)} 
+          className="px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" 
+        />
+        <input 
+          placeholder="City" 
+          value={cityFilter} 
+          onChange={(e) => setCityFilter(e.target.value)} 
+          className="px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" 
+        />
+        <input 
+          placeholder="Branch" 
+          value={branchFilter} 
+          onChange={(e) => setBranchFilter(e.target.value)} 
+          className="px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" 
+        />
         <button
-          onClick={() => {
-            setSerialFilter("");
-            setMidFilter("");
-            setTidFilter("");
-            setCityFilter("");
-            setBranchFilter("");
+          onClick={() => { 
+            setSerialFilter(""); 
+            setAreaFilter(""); // ✅ NEW: Clear area filter
+            setTidFilter(""); 
+            setCityFilter(""); 
+            setBranchFilter(""); 
           }}
-          className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
+          className="px-4 py-2 rounded-2xl bg-gray-200 hover:bg-gray-300 font-semibold"
         >
           Clear
         </button>
       </div>
 
       {/* Data Table */}
-      <div className="bg-white rounded shadow-md p-2 overflow-x-auto">
+      <div className="bg-white rounded-2xl shadow-md p-2 overflow-x-auto w-full max-w-7xl px-4">
         <DataTable
           columns={columns}
           data={filteredRecords}
@@ -242,39 +260,15 @@ const IslamiPOSPage = () => {
 
       {/* Upload Modal */}
       {showUploadModal && (
-        <div className="absolute top-20 left-1/2 transform -translate-x-1/2 z-50">
-          <div className="bg-white p-6 rounded shadow-xl w-full max-w-md border border-gray-200">
-            <h2 className="text-xl font-semibold mb-4">Upload via Excel</h2>
-            <input
-              type="file"
-              accept=".xlsx,.xls"
-              onChange={(e) => setExcelFile(e.target.files?.[0] || null)}
-              className="border rounded w-full p-2 mb-3"
-            />
-            <button
-              onClick={handleUploadExcel}
-              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full"
-            >
-              Upload
-            </button>
-
-            {uploadMsg && (
-              <pre className="bg-gray-100 p-2 mt-3 rounded text-sm">{uploadMsg}</pre>
-            )}
-
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+          <div className="bg-[#e6e9ef] p-6 rounded-2xl w-full max-w-md shadow-[8px_8px_16px_rgba(0,0,0,0.18),-6px_-6px_#ffffff]">
+            <h2 className="text-xl font-semibold mb-4 text-center">📤 Upload Excel</h2>
+            <input type="file" accept=".xlsx,.xls" onChange={(e) => setExcelFile(e.target.files?.[0] || null)} className="border rounded-2xl w-full p-2 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            <button onClick={handleUploadExcel} className="bg-green-600 text-white px-4 py-2 rounded-2xl hover:bg-green-700 w-full font-semibold mb-2">Upload</button>
+            {uploadMsg && <pre className="bg-gray-100 p-2 mt-2 rounded text-sm">{uploadMsg}</pre>}
             <div className="flex justify-between mt-4">
-              <button
-                onClick={handleDownloadTemplate}
-                className="text-blue-600 underline"
-              >
-                📥 Download Template
-              </button>
-              <button
-                onClick={() => setShowUploadModal(false)}
-                className="bg-gray-300 px-4 py-2 rounded"
-              >
-                Close
-              </button>
+              <button onClick={handleDownloadTemplate} className="text-blue-600 underline font-semibold">📥 Download Template</button>
+              <button onClick={() => setShowUploadModal(false)} className="bg-gray-300 px-4 py-2 rounded-2xl font-semibold">Close</button>
             </div>
           </div>
         </div>

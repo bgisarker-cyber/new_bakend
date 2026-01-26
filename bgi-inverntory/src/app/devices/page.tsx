@@ -170,7 +170,7 @@ const DevicesPage = () => {
   // Table Columns
   // ==========================
   const columns: TableColumn<Device>[] = [
-    { name: "SL", selector: (_row, i) => i + 1, width: "60px" },
+    { name: "SL", selector: (row) => row.id, width: "60px" },
     { name: "TID", selector: (row) => row.tid, sortable: true },
     { name: "MID", selector: (row) => row.mid, sortable: true },
     { name: "Merchant Name", selector: (row) => row.merchant_name, sortable: true },

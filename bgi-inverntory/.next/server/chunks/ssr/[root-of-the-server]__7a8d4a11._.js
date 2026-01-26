@@ -14,26 +14,23 @@ __turbopack_context__.s([
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/bgi-inverntory/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/bgi-inverntory/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/bgi-inverntory/node_modules/next/navigation.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$react$2d$data$2d$table$2d$component$2f$dist$2f$index$2e$es$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/bgi-inverntory/node_modules/react-data-table-component/dist/index.es.js [app-ssr] (ecmascript)");
 "use client";
 ;
 ;
 ;
-;
 const API_BASE = "http://127.0.0.1:8000/pubali";
 const PubaliPOSPage = ()=>{
-    const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
     const [records, setRecords] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
     const [filteredRecords, setFilteredRecords] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(true);
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
-    const [counter_terminal, setCounter_terminal] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
+    const [counter_terminal, setCounter_terminal] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(0);
     // Filters
     const [midFilter, setMidFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
     const [tidFilter, setTidFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
     const [districtFilter, setDistrictFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
-    const [pos_serialFilter, setpos_serialFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
+    const [posSerialFilter, setPosSerialFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
     const [zoneFilter, setZoneFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
     // Upload
     const [excelFile, setExcelFile] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
@@ -45,7 +42,7 @@ const PubaliPOSPage = ()=>{
         const stored = localStorage.getItem("access_token");
         setToken(stored);
     }, []);
-    // ✅ Helper: Map API response keys
+    // Map API response keys
     const mapApiData = (data)=>{
         return data.map((r)=>({
                 id: r.id,
@@ -82,7 +79,7 @@ const PubaliPOSPage = ()=>{
                 create_time: r["create_time"] || ""
             }));
     };
-    // ✅ Fetch Data (Authenticated)
+    // Fetch Data (Authenticated)
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         const fetchRecords = async ()=>{
             try {
@@ -109,19 +106,19 @@ const PubaliPOSPage = ()=>{
     }, [
         token
     ]);
-    // ✅ Filter logic
+    // Filter logic
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        const filtered = records.filter((r)=>r.mid.toLowerCase().includes(midFilter.toLowerCase()) && r.tid.toLowerCase().includes(tidFilter.toLowerCase()) && r.district.toLowerCase().includes(districtFilter.toLowerCase()) && r.zone.toLowerCase().includes(zoneFilter.toLowerCase()) && r.pos_sn.toLowerCase().includes(pos_serialFilter.toLowerCase()));
+        const filtered = records.filter((r)=>r.mid.toLowerCase().includes(midFilter.toLowerCase()) && r.tid.toLowerCase().includes(tidFilter.toLowerCase()) && r.district.toLowerCase().includes(districtFilter.toLowerCase()) && r.zone.toLowerCase().includes(zoneFilter.toLowerCase()) && r.pos_sn.toLowerCase().includes(posSerialFilter.toLowerCase()));
         setFilteredRecords(filtered);
     }, [
         midFilter,
         tidFilter,
         districtFilter,
         zoneFilter,
-        pos_serialFilter,
+        posSerialFilter,
         records
     ]);
-    // ✅ Upload Excel
+    // Upload Excel
     const handleUploadExcel = async ()=>{
         if (!excelFile) return alert("Please select an Excel file!");
         if (!token) return alert("Authentication required!");
@@ -153,7 +150,7 @@ const PubaliPOSPage = ()=>{
             setUploadMsg("❌ " + e.message);
         }
     };
-    // ✅ Download Template
+    // Download Template
     const handleDownloadTemplate = async ()=>{
         if (!token) return alert("Please log in first.");
         try {
@@ -174,7 +171,7 @@ const PubaliPOSPage = ()=>{
             alert("Download failed: " + err.message);
         }
     };
-    // ✅ Export Excel
+    // Export Excel
     const handleExportExcel = async ()=>{
         if (!token) return alert("Please log in first.");
         try {
@@ -195,7 +192,7 @@ const PubaliPOSPage = ()=>{
             alert("Download failed: " + err.message);
         }
     };
-    // ✅ Table Columns
+    // Table Columns
     const columns = [
         {
             name: "S/N",
@@ -266,167 +263,164 @@ const PubaliPOSPage = ()=>{
             minWidth: "180px"
         }
     ];
-    // ✅ Page Rendering
     if (loading) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+        className: "text-center mt-20",
         children: "Loading..."
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-        lineNumber: 246,
+        lineNumber: 240,
         columnNumber: 23
     }, ("TURBOPACK compile-time value", void 0));
     if (error) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-        className: "text-red-500",
+        className: "text-red-500 text-center mt-20",
         children: error
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-        lineNumber: 247,
+        lineNumber: 241,
         columnNumber: 21
     }, ("TURBOPACK compile-time value", void 0));
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "p-6 relative",
+        className: "min-h-screen p-6 bg-[#e6e9ef] flex flex-col items-center",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                className: "text-2xl font-bold mb-4",
+                className: "text-3xl font-bold mb-6 text-center",
                 children: "PBL LIVE TERMINALS"
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                lineNumber: 251,
+                lineNumber: 245,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex justify-between items-center flex-wrap gap-4 mb-6",
+                className: "flex justify-between items-center w-full max-w-7xl mb-6 flex-wrap",
                 children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                        className: "text-xl font-bold",
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex gap-3 flex-wrap",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                className: "bg-white px-5 py-2 rounded-2xl border border-gray-300 hover:bg-gray-100 font-semibold",
+                                children: "🟢 Live"
+                            }, void 0, false, {
+                                fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
+                                lineNumber: 251,
+                                columnNumber: 11
+                            }, ("TURBOPACK compile-time value", void 0)),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                className: "bg-white px-5 py-2 rounded-2xl border border-gray-300 hover:bg-gray-100 font-semibold",
+                                children: "🟠 Withdraw"
+                            }, void 0, false, {
+                                fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
+                                lineNumber: 252,
+                                columnNumber: 11
+                            }, ("TURBOPACK compile-time value", void 0)),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                className: "bg-white px-5 py-2 rounded-2xl border border-gray-300 hover:bg-gray-100 font-semibold",
+                                children: "🔵 Replace"
+                            }, void 0, false, {
+                                fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
+                                lineNumber: 253,
+                                columnNumber: 11
+                            }, ("TURBOPACK compile-time value", void 0))
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
+                        lineNumber: 250,
+                        columnNumber: 9
+                    }, ("TURBOPACK compile-time value", void 0)),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "text-xl font-semibold text-center flex-1",
                         children: [
                             "Total Terminals: ",
                             counter_terminal
                         ]
                     }, void 0, true, {
                         fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                        lineNumber: 256,
-                        columnNumber: 3
+                        lineNumber: 257,
+                        columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex flex-wrap items-center gap-3",
+                        className: "flex gap-3 flex-wrap",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: ()=>{
-                                    if (!token) return alert("Authentication required! Please log in.");
-                                    window.location.href = "/pubalibank";
-                                },
-                                className: "bg-white text-black font-semibold text-base px-6 py-3 rounded-lg border border-gray-400 hover:bg-gray-100 transition-all duration-200 flex items-center gap-2",
-                                children: "🟢 Live"
-                            }, void 0, false, {
-                                fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                                lineNumber: 260,
-                                columnNumber: 5
-                            }, ("TURBOPACK compile-time value", void 0)),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: ()=>{
-                                    if (!token) return alert("Authentication required! Please log in.");
-                                    window.location.href = "/pubalibank/pubali-withdraw";
-                                },
-                                className: "bg-white text-black font-semibold text-base px-6 py-3 rounded-lg border border-gray-400 hover:bg-gray-100 transition-all duration-200 flex items-center gap-2",
-                                children: "🟠 Withdraw"
-                            }, void 0, false, {
-                                fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                                lineNumber: 270,
-                                columnNumber: 5
-                            }, ("TURBOPACK compile-time value", void 0)),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: ()=>{
-                                    if (!token) return alert("Authentication required! Please log in.");
-                                    window.location.href = "/pubalibank/pubali-replace";
-                                },
-                                className: "bg-white text-black font-semibold text-base px-6 py-3 rounded-lg border border-gray-400 hover:bg-gray-100 transition-all duration-200 flex items-center gap-2",
-                                children: "🔵 Replace"
-                            }, void 0, false, {
-                                fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                                lineNumber: 280,
-                                columnNumber: 5
-                            }, ("TURBOPACK compile-time value", void 0)),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                 onClick: handleExportExcel,
-                                className: "bg-white text-black font-semibold text-base px-6 py-3 rounded-lg border border-gray-400 hover:bg-gray-100 transition-all duration-200 flex items-center gap-2",
+                                className: "bg-white px-5 py-2 rounded-2xl border border-gray-300 hover:bg-gray-100 font-semibold",
                                 children: "⬇️ Export Excel"
                             }, void 0, false, {
                                 fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                                lineNumber: 291,
-                                columnNumber: 5
+                                lineNumber: 263,
+                                columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                 onClick: ()=>setShowUploadModal(true),
-                                className: "bg-white text-black font-semibold text-base px-6 py-3 rounded-lg border border-gray-400 hover:bg-gray-100 transition-all duration-200 flex items-center gap-2",
+                                className: "bg-white px-5 py-2 rounded-2xl border border-gray-300 hover:bg-gray-100 font-semibold",
                                 children: "📂 Upload Excel"
                             }, void 0, false, {
                                 fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                                lineNumber: 298,
-                                columnNumber: 5
+                                lineNumber: 264,
+                                columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                        lineNumber: 258,
-                        columnNumber: 3
+                        lineNumber: 262,
+                        columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                lineNumber: 255,
-                columnNumber: 1
+                lineNumber: 248,
+                columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "grid grid-cols-1 md:grid-cols-6 gap-4 mb-4",
+                className: "grid grid-cols-1 md:grid-cols-6 gap-4 mb-4 max-w-7xl w-full",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         placeholder: "MID",
                         value: midFilter,
                         onChange: (e)=>setMidFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                        lineNumber: 308,
+                        lineNumber: 270,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         placeholder: "TID",
                         value: tidFilter,
                         onChange: (e)=>setTidFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                        lineNumber: 309,
+                        lineNumber: 271,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         placeholder: "District",
                         value: districtFilter,
                         onChange: (e)=>setDistrictFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                        lineNumber: 310,
+                        lineNumber: 272,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         placeholder: "Zone",
                         value: zoneFilter,
                         onChange: (e)=>setZoneFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                        lineNumber: 311,
+                        lineNumber: 273,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         placeholder: "POS Serial",
-                        value: pos_serialFilter,
-                        onChange: (e)=>setpos_serialFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        value: posSerialFilter,
+                        onChange: (e)=>setPosSerialFilter(e.target.value),
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                        lineNumber: 312,
+                        lineNumber: 274,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -435,23 +429,23 @@ const PubaliPOSPage = ()=>{
                             setTidFilter("");
                             setDistrictFilter("");
                             setZoneFilter("");
-                            setpos_serialFilter("");
+                            setPosSerialFilter("");
                         },
-                        className: "bg-gray-200 px-4 py-2 rounded hover:bg-gray-300",
+                        className: "px-4 py-2 rounded-2xl bg-gray-200 hover:bg-gray-300 font-semibold",
                         children: "Clear"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                        lineNumber: 313,
+                        lineNumber: 275,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                lineNumber: 307,
+                lineNumber: 269,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "bg-white rounded shadow-md p-2 overflow-x-auto",
+                className: "bg-white rounded-2xl shadow-md p-2 overflow-x-auto w-full max-w-7xl",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$react$2d$data$2d$table$2d$component$2f$dist$2f$index$2e$es$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                     columns: columns,
                     data: filteredRecords,
@@ -462,52 +456,52 @@ const PubaliPOSPage = ()=>{
                     persistTableHead: true
                 }, void 0, false, {
                     fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                    lineNumber: 329,
+                    lineNumber: 280,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                lineNumber: 328,
+                lineNumber: 279,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             showUploadModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "absolute top-20 left-1/2 transform -translate-x-1/2 z-50",
+                className: "fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "bg-white p-6 rounded shadow-xl w-full max-w-md border border-gray-200",
+                    className: "bg-[#e6e9ef] p-6 rounded-2xl w-full max-w-md shadow-xl",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                            className: "text-xl font-semibold mb-4",
-                            children: "Upload via Excel"
+                            className: "text-xl font-semibold mb-4 text-center",
+                            children: "📤 Upload Excel"
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                            lineNumber: 336,
+                            lineNumber: 287,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                             type: "file",
                             accept: ".xlsx,.xls",
                             onChange: (e)=>setExcelFile(e.target.files?.[0] || null),
-                            className: "border rounded w-full p-2 mb-3"
+                            className: "border rounded-2xl w-full p-2 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                            lineNumber: 337,
+                            lineNumber: 288,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                             onClick: handleUploadExcel,
-                            className: "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full",
+                            className: "bg-green-600 text-white px-4 py-2 rounded-2xl hover:bg-green-700 w-full font-semibold mb-2",
                             children: "Upload"
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                            lineNumber: 338,
+                            lineNumber: 289,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0)),
                         uploadMsg && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("pre", {
-                            className: "bg-gray-100 p-2 mt-3 rounded text-sm",
+                            className: "bg-gray-100 p-2 mt-2 rounded text-sm",
                             children: uploadMsg
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                            lineNumber: 341,
+                            lineNumber: 290,
                             columnNumber: 27
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -515,43 +509,43 @@ const PubaliPOSPage = ()=>{
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                     onClick: handleDownloadTemplate,
-                                    className: "text-blue-600 underline",
+                                    className: "text-blue-600 underline font-semibold",
                                     children: "📥 Download Template"
                                 }, void 0, false, {
                                     fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                                    lineNumber: 343,
+                                    lineNumber: 292,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                     onClick: ()=>setShowUploadModal(false),
-                                    className: "bg-gray-300 px-4 py-2 rounded",
+                                    className: "bg-gray-300 px-4 py-2 rounded-2xl font-semibold",
                                     children: "Close"
                                 }, void 0, false, {
                                     fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                                    lineNumber: 346,
+                                    lineNumber: 293,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                            lineNumber: 342,
+                            lineNumber: 291,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                    lineNumber: 335,
+                    lineNumber: 286,
                     columnNumber: 11
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-                lineNumber: 334,
+                lineNumber: 285,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/bgi-inverntory/src/app/pubalibank/page.tsx",
-        lineNumber: 250,
+        lineNumber: 244,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };

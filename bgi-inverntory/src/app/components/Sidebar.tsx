@@ -7,50 +7,101 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   Gauge,
-  Activity,
+  ListTodo,
+  Phone,
+  ClipboardList,
+  Monitor,
+  CreditCard,
+  Package,
   Bug,
-  Store,
-  UserPlus,
+  Laptop,
+  AlertTriangle,
+  Warehouse,
+  Settings,
+  FileText,
   Users,
-  ScrollText,
-  Landmark,
+  UserPlus,
   ChevronDown,
   ChevronUp,
+  ChevronLeft,
+  ChevronRight,
   Menu,
   LogOut,
+  X,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
-/* ---------- role-based navigation ---------- */
-const COMMON_LINKS = [
-  { name: "Dashboard", href: "/dashboard", icon: Gauge },
-  { name: "Task Update", href: "/task-manager", icon: Store },
-];
+/* ---------- navigation structure ---------- */
+interface NavItem {
+  name: string;
+  route?: string;
+  icon: React.ElementType;
+  roles?: string[];
+  children?: NavItem[];
+}
 
-const BANK_TERMINALS = [
-  { name: "Live Terminal", href: "/live", icon: Activity },
-  { name: "City POS", href: "/citybank", icon: Activity },
-  { name: "Pubali POS", href: "/pubalibank", icon: Activity },
-  { name: "Islami POS", href: "/islamibank", icon: Activity },
-  { name: "MTB POS", href: "/mtbbank", icon: Activity },
-  { name: "Standard POS", href: "/standardbank", icon: Activity },
-  
-];
-
-const INVENTORY_TERMINALS = [
-  { name: "Debug Terminal", href: "/debug", icon: Bug },
-  { name: "Demo Terminal", href: "/demo", icon: Bug },
-  { name: "Faulty Terminal", href: "/faulty", icon: Bug },
-  { name: "Store Terminal", href: "/store", icon: Store },
-  
+const NAV_SECTIONS: NavItem[] = [
+  {
+    name: "Dashboard",
+    route: "/dashboard",
+    icon: Gauge,
+  },
+  {
+    name: "Task Update",
+    icon: ListTodo,
+    children: [
+      { name: "Create Call", route: "/task-manager/create-task", icon: Phone },
+      { name: "Call List", route: "/task-manager/task-call", icon: ClipboardList, roles: ["superadmin","admin"],},
+      { name: "MY Calls", route: "/task-manager/my-task", icon: ClipboardList, roles: ["support","admin"],},
+      {
+        name: "Task-Control",
+        route: "/task_control",
+        icon: Settings,
+        roles: ["superadmin"],
+      },
+    ],
+  },
+  {
+    name: "Live terminals",
+    icon: Monitor,
+    roles: ["support", "admin", "superadmin"],
+    children: [
+      { name: "CBL POS", route: "/citybank", icon: CreditCard },
+      { name: "PBL POS", route: "/pubalibank", icon: CreditCard },
+      { name: "IBBL POS", route: "/islamibank", icon: CreditCard },
+      { name: "MTBL POS", route: "/mtbbank", icon: CreditCard },
+      { name: "SDBL POS", route: "/standardbank", icon: CreditCard },
+    ],
+  },
+  {
+    name: "Inventory Terminals",
+    icon: Package,
+    roles: ["superadmin"],
+    children: [
+      { name: "Debug Terminal", route: "/debug", icon: Bug },
+      { name: "Demo Terminal", route: "/demo", icon: Laptop },
+      { name: "Faulty Terminal", route: "/faulty", icon: AlertTriangle },
+      { name: "Store Terminal", route: "/store", icon: Warehouse },
+    ],
+  },
+  {
+    name: "System",
+    icon: Settings,
+    roles: ["superadmin"],
+    children: [
+      { name: "View Log", route: "/user-log", icon: FileText },
+      { name: "View Users", route: "/user-show", icon: Users },
+      { name: "Add User", route: "/users-add", icon: UserPlus },
+    ],
+  },
 ];
 
 /* ---------- logout ---------- */
 const logout = async () => {
   try {
     const token = localStorage.getItem("access_token");
-    if (token)
+    if (token) {
       await fetch("http://127.0.0.1:8000/auth/logout", {
         method: "POST",
         headers: {
@@ -58,6 +109,7 @@ const logout = async () => {
           "Content-Type": "application/json",
         },
       });
+    }
   } catch (err) {
     console.error("Logout API error:", err);
   } finally {
@@ -66,125 +118,151 @@ const logout = async () => {
   }
 };
 
+/* ---------- helpers ---------- */
+const isItemVisible = (item: NavItem, role?: string) => {
+  if (!item.roles) return true;
+  if (!role) return false;
+  return item.roles.includes(role);
+};
+
+const isParentActive = (children: NavItem[] | undefined, pathname: string) =>
+  children?.some(
+    (child) => child.route && pathname.startsWith(child.route)
+  ) || false;
+
 /* ---------- desktop sidebar ---------- */
-export function Sidebar({ showLogout, role }: { showLogout?: boolean; role?: string }) {
+export function Sidebar({
+  showLogout,
+  role,
+}: {
+  showLogout?: boolean;
+  role?: string;
+}) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = React.useState(false);
+  const [expandedSections, setExpandedSections] = React.useState<Record<string, boolean>>({
+    "Task Update": false,
+    "Live terminals": false,
+    "Inventory Terminals": false,
+    "System": false,
+  });
 
-  const bankLinks = role === "support" || role === "admin" || role === "superadmin" ? BANK_TERMINALS : [];
-  const inventoryLinks = role === "superadmin" ? INVENTORY_TERMINALS : [];
+  const toggleSection = (name: string) =>
+    setExpandedSections((prev) => ({ ...prev, [name]: !prev[name] }));
 
-  const NavLinks = () => (
-    <nav className="flex flex-col space-y-2 mt-6 px-3">
-      {COMMON_LINKS.map((item) => {
-        const Icon = item.icon;
-        const active = pathname.startsWith(item.href);
-        return (
-          <Link
-            key={item.href}
-            href={item.href}
+  const renderNavItem = (item: NavItem) => {
+    const hasChildren = item.children?.length;
+    const Icon = item.icon;
+
+    if (!isItemVisible(item, role)) return null;
+
+    if (hasChildren) {
+      const active = isParentActive(item.children, pathname);
+      const isExpanded = expandedSections[item.name];
+
+      return (
+        <div key={item.name} className="space-y-1">
+          <div
+            onClick={() => toggleSection(item.name)}
             className={cn(
-              "flex items-center gap-3 rounded-lg py-2 px-2 text-sm font-medium transition cursor-pointer",
-              active ? "bg-[#E0E7FF] text-[#1F628E]" : "text-gray-800 hover:bg-[#E0E7FF] hover:text-[#1F628E]"
+              "flex items-center justify-between rounded-lg py-2 px-2 text-sm font-medium cursor-pointer transition",
+              active
+                ? "bg-[#E0E7FF] text-[#1F628E]"
+                : "text-gray-800 hover:bg-[#E0E7FF] hover:text-[#1F628E]"
             )}
           >
-            <Icon className="h-5 w-5" />
-            {!collapsed && <span>{item.name}</span>}
-          </Link>
-        );
-      })}
+            <div className="flex items-center gap-3">
+              <Icon className="h-5 w-5" />
+              {!collapsed && <span>{item.name}</span>}
+            </div>
+            {!collapsed &&
+              (isExpanded ? (
+                <ChevronUp className="h-4 w-4" />
+              ) : (
+                <ChevronDown className="h-4 w-4" />
+              ))}
+          </div>
 
-      {bankLinks.length > 0 && (
-        <>
-          <div className="text-xs uppercase text-gray-600 px-2 pt-4">Bank Terminals</div>
-          {bankLinks.map((item) => {
-            const Icon = item.icon;
-            const active = pathname.startsWith(item.href);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "flex items-center gap-3 rounded-lg py-2 px-2 text-sm font-medium transition cursor-pointer",
-                  active ? "bg-[#E0E7FF] text-[#1F628E]" : "text-gray-800 hover:bg-[#E0E7FF] hover:text-[#1F628E]"
-                )}
-              >
-                <Icon className="h-5 w-5" />
-                {!collapsed && <span>{item.name}</span>}
-              </Link>
-            );
-          })}
-        </>
-      )}
+          {isExpanded && !collapsed && (
+            <div className="ml-6 space-y-1">
+              {item.children!.map((child) => {
+                if (!isItemVisible(child, role)) return null;
+                const ChildIcon = child.icon;
+                const activeChild =
+                  child.route && pathname.startsWith(child.route);
 
-      {inventoryLinks.length > 0 && (
-        <>
-          <div className="text-xs uppercase text-gray-600 px-2 pt-4">Inventory Terminals</div>
-          {inventoryLinks.map((item) => {
-            const Icon = item.icon;
-            const active = pathname.startsWith(item.href);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "flex items-center gap-3 rounded-lg py-2 px-2 text-sm font-medium transition cursor-pointer",
-                  active ? "bg-[#E0E7FF] text-[#1F628E]" : "text-gray-800 hover:bg-[#E0E7FF] hover:text-[#1F628E]"
-                )}
-              >
-                <Icon className="h-5 w-5" />
-                {!collapsed && <span>{item.name}</span>}
-              </Link>
-            );
-          })}
-        </>
-      )}
+                return (
+                  <Link
+                    key={child.route}
+                    href={child.route!}
+                    className={cn(
+                      "flex items-center gap-2 rounded-md px-2 py-1.5 text-xs font-medium transition",
+                      activeChild
+                        ? "bg-[#E0E7FF] text-[#1F628E]"
+                        : "text-gray-700 hover:bg-[#E0E7FF] hover:text-[#1F628E]"
+                    )}
+                  >
+                    <ChildIcon className="h-4 w-4" />
+                    {child.name}
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      );
+    }
 
-      {role === "superadmin" && (
-        <>
-          <div className="text-xs uppercase text-gray-600 px-2 pt-4">System</div>
-          <Link href="/user-log" className="flex items-center gap-3 rounded-lg py-2 px-2 text-sm font-medium transition cursor-pointer">
-            <ScrollText className="h-5 w-5" />
-            {!collapsed && <span>View Log</span>}
-          </Link>
-          <Link href="/user-show" className="flex items-center gap-3 rounded-lg py-2 px-2 text-sm font-medium transition cursor-pointer">
-            <Users className="h-5 w-5" />
-            {!collapsed && <span>View Users</span>}
-          </Link>
-          <Link href="/users-add" className="flex items-center gap-3 rounded-lg py-2 px-2 text-sm font-medium transition cursor-pointer">
-            <UserPlus className="h-5 w-5" />
-            {!collapsed && <span>Add User</span>}
-          </Link>
-        </>
-      )}
-
-      {showLogout && (
-        <Button
-          onClick={logout}
-          className="w-full bg-[#1F628E] hover:bg-[#164A73] cursor-pointer text-white mt-6 flex items-center justify-center gap-2"
-        >
-          <LogOut className="h-4 w-4" /> Logout
-        </Button>
-      )}
-    </nav>
-  );
+    const active = item.route && pathname.startsWith(item.route);
+    return (
+      <Link
+        key={item.route}
+        href={item.route!}
+        className={cn(
+          "flex items-center gap-3 rounded-lg py-2 px-2 text-sm font-medium transition",
+          active
+            ? "bg-[#E0E7FF] text-[#1F628E]"
+            : "text-gray-800 hover:bg-[#E0E7FF] hover:text-[#1F628E]"
+        )}
+      >
+        <Icon className="h-5 w-5" />
+        {!collapsed && <span>{item.name}</span>}
+      </Link>
+    );
+  };
 
   return (
     <aside
       className={cn(
-        "hidden md:flex flex-col border-r border-gray-300 bg-[#AEC6CF] text-gray-800 transition-all duration-300 fixed top-0 left-0 p-4 shadow-md rounded-r-2xl",
+        "hidden md:flex fixed top-0 left-0 h-screen flex-col border-r border-gray-300 bg-[#AEC6CF] p-4 shadow-md rounded-r-2xl transition-all duration-300",
         collapsed ? "w-20" : "w-56"
       )}
-      style={{ height: "100vh" }}
     >
-      <div className="flex flex-col items-center mb-2 mt-2">
-        <img src="/BGI-logo1.png" alt="BGI Logo" className="h-24 w-auto object-contain mb-2" />
+      <div className={cn("flex", collapsed ? "justify-center" : "justify-end")}>
+        <Button
+          onClick={() => setCollapsed(!collapsed)}
+          className="bg-[#1F628E] hover:bg-[#164A73] text-white h-8 w-8 p-2"
+        >
+          {collapsed ? <ChevronRight /> : <ChevronLeft />}
+        </Button>
       </div>
-      <div className="flex-1 overflow-y-auto">
-        <NavLinks />
-      </div>
+
+      <nav className="mt-6 space-y-2 px-3 flex-1 overflow-y-auto">
+        {NAV_SECTIONS.map(renderNavItem)}
+        {showLogout && (
+          <Button
+            onClick={logout}
+            className="w-full bg-[#1F628E] hover:bg-[#164A73] text-white mt-6 flex gap-2"
+          >
+            <LogOut className="h-4 w-4" /> Logout
+          </Button>
+        )}
+      </nav>
+
       {!collapsed && (
-        <div className="text-center text-xs text-gray-700 mt-4 mb-2">VERSION: 1.0.1</div>
+        <div className="text-center text-xs text-gray-700 mt-4">
+          VERSION: 1.0.1
+        </div>
       )}
     </aside>
   );
@@ -194,79 +272,62 @@ export function Sidebar({ showLogout, role }: { showLogout?: boolean; role?: str
 export function MobileSidebarButton({ role }: { role?: string }) {
   const [open, setOpen] = React.useState(false);
   const pathname = usePathname();
+  const [expandedSections, setExpandedSections] = React.useState<Record<string, boolean>>({
+    "Task Update": false,
+    "Live terminals": false,
+    "Inventory Terminals": false,
+    "System": false,
+  });
 
-  const bankLinks = role === "support" || role === "admin" || role === "superadmin" ? BANK_TERMINALS : [];
-  const inventoryLinks = role === "superadmin" ? INVENTORY_TERMINALS : [];
-
-  const renderGroup = (list: typeof BANK_TERMINALS, title?: string) => (
-    <>
-      {title && <div className="text-xs uppercase text-gray-600 px-3 pt-4">{title}</div>}
-      {list.map((item) => {
-        const active = pathname.startsWith(item.href);
-        return (
-          <Link
-            key={item.href}
-            href={item.href}
-            onClick={() => setOpen(false)}
-            className={cn(
-              "px-3 py-2 rounded-md text-sm font-medium transition cursor-pointer",
-              active ? "bg-[#E0E7FF] text-[#1F628E]" : "text-gray-800 hover:bg-[#E0E7FF] hover:text-[#1F628E]"
-            )}
-          >
-            {item.name}
-          </Link>
-        );
-      })}
-    </>
-  );
+  const toggleSection = (name: string) =>
+    setExpandedSections((prev) => ({ ...prev, [name]: !prev[name] }));
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button
-          variant="default"
-          size="icon"
-          className="md:hidden fixed top-4 right-4 z-50 rounded-full shadow-lg bg-[#1F628E] text-white cursor-pointer"
-        >
-          <Menu className="h-6 w-6" />
+        <Button className="md:hidden fixed top-4 right-4 z-50 bg-[#1F628E] text-white">
+          <Menu />
         </Button>
       </SheetTrigger>
 
-      <SheetContent side="left" className="w-52 p-6 bg-[#AEC6CF] text-gray-800 border-none">
-        <div className="flex flex-col items-center mb-4">
-          <img src="/BGI-logo1.png" alt="BGI Logo" className="h-16 w-auto object-contain mb-1" />
-          <span className="text-sm font-semibold text-[#1F628E]">TERMINAL PORTAL</span>
+      <SheetContent side="left" className="bg-[#AEC6CF] w-52 p-6">
+        <div className="flex justify-end mb-4">
+          <Button
+            onClick={() => setOpen(false)}
+            className="bg-[#1F628E] text-white h-8 w-8"
+          >
+            <X />
+          </Button>
         </div>
 
-        <nav className="flex flex-col space-y-3 px-2">
-          {renderGroup(COMMON_LINKS)}
-          {bankLinks.length > 0 && renderGroup(bankLinks, "Bank Terminals")}
-          {inventoryLinks.length > 0 && renderGroup(inventoryLinks, "Inventory Terminals")}
-          {role === "superadmin" && renderGroup(
-            [
-              {
-                name: "View Log", href: "/user-log",
-                icon: undefined
-              },
-              {
-                name: "View Users", href: "/user-show",
-                icon: undefined
-              },
-              {
-                name: "Add User", href: "/users-add",
-                icon: undefined
-              },
-            ],
-            "System"
-          )}
+        <nav className="space-y-3">
+          {NAV_SECTIONS.map((item) => (
+            <div key={item.name}>
+              {isItemVisible(item, role) && (
+                <Link
+                  href={item.route || "#"}
+                  onClick={() => setOpen(false)}
+                  className="block rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-[#E0E7FF]"
+                >
+                  {item.name}
+                </Link>
+              )}
+            </div>
+          ))}
+
           {role && (
-            <Button onClick={logout} className="w-full bg-[#1F628E] hover:bg-[#164A73] text-white mt-6">
-              <LogOut className="h-4 w-4 mr-2" />Logout
+            <Button
+              onClick={logout}
+              className="w-full bg-[#1F628E] text-white mt-6"
+            >
+              <LogOut className="h-4 w-4 mr-2" /> Logout
             </Button>
           )}
         </nav>
 
-        <div className="text-center text-xs text-gray-700 mt-6">VERSION: 1.0.1</div>
+        <div className="text-center text-xs text-gray-700 mt-6">
+          VERSION: 1.0.1
+        </div>
       </SheetContent>
     </Sheet>
   );

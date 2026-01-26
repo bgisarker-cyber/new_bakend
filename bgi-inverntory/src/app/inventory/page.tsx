@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Activity,
@@ -11,7 +10,7 @@ import {
   ClipboardList,
 } from "lucide-react";
 
-// Icon Map
+/* ---------- Icon Map ---------- */
 const iconMap: any = {
   live: Activity,
   store: Factory,
@@ -21,93 +20,85 @@ const iconMap: any = {
   tasks: Cpu,
 };
 
-// =============================
-// Dashboard Card Component
-// =============================
-function DashboardCard({ title, gradient, onClick, icon: Icon }: any) {
+/* =============================
+   Dashboard Card (UI Updated)
+============================= */
+function DashboardCard({ title, onClick, icon: Icon }: any) {
   return (
-    <div
+    <button
       onClick={onClick}
-      className={`
+      className="
+        group
         cursor-pointer select-none
         rounded-3xl
-        py-10 px-10
-        shadow-lg
-        bg-gradient-to-br ${gradient}
-        hover:shadow-2xl hover:scale-[1.03]
-        transition-all duration-300
+        bg-[#eef1f6]
+        w-[300px] h-[180px]
         flex flex-col items-center justify-center
-        w-[300px]       /* Larger width */
-        h-[180px]       /* Shorter height */
-      `}
-    >
-      <Icon className="w-12 h-12 mb-3 opacity-90 text-white" />
+        transition-all duration-300 ease-out
 
-      <h2 className="text-xl font-semibold text-white text-center drop-shadow-sm">
+        shadow-[12px_12px_22px_rgba(0,0,0,0.18),-10px_-10px_20px_#ffffff]
+        hover:shadow-[8px_8px_18px_rgba(0,0,0,0.25),-8px_-8px_18px_#ffffff]
+        hover:-translate-y-1
+
+        active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25),inset_-6px_-6px_12px_#ffffff]
+        focus:outline-none
+      "
+    >
+      <Icon className="w-12 h-12 mb-4 text-gray-700 group-hover:scale-110 transition-transform duration-300" />
+
+      <h2 className="text-lg font-semibold text-gray-800 text-center tracking-wide">
         {title}
       </h2>
-    </div>
+    </button>
   );
 }
 
-// =============================
-// Main Component
-// =============================
+/* =============================
+   Main Component
+============================= */
 export default function HomePage() {
   const router = useRouter();
 
   const buttons = [
-    
     {
       name: "Store Terminals",
-      gradient: "from-blue-400 to-blue-600",
       route: "/store",
       icon: iconMap.store,
     },
     {
       name: "Demo Terminals",
-      gradient: "from-amber-400 to-amber-600",
       route: "/demo",
       icon: iconMap.demo,
     },
     {
       name: "Debug Terminals",
-      gradient: "from-purple-500 to-purple-700",
       route: "/debug",
       icon: iconMap.debug,
     },
     {
       name: "Faulty Terminals",
-      gradient: "from-red-400 to-red-600",
       route: "/faulty",
       icon: iconMap.faulty,
     },
-    
   ];
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gradient-to-b from-gray-50 to-gray-200">
-      
-      {/* Header */}
-      <header className="w-full bg-white shadow-md flex flex-col items-center py-4">
-        <h1 className="text-2xl font-bold text-gray-700 tracking-wide text-center">
-          BGI INVENTORY SYSTEM
+   <div className="min-h-screen bg-[#e6e9ef] flex flex-col">
+      {/* HEADER */}
+      <header className="pt-10 pb-6">
+        <h1 className="text-3xl font-bold text-gray-800 text-center tracking-wide">
+           INVENTORY TERMINALS
         </h1>
-        <img
-          src="/BGI-logo.jpg"
-          alt="BGI Logo"
-          className="h-24 object-contain mt-1"
-        />
+        
       </header>
 
-      {/* Main Section */}
-      <main className="flex-1 flex flex-col items-center w-full p-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 mt-10">
+      {/* MAIN */}
+      <main className="flex-1 flex items-center justify-center px-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
           {buttons.map((btn) => (
             <DashboardCard
               key={btn.name}
               title={btn.name}
-              gradient={btn.gradient}
               onClick={() => router.push(btn.route)}
               icon={btn.icon}
             />
@@ -115,8 +106,8 @@ export default function HomePage() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="w-full py-6 bg-white border-t text-center text-gray-500 text-sm">
+      {/* FOOTER */}
+      <footer className="py-6 text-center text-sm text-gray-500">
         © {new Date().getFullYear()} BGI • All Rights Reserved
       </footer>
     </div>

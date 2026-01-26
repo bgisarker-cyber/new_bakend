@@ -7,7 +7,7 @@ from psycopg2.extras import RealDictCursor
 from pydantic import BaseModel, Field
 from pathlib import Path
 from jinja2 import Template
-import pdfkit
+
 import datetime as dt
 
 from app.database import conn

@@ -1,14 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import {
-  Activity,
-  Cpu,
-  Bug,
-  Factory,
-  PackageSearch,
-  ClipboardList,
-} from "lucide-react";
+import { Activity, Cpu } from "lucide-react";
 import React from "react";
 
 /* ---------- icon map ---------- */
@@ -17,38 +10,46 @@ const iconMap = {
   tasks: Cpu,
 };
 
-/* ---------- card component ---------- */
-function DashboardCard({ title, gradient, onClick, icon: Icon }: any) {
-  if (!Icon) return null; // safety guard
+/* ---------- dashboard card (UI upgraded) ---------- */
+function DashboardCard({ title, onClick, icon: Icon }: any) {
+  if (!Icon) return null;
+
   return (
-    <div
+    <button
       onClick={onClick}
-      className={`
+      className="
         cursor-pointer select-none
         rounded-3xl
-        py-10 px-10
-        shadow-lg
-        bg-gradient-to-br ${gradient}
-        hover:shadow-2xl hover:scale-[1.03]
-        transition-all duration-300
+        bg-[#e6e9ef]
+        transition-all duration-300 ease-out
         flex flex-col items-center justify-center
-        w-[300px] h-[180px]
-      `}
+        w-[320px] h-[190px]
+
+        shadow-[12px_12px_22px_rgba(0,0,0,0.18),-10px_-10px_20px_#ffffff]
+        hover:shadow-[8px_8px_18px_rgba(0,0,0,0.22),-8px_-8px_18px_#ffffff]
+        hover:-translate-y-1
+
+        active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25),inset_-6px_-6px_12px_#ffffff]
+
+        focus:outline-none
+      "
     >
-      <Icon className="w-12 h-12 mb-3 opacity-90 text-white" />
-      <h2 className="text-xl font-semibold text-white text-center drop-shadow-sm">
+      <Icon className="w-12 h-12 text-gray-800 mb-3" />
+      <h2 className="text-lg font-semibold text-gray-800 text-center tracking-wide">
         {title}
       </h2>
-    </div>
+    </button>
   );
 }
 
 /* ---------- hook: read role from JWT ---------- */
 function useRole() {
   const [role, setRole] = React.useState<string>("");
+
   React.useEffect(() => {
     const token = localStorage.getItem("access_token");
     if (!token) return;
+
     try {
       const payload = JSON.parse(atob(token.split(".")[1]));
       setRole(payload.role ?? "");
@@ -56,6 +57,7 @@ function useRole() {
       setRole("");
     }
   }, []);
+
   return role;
 }
 
@@ -64,54 +66,52 @@ export default function HomePage() {
   const router = useRouter();
   const role = useRole();
 
-  /* ---------- buttons that exist for each role ---------- */
+  /* ---------- role-based buttons ---------- */
   const buttons = React.useMemo(() => {
     const all: any[] = [];
 
-    /* ---------- support role ---------- */
     if (role === "support") {
-      all.push({
-        name: "My Task",
-        gradient: "from-pink-400 to-red-600",
-        route: "/task-manager/my-task",
-        icon: iconMap.tasks,
-      });
-    }
-
-    /* ---------- admin role ---------- */
-    if (role === "admin") {
       all.push(
         {
           name: "POS Call",
-          gradient: "from-green-400 to-green-600",
           route: "/task-manager/task-call",
           icon: iconMap.pos,
         },
         {
           name: "My Task",
-          gradient: "from-pink-400 to-red-600",
           route: "/task-manager/my-task",
           icon: iconMap.tasks,
         }
       );
     }
 
-    /* ---------- super-admin role ---------- */
-    if (role === "superadmin") {
+    if (role === "admin") {
       all.push(
         {
           name: "POS Call",
-          gradient: "from-green-400 to-green-600",
           route: "/task-manager/task-call",
           icon: iconMap.pos,
         },
         {
-          name: "UIT TASK",
-          gradient: "from-pink-400 to-red-600",
+          name: "My Task",
+          route: "/task-manager/my-task",
+          icon: iconMap.tasks,
+        }
+      );
+    }
+
+    if (role === "superadmin") {
+      all.push(
+        {
+          name: "POS Call",
+          route: "/task-manager/task-call",
+          icon: iconMap.pos,
+        },
+        {
+          name: "UIT Task",
           route: "/uit-task",
           icon: iconMap.tasks,
         }
-       
       );
     }
 
@@ -119,27 +119,22 @@ export default function HomePage() {
   }, [role]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gradient-to-b from-gray-50 to-gray-200">
-      {/* header */}
-      <header className="w-full bg-white shadow-md flex flex-col items-center py-4">
-        <h1 className="text-2xl font-bold text-gray-700 tracking-wide text-center">
+    <div className="min-h-screen bg-[#e6e9ef] flex flex-col">
+      {/* HEADER */}
+      <header className="pt-10 pb-6">
+        <h1 className="text-3xl font-bold text-gray-800 text-center tracking-wide">
           BGI INVENTORY SYSTEM
         </h1>
-        <img
-          src="/BGI-logo.jpg"
-          alt="BGI Logo"
-          className="h-24 object-contain mt-1"
-        />
+        
       </header>
 
-      {/* main */}
-      <main className="flex-1 flex flex-col items-center w-full p-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 mt-10">
+      {/* MAIN */}
+      <main className="flex-1 flex items-center justify-center px-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
           {buttons.map((btn) => (
             <DashboardCard
               key={btn.name}
               title={btn.name}
-              gradient={btn.gradient}
               onClick={() => router.push(btn.route)}
               icon={btn.icon}
             />
@@ -147,8 +142,8 @@ export default function HomePage() {
         </div>
       </main>
 
-      {/* footer */}
-      <footer className="w-full py-6 bg-white border-t text-center text-gray-500 text-sm">
+      {/* FOOTER */}
+      <footer className="py-6 text-center text-sm text-gray-500">
         © {new Date().getFullYear()} BGI • All Rights Reserved
       </footer>
     </div>

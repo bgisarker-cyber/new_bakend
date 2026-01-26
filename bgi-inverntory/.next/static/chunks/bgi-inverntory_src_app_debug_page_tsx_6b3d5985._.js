@@ -220,7 +220,7 @@ const DebugPage = ()=>{
     const columns = [
         {
             name: "SL",
-            selector: (_row, i)=>i + 1,
+            selector: (row)=>row.id,
             width: "60px"
         },
         {

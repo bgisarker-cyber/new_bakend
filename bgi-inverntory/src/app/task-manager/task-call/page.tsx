@@ -1,87 +1,32 @@
 "use client";
-import { useQuery, useQueryClient, QueryClient, QueryClientProvider, useMutation } from "@tanstack/react-query";
+
+import { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import axios from "axios";
-import {
-  AppBar,
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Chip,
-  CircularProgress,
-  Container,
-  Divider,
-  Grid,
-  IconButton,
-  InputAdornment,
-  MenuItem,
-  Paper,
-  Stack,
-  TextField,
-  Toolbar,
-  Typography,
-  Alert,
-  FormControl,
-  InputLabel,
-  Select,
-} from "@mui/material";
-import {
-  Timeline,
-  TimelineItem,
-  TimelineSeparator,
-  TimelineConnector,
-  TimelineContent,
-  TimelineDot,
-} from "@mui/lab";
-import {
-  Refresh as RefreshIcon,
-  Search as SearchIcon,
-  Event as EventIcon,
-  CheckCircle,
-  Add as AddIcon,
-} from "@mui/icons-material";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-/* ---------- axios ---------- */
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 axios.interceptors.request.use((cfg) => {
-  const t = localStorage.getItem("access_token");
-  if (t) cfg.headers.Authorization = `Bearer ${t}`;
+  const token = typeof window !== 'undefined' ? localStorage.getItem("access_token") : null;
+  if (token) cfg.headers.Authorization = `Bearer ${token}`;
   return cfg;
 });
 
-/* ---------- types ---------- */
 type Task = {
-  id: number;
-  title: string;
-  merchant_name: string;
-  merchant_phone: string;
-  bank:string;
-  location: string;
-  problem_type: string;
-  problem_details: string;
-  instructions: string;
-  priority: "low" | "medium" | "high";
-  status: "open" | "in_progress" | "completed";
-  assigned_to_name: string;
-  create_time: string;
-  update_time: string;
+  id: number; task_type: string; merchant_name: string | null; phone: string | null;
+  bank: string; address: string | null; problem_type: string | null; comment: string | null;
+  status: "open" | "in_progress" | "completed"; assigned_to_name: string | null;
+  create_time: string; update_time: string; tid: string | null; mid: string | null;
+  sim_serial?: string | null; operator?: string | null;
 };
 
 type Update = {
-  update_time: string | number | Date;
-  id: number;
-  status: string;
-  update_text: string;
-  created_at: string;
-  assigned_to_name: string;
+  id: number; task_id: number; updated_by: number; status: string;
+  update_text: string | null; create_time: string; update_time: string; assigned_to_name: string | null;
 };
 
-/* ---------- query client ---------- */
 const queryClient = new QueryClient();
 
-/* ---------- main component ---------- */
 function SuperCallsBoard() {
   const router = useRouter();
   const [selected, setSelected] = useState<Task | null>(null);
@@ -90,11 +35,12 @@ function SuperCallsBoard() {
   const [assigneeFilter, setAssigneeFilter] = useState<string>("all");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState<Partial<Task>>({});
 
-  /* ---------- data ---------- */
   const { data = [], isLoading, refetch } = useQuery<Task[]>({
     queryKey: ["all-tasks"],
-    queryFn: () => axios.get("/tasks/all").then((r) => r.data),
+    queryFn: async () => (await axios.get("/tasks/all")).data,
   });
 
   const { data: timeline = [] } = useQuery<Update[]>({
@@ -103,20 +49,17 @@ function SuperCallsBoard() {
     enabled: !!selected,
   });
 
-  /* ---------- derived options ---------- */
   const assigneeOptions = useMemo(() => {
     const names = Array.from(new Set(data.map((d) => d.assigned_to_name).filter(Boolean)));
     return ["all", ...names];
   }, [data]);
 
-  /* ---------- filters ---------- */
   const filtered = useMemo(() => {
     let base = data
       .filter((t) => (filterStatus === "all" ? true : t.status === filterStatus))
       .filter((t) =>
-        `${t.title} ${t.merchant_name} ${t.location} ${t.problem_type} ${t.assigned_to_name}`
-          .toLowerCase()
-          .includes(search.toLowerCase())
+        `${t.task_type} ${t.merchant_name || ''} ${t.address || ''} ${t.problem_type || ''} ${t.assigned_to_name || ''} ${t.tid || ''} ${t.mid || ''} ${t.bank}`
+          .toLowerCase().includes(search.toLowerCase())
       );
     if (assigneeFilter !== "all") base = base.filter((t) => t.assigned_to_name === assigneeFilter);
     if (dateFrom) base = base.filter((t) => new Date(t.create_time) >= new Date(dateFrom));
@@ -124,244 +67,235 @@ function SuperCallsBoard() {
     return base;
   }, [data, filterStatus, search, assigneeFilter, dateFrom, dateTo]);
 
-  /* ---------- mutations ---------- */
   const completeMut = useMutation({
-    mutationFn: (id: number) => axios.post(`/tasks/my/${id}/complete`, { note: "" }),
+    mutationFn: (id: number) => axios.post(`/tasks/my/${id}/complete`, { note: "Task completed" }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["all-tasks"] });
-      queryClient.invalidateQueries({ queryKey: ["timeline", selected?.id] });
+      setSelected(null); setIsEditing(false);
     },
   });
 
-  /* ---------- helpers ---------- */
-  const chipColor = (s: Task["status"]) => (s === "completed" ? "success" : s === "in_progress" ? "info" : "default");
-  const priorityColor = (p: Task["priority"]) => (p === "high" ? "error" : p === "medium" ? "warning" : "success");
+  const updateTaskMut = useMutation({
+    mutationFn: ({ id, data }: { id: number; data: any }) => axios.put(`/tasks/${id}`, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["all-tasks"] });
+      setIsEditing(false);
+    },
+  });
 
-  /* ---------- constants ---------- */
-  const LEFT_PANE_WIDTH = 380;
+  useEffect(() => {
+    if (selected) {
+      setFormData({
+        merchant_name: selected.merchant_name || '', phone: selected.phone || '',
+        address: selected.address || '', tid: selected.tid || '', mid: selected.mid || '',
+        sim_serial: selected.sim_serial || '', operator: selected.operator || '',
+        problem_type: selected.problem_type || '', comment: selected.comment || '',
+        bank: selected.bank, task_type: selected.task_type, assigned_to: 1,
+      });
+      setIsEditing(false);
+    }
+  }, [selected]);
 
-  /* ---------- render ---------- */
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSave = () => {
+    if (!selected) return;
+    if (formData.tid && formData.tid.length !== 8) { alert("TID must be 8 characters"); return; }
+    if (formData.mid && formData.mid.length !== 15) { alert("MID must be 15 characters"); return; }
+    updateTaskMut.mutate({ id: selected.id, data: { ...formData, assigned_to: 1 } });
+  };
+
+  const statusColor = (s: Task["status"]) => 
+    s === "completed" ? "bg-green-300 text-green-900" : 
+    s === "in_progress" ? "bg-blue-300 text-blue-900" : "bg-yellow-300 text-yellow-900";
+
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      {/* ---------- top bar ---------- */}
-      <AppBar position="static" color="transparent" elevation={1}>
-        <Toolbar sx={{ px: 3 }}>
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            onClick={() => router.push("/task-manager/create-task")}
-            sx={{ mr: 3 }}
-          >
-            Add Call
-          </Button>
+    <div className="min-h-screen bg-[#f0f2f5] flex flex-col">
+      {/* Header */}
+      <div className="bg-[#f0f2f5] p-4 shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff]">
+        <div className="max-w-[1800px] mx-auto flex items-center justify-between gap-4 flex-wrap">
+          <h1 className="text-2xl font-bold text-gray-800">📞 Call Manager</h1>
+          
+          <div className="flex items-center gap-3 flex-wrap flex-1 max-w-4xl">
+            <input type="text" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)}
+              className="flex-1 min-w-[200px] px-4 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-gray-800 text-sm focus:outline-none" />
+            
+            <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value as any)}
+              className="px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-gray-700 text-sm">
+              <option value="all">All Status</option><option value="open">Open</option>
+              <option value="in_progress">In Progress</option><option value="completed">Completed</option>
+            </select>
 
-          {/* ---------- all filters on one line ---------- */}
-          <Box sx={{ flexGrow: 1, display: "flex", gap: 2, alignItems: "center" }}>
-            <TextField
-              size="small"
-              placeholder="Search…"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              InputProps={{ startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment> }}
-              sx={{ minWidth: 220 }}
-            />
-            <FormControl size="small" sx={{ minWidth: 140 }}>
-              <InputLabel>Status</InputLabel>
-              <Select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value as any)}>
-                <MenuItem value="all">All</MenuItem>
-                <MenuItem value="open">Open</MenuItem>
-                <MenuItem value="in_progress">In Progress</MenuItem>
-                <MenuItem value="completed">Completed</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl size="small" sx={{ minWidth: 160 }}>
-              <InputLabel>Assignee</InputLabel>
-              <Select value={assigneeFilter} onChange={(e) => setAssigneeFilter(e.target.value)}>
-                {assigneeOptions.map((name) => (
-                  <MenuItem key={name} value={name}>{name === "all" ? "All assignees" : name}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <TextField
-              size="small"
-              type="date"
-              InputLabelProps={{ shrink: true }}
-              value={dateFrom}
-              onChange={(e) => setDateFrom(e.target.value)}
-              sx={{ width: 140 }}
-            />
-            <TextField
-              size="small"
-              type="date"
-              InputLabelProps={{ shrink: true }}
-              value={dateTo}
-              onChange={(e) => setDateTo(e.target.value)}
-              sx={{ width: 140 }}
-            />
-          </Box>
+            <select value={assigneeFilter} onChange={(e) => setAssigneeFilter(e.target.value)}
+              className="px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-gray-700 text-sm">
+              {assigneeOptions.map(name => <option key={name} value={name}>{name === "all" ? "All Assignees" : name}</option>)}
+            </select>
 
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <Typography variant="body2" color="text.secondary">
-              {filtered.length} calls
-            </Typography>
-            <IconButton onClick={() => refetch()}>
-              {isLoading ? <CircularProgress size={20} /> : <RefreshIcon />}
-            </IconButton>
-          </Box>
-        </Toolbar>
-      </AppBar>
+            <input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)}
+              className="px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-sm" />
+            <span className="text-gray-500">to</span>
+            <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)}
+              className="px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-sm" />
+          </div>
 
-      {/* ---------- content ---------- */}
-      <Box sx={{ flexGrow: 1, display: "flex", overflow: "hidden" }}>
-        {/* ---------- fixed left list ---------- */}
-        <Box
-          sx={{
-            width: LEFT_PANE_WIDTH,
-            borderRight: 1,
-            borderColor: "divider",
-            height: "100%",
-            overflowY: "auto",
-            p: 2,
-          }}
-        >
-          <Stack spacing={2}>
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-gray-600 font-semibold">{filtered.length} calls</span>
+            <button onClick={() => refetch()}
+              className="p-2 rounded-lg bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all">
+              {isLoading ? <div className="w-5 h-5 border-2 border-gray-400 border-t-gray-700 rounded-full animate-spin" /> : "🔄"}
+            </button>
+            <button onClick={() => router.push("/task-manager/create-task")}
+              className="px-4 py-2 rounded-lg bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all font-semibold text-gray-800 text-sm">
+              ➕ Add Call
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* Left Panel - Task Cards (280px width) */}
+        <div className="w-[280px] border-r border-gray-300 overflow-y-auto p-3 bg-[#f0f2f5]">
+          <div className="space-y-2">
             {filtered.map((t) => (
-              <Card
-                key={t.id}
-                onClick={() => setSelected(t)}
-                sx={{
-                  cursor: "pointer",
-                  borderRadius: 3,
-                  border: selected?.id === t.id ? 2 : 0,
-                  borderColor: "primary.main",
-                  transition: "all .2s",
-                  "&:hover": { boxShadow: 6 },
-                }}
-              >
-                <CardContent>
-                  <Stack direction="row" spacing={1} alignItems="center" mb={1}>
-                    <Chip label={t.status} color={chipColor(t.status)} size="small" />
-                    <Chip label={t.priority} color={priorityColor(t.priority)} size="small" />
-                    <Chip label={t.bank}  size="medium" />
-                  </Stack>
-                  <Typography variant="subtitle2" noWrap title={t.title}>
-                    {t.title}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Merchant: {t.merchant_name}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Location: <strong>{t.location}</strong>
-                  </Typography>
-                  <Typography variant="caption" color="text.secondary">
-                    Assigned to: <strong>{t.assigned_to_name}</strong>
-                    
-                  </Typography>
-                  <Typography variant="caption" display="block" color="text.secondary" mt={0.5}>
-                    {new Date(t.create_time).toLocaleString([], { dateStyle: "short", timeStyle: "short" })}
-                  </Typography>
-                </CardContent>
-              </Card>
+              <div key={t.id} onClick={() => setSelected(t)}
+                className={`p-3 rounded-xl cursor-pointer transition-all ${
+                  selected?.id === t.id
+                    ? "bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff]"
+                    : "bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)]"
+                }`}>
+                <div className="flex flex-wrap gap-1 mb-2">
+                  <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${statusColor(t.status)}`}>
+                    {t.status.replace("_", " ").toUpperCase()}
+                  </span>
+                  <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-blue-300 text-blue-900">{t.bank}</span>
+                </div>
+                <h3 className="font-bold text-sm text-gray-800 mb-2">{t.task_type}</h3>
+                {t.merchant_name && <p className="text-xs text-gray-600 mb-1 truncate"><span className="font-semibold">DBA:</span> {t.merchant_name}</p>}
+                {t.phone && <p className="text-xs text-gray-600 mb-1"><span className="font-semibold">Phone:</span> <span className="font-mono">{t.phone}</span></p>}
+                {t.address && <p className="text-xs text-gray-600 mb-1"><span className="font-semibold">Address:</span> <span className="font-mono">{t.address}</span></p>}
+                {t.assigned_to_name && <p className="text-xs text-gray-600 mb-1"><span className="font-semibold">Assigned To:</span> <span className="font-mono">{t.assigned_to_name}</span></p>}
+                <p className="text-xs text-gray-500 mt-2">📅 {new Date(t.create_time).toLocaleDateString()}</p>
+              </div>
             ))}
-          </Stack>
-        </Box>
+          </div>
+        </div>
 
-        {/* ---------- scrollable right detail ---------- */}
-        <Box sx={{ flexGrow: 1, height: "100%", overflowY: "auto", p: 3 }}>
+        {/* Right Panel */}
+        <div className="flex-1 overflow-y-auto p-4 bg-[#f0f2f5]">
           {selected ? (
-            <Stack spacing={3}>
-              {/* header card */}
-              <Paper variant="outlined" sx={{ p: 3, borderRadius: 3 }}>
-                <Stack direction={{ xs: "column", sm: "row" }} spacing={2} alignItems="center" justifyContent="space-between" mb={2}>
-                  <Typography variant="h5" fontWeight={600}>
-                    Call #{selected.id} – {selected.title}
-                  </Typography>
-                  {selected.status !== "completed" && (
-                    <Button
-                      variant="contained"
-                      color="success"
-                      startIcon={<CheckCircle />}
-                      onClick={() => completeMut.mutate(selected.id)}
-                      disabled={completeMut.isPending}
-                    >
-                      {completeMut.isPending ? <CircularProgress size={16} /> : "Mark Complete"}
-                    </Button>
+            <div className="max-w-5xl mx-auto">
+              <div className="mb-4 flex items-center justify-between">
+                <h1 className="text-2xl font-bold text-gray-800">Call #{selected.id} – {selected.task_type}</h1>
+                <div className="flex gap-2">
+                  {!isEditing ? (
+                    <button onClick={() => setIsEditing(true)}
+                      className="px-6 py-2 rounded-xl bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all font-bold text-gray-800">
+                      ✏️ Edit
+                    </button>
+                  ) : (
+                    <>
+                      <button onClick={() => { setIsEditing(false); setFormData({ merchant_name: selected.merchant_name || '', phone: selected.phone || '', address: selected.address || '', tid: selected.tid || '', mid: selected.mid || '', sim_serial: selected.sim_serial || '', operator: selected.operator || '', problem_type: selected.problem_type || '', comment: selected.comment || '' }); }}
+                        className="px-6 py-2 rounded-xl bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06)] font-bold text-gray-600">❌ Cancel</button>
+                      <button onClick={handleSave} disabled={updateTaskMut.isPending}
+                        className="px-6 py-2 rounded-xl bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06)] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all font-bold text-gray-800 disabled:opacity-50">
+                        {updateTaskMut.isPending ? <div className="w-5 h-5 border-2 border-gray-700 border-t-transparent rounded-full animate-spin mx-auto" /> : "💾 Save"}
+                      </button>
+                    </>
                   )}
-                </Stack>
+                  {selected.status !== "completed" && (
+                    <button onClick={() => completeMut.mutate(selected.id)} disabled={completeMut.isPending}
+                      className="px-6 py-2 rounded-xl bg-green-300 text-green-900 shadow-[4px_4px_8px_rgba(0,0,0,0.06)] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all font-bold disabled:opacity-50">
+                      ✅ Complete
+                    </button>
+                  )}
+                </div>
+              </div>
 
-                <Grid container spacing={2} alignItems="center">
-                  <Grid item><Chip label={selected.status} color={chipColor(selected.status)} /></Grid>
-                  <Grid item><Chip label={selected.priority} color={priorityColor(selected.priority)} /></Grid>
-                  <Grid item><Chip icon={<EventIcon />} label={new Date(selected.create_time).toLocaleString([], { dateStyle: "short", timeStyle: "short" })} /></Grid>
-                  <Grid item><Chip label={`Assigned: ${selected.assigned_to_name}`} /></Grid>
-                </Grid>
-              </Paper>
+              {/* Form */}
+              <div className="bg-[#f0f2f5] rounded-2xl shadow-[6px_6px_12px_rgba(0,0,0,0.06),-6px_-6px_12px_#ffffff] p-4 space-y-4">
+                {/* Section 1 */}
+                <div className="bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div><label className="block text-sm font-semibold text-gray-700 mb-1">Bank</label>
+                      <input type="text" value={selected.bank} disabled className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 opacity-50" /></div>
+                    <div><label className="block text-sm font-semibold text-gray-700 mb-1">DBA Name</label>
+                      <input type="text" value={formData.merchant_name || ''} onChange={(e) => handleInputChange('merchant_name', e.target.value)} disabled={!isEditing}
+                        className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 disabled:opacity-50" /></div>
+                    <div><label className="block text-sm font-semibold text-gray-700 mb-1">TID (8 chars)</label>
+                      <input type="text" value={formData.tid || ''} onChange={(e) => handleInputChange('tid', e.target.value)} disabled={!isEditing} maxLength={8}
+                        className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 font-mono disabled:opacity-50" /></div>
+                    <div><label className="block text-sm font-semibold text-gray-700 mb-1">MID (15 chars)</label>
+                      <input type="text" value={formData.mid || ''} onChange={(e) => handleInputChange('mid', e.target.value)} disabled={!isEditing} maxLength={15}
+                        className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 font-mono disabled:opacity-50" /></div>
+                  </div>
+                </div>
 
-              {/* two-column details */}
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
-                  <Paper variant="outlined" sx={{ p: 3, borderRadius: 3 }}>
-                    <Typography variant="h6" gutterBottom>Merchant Information</Typography>
-                    <Stack spacing={1}>
-                      <Box><strong>Name:</strong> {selected.merchant_name}</Box>
-                      <Box><strong>Phone:</strong> {selected.merchant_phone}</Box>
-                      <Box><strong>Location:</strong> {selected.location}</Box>
-                      <Box><strong>Problem Type:</strong> {selected.problem_type}</Box>
-                    </Stack>
-                  </Paper>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <Paper variant="outlined" sx={{ p: 3, borderRadius: 3 }}>
-                    <Typography variant="h6" gutterBottom>Task Details</Typography>
-                    <Stack spacing={1}>
-                      <Box><strong>Details:</strong> {selected.problem_details}</Box>
-                      <Divider sx={{ my: 1 }} />
-                      <Box><strong>Instructions:</strong> {selected.instructions}</Box>
-                    </Stack>
-                  </Paper>
-                </Grid>
-              </Grid>
+                {/* Section 2 */}
+                <div className="bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div><label className="block text-sm font-semibold text-gray-700 mb-1">ADDRESS</label>
+                      <textarea value={formData.address || ''} onChange={(e) => handleInputChange('address', e.target.value)} disabled={!isEditing} rows={3}
+                        className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 resize-none disabled:opacity-50" /></div>
+                    <div className="space-y-3">
+                      <div><label className="block text-sm font-semibold text-gray-700 mb-1">PHONE</label>
+                        <input type="text" value={formData.phone || ''} onChange={(e) => handleInputChange('phone', e.target.value)} disabled={!isEditing}
+                          className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 disabled:opacity-50" /></div>
+                      <div><label className="block text-sm font-semibold text-gray-700 mb-1">OPERATOR</label>
+                        <select value={formData.operator || ''} onChange={(e) => handleInputChange('operator', e.target.value)} disabled={!isEditing}
+                          className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 disabled:opacity-50">
+                          <option value="">Select</option><option value="ROBI">ROBI</option>
+                          <option value="GRAMEENPHONE">GRAMEENPHONE</option><option value="BANGLALINK">BANGLALINK</option>
+                        </select></div>
+                    </div>
+                    <div><label className="block text-sm font-semibold text-gray-700 mb-1">SIM Serial</label>
+                      <input type="text" value={formData.sim_serial || ''} onChange={(e) => handleInputChange('sim_serial', e.target.value)} disabled={!isEditing} maxLength={30}
+                        className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 font-mono disabled:opacity-50" /></div>
+                    <div><label className="block text-sm font-semibold text-gray-700 mb-1">Problem Type</label>
+                      <input type="text" value={formData.problem_type || ''} onChange={(e) => handleInputChange('problem_type', e.target.value)} disabled={!isEditing}
+                        className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 disabled:opacity-50" /></div>
+                  </div>
+                </div>
 
-              {/* timeline */}
-              <Paper variant="outlined" sx={{ p: 3, borderRadius: 3 }}>
-                <Typography variant="h6" gutterBottom>Update Timeline</Typography>
-                {timeline.length === 0 ? (
-                  <Alert severity="info">No updates yet</Alert>
-                ) : (
-                  <Timeline position="right">
-                    {timeline.map((u) => (
-                      <TimelineItem key={u.id}>
-                        <TimelineSeparator>
-                          <TimelineDot color={u.status === "completed" ? "success" : u.status === "in_progress" ? "info" : "grey"} />
-                          <TimelineConnector />
-                        </TimelineSeparator>
-                        <TimelineContent>
-                          <Typography variant="subtitle2">{u.status.toUpperCase()}</Typography>
-                          <Typography variant="body2">{u.update_text || "—"}</Typography>
-                          <Typography variant="caption" color="text.secondary">
-                            <EventIcon fontSize="inherit" sx={{ mr: 0.5 }} />
-                            {new Date(u.update_time).toLocaleString([], { dateStyle: "short", timeStyle: "short" })}
-                          </Typography>
-                          <Typography variant="caption" display="block" color="text.secondary">
-                            by <strong>{u.assigned_to_name}</strong>
-                          </Typography>
-                        </TimelineContent>
-                      </TimelineItem>
-                    ))}
-                  </Timeline>
-                )}
-              </Paper>
-            </Stack>
+                {/* Section 3 */}
+                <div className="bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4">
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">COMMENT</label>
+                  <textarea value={formData.comment || ''} onChange={(e) => handleInputChange('comment', e.target.value)} disabled={!isEditing} rows={4}
+                    className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 resize-none disabled:opacity-50" />
+                </div>
+
+                {/* Timeline */}
+                <div className="bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4">
+                  <h2 className="text-lg font-bold text-gray-800 mb-3">Update Timeline</h2>
+                  {timeline.length === 0 ? (
+                    <div className="bg-blue-100 text-blue-800 p-3 rounded-lg text-sm">ℹ️ No updates yet</div>
+                  ) : (
+                    <div className="space-y-3">
+                      {timeline.map((u) => (
+                        <div key={u.id} className="bg-[#f0f2f5] rounded-lg shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] p-3">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className={`px-2 py-1 rounded-full text-xs font-bold ${statusColor(u.status as any)}`}>{u.status.toUpperCase()}</span>
+                            <span className="text-xs text-gray-500">📅 {new Date(u.update_time).toLocaleString([], { dateStyle: "short", timeStyle: "short" })}</span>
+                          </div>
+                          <p className="text-sm text-gray-700 mb-1">{u.update_text || "—"}</p>
+                          {u.assigned_to_name && <p className="text-xs text-gray-500">by <span className="font-semibold">{u.assigned_to_name}</span></p>}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
           ) : (
-            <Box display="flex" alignItems="center" justifyContent="center" height="60vh">
-              <Typography variant="h6" color="text.secondary">
-                Select a call on the left to view details
-              </Typography>
-            </Box>
+            <div className="flex items-center justify-center h-full text-gray-500 text-xl font-medium">
+              Select a call on the left to view details
+            </div>
           )}
-        </Box>
-      </Box>
-    </Box>
+        </div>
+      </div>
+    </div>
   );
 }
 
