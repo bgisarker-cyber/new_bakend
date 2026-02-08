@@ -125,6 +125,14 @@ function SheetContent(param) {
                 className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("bg-background data-[state=open]:animate-in data-[state=closed]:animate-out fixed z-50 flex flex-col gap-4 shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500", side === "right" && "data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm", side === "left" && "data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm", side === "top" && "data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top inset-x-0 top-0 h-auto border-b", side === "bottom" && "data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom inset-x-0 bottom-0 h-auto border-t", className),
                 ...props,
                 children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(SheetTitle, {
+                        className: "sr-only",
+                        children: "Sheet"
+                    }, void 0, false, {
+                        fileName: "[project]/bgi-inverntory/src/components/ui/sheet.tsx",
+                        lineNumber: 75,
+                        columnNumber: 9
+                    }, this),
                     children,
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f40$radix$2d$ui$2f$react$2d$dialog$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Close"], {
                         className: "ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none",
@@ -133,7 +141,7 @@ function SheetContent(param) {
                                 className: "size-4"
                             }, void 0, false, {
                                 fileName: "[project]/bgi-inverntory/src/components/ui/sheet.tsx",
-                                lineNumber: 76,
+                                lineNumber: 78,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -141,13 +149,13 @@ function SheetContent(param) {
                                 children: "Close"
                             }, void 0, false, {
                                 fileName: "[project]/bgi-inverntory/src/components/ui/sheet.tsx",
-                                lineNumber: 77,
+                                lineNumber: 79,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/bgi-inverntory/src/components/ui/sheet.tsx",
-                        lineNumber: 75,
+                        lineNumber: 77,
                         columnNumber: 9
                     }, this)
                 ]
@@ -172,7 +180,7 @@ function SheetHeader(param) {
         ...props
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/components/ui/sheet.tsx",
-        lineNumber: 86,
+        lineNumber: 88,
         columnNumber: 5
     }, this);
 }
@@ -185,7 +193,7 @@ function SheetFooter(param) {
         ...props
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/components/ui/sheet.tsx",
-        lineNumber: 96,
+        lineNumber: 98,
         columnNumber: 5
     }, this);
 }
@@ -198,7 +206,7 @@ function SheetTitle(param) {
         ...props
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/components/ui/sheet.tsx",
-        lineNumber: 109,
+        lineNumber: 111,
         columnNumber: 5
     }, this);
 }
@@ -211,7 +219,7 @@ function SheetDescription(param) {
         ...props
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/components/ui/sheet.tsx",
-        lineNumber: 122,
+        lineNumber: 124,
         columnNumber: 5
     }, this);
 }
@@ -301,7 +309,7 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 "[project]/bgi-inverntory/src/app/components/Sidebar.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
-/* ---------- Sidebar.tsx  (drop-in file) ---------- */ __turbopack_context__.s([
+/* ---------- Sidebar.tsx (Complete Responsive Version) ---------- */ __turbopack_context__.s([
     "MobileSidebarButton",
     ()=>MobileSidebarButton,
     "Sidebar",
@@ -334,6 +342,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_mo
 var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$menu$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Menu$3e$__ = __turbopack_context__.i("[project]/bgi-inverntory/node_modules/lucide-react/dist/esm/icons/menu.js [app-client] (ecmascript) <export default as Menu>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$log$2d$out$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LogOut$3e$__ = __turbopack_context__.i("[project]/bgi-inverntory/node_modules/lucide-react/dist/esm/icons/log-out.js [app-client] (ecmascript) <export default as LogOut>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$x$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__X$3e$__ = __turbopack_context__.i("[project]/bgi-inverntory/node_modules/lucide-react/dist/esm/icons/x.js [app-client] (ecmascript) <export default as X>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__ = __turbopack_context__.i("[project]/bgi-inverntory/node_modules/lucide-react/dist/esm/icons/loader-circle.js [app-client] (ecmascript) <export default as Loader2>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$sheet$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/bgi-inverntory/src/components/ui/sheet.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/bgi-inverntory/src/components/ui/button.tsx [app-client] (ecmascript)");
 ;
@@ -349,7 +358,7 @@ var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.sign
 const NAV_SECTIONS = [
     {
         name: "Dashboard",
-        route: "/dashboard",
+        route: "/live",
         icon: __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$gauge$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Gauge$3e$__["Gauge"]
     },
     {
@@ -371,7 +380,7 @@ const NAV_SECTIONS = [
                 ]
             },
             {
-                name: "MY Calls",
+                name: "My Calls",
                 route: "/task-manager/my-task",
                 icon: __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clipboard$2d$list$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ClipboardList$3e$__["ClipboardList"],
                 roles: [
@@ -390,7 +399,7 @@ const NAV_SECTIONS = [
         ]
     },
     {
-        name: "Live terminals",
+        name: "Live Terminals",
         icon: __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$monitor$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Monitor$3e$__["Monitor"],
         roles: [
             "support",
@@ -419,7 +428,7 @@ const NAV_SECTIONS = [
                 icon: __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$credit$2d$card$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__CreditCard$3e$__["CreditCard"]
             },
             {
-                name: "SDBL POS",
+                name: "SBL POS",
                 route: "/standardbank",
                 icon: __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$credit$2d$card$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__CreditCard$3e$__["CreditCard"]
             }
@@ -479,7 +488,7 @@ const NAV_SECTIONS = [
         ]
     }
 ];
-/* ---------- logout ---------- */ const logout = async ()=>{
+/* ---------- logout function ---------- */ const logout = async (router)=>{
     try {
         const token = localStorage.getItem("access_token");
         if (token) {
@@ -495,7 +504,8 @@ const NAV_SECTIONS = [
         console.error("Logout API error:", err);
     } finally{
         localStorage.removeItem("access_token");
-        window.location.replace("/login");
+        localStorage.removeItem("role");
+        router.replace("/login");
     }
 };
 /* ---------- helpers ---------- */ const isItemVisible = (item, role)=>{
@@ -508,13 +518,15 @@ function Sidebar(param) {
     let { showLogout, role } = param;
     _s();
     const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"])();
+    const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
     const [collapsed, setCollapsed] = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"](false);
     const [expandedSections, setExpandedSections] = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"]({
         "Task Update": false,
-        "Live terminals": false,
+        "Live Terminals": false,
         "Inventory Terminals": false,
         "System": false
     });
+    const [isLoggingOut, setIsLoggingOut] = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"](false);
     const toggleSection = (name)=>setExpandedSections((prev)=>({
                 ...prev,
                 [name]: !prev[name]
@@ -532,7 +544,7 @@ function Sidebar(param) {
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         onClick: ()=>toggleSection(item.name),
-                        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("flex items-center justify-between rounded-lg py-2 px-2 text-sm font-medium cursor-pointer transition", active ? "bg-[#E0E7FF] text-[#1F628E]" : "text-gray-800 hover:bg-[#E0E7FF] hover:text-[#1F628E]"),
+                        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("flex items-center justify-between rounded-lg py-2 px-2 text-sm font-medium cursor-pointer transition-all", active ? "bg-[#E0E7FF] text-[#1F628E]" : "text-gray-800 hover:bg-[#E0E7FF] hover:text-[#1F628E]"),
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "flex items-center gap-3",
@@ -541,39 +553,39 @@ function Sidebar(param) {
                                         className: "h-5 w-5"
                                     }, void 0, false, {
                                         fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                                        lineNumber: 175,
+                                        lineNumber: 179,
                                         columnNumber: 15
                                     }, this),
                                     !collapsed && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         children: item.name
                                     }, void 0, false, {
                                         fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                                        lineNumber: 176,
+                                        lineNumber: 180,
                                         columnNumber: 30
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                                lineNumber: 174,
+                                lineNumber: 178,
                                 columnNumber: 13
                             }, this),
                             !collapsed && (isExpanded ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$up$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronUp$3e$__["ChevronUp"], {
                                 className: "h-4 w-4"
                             }, void 0, false, {
                                 fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                                lineNumber: 180,
+                                lineNumber: 184,
                                 columnNumber: 17
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                                 className: "h-4 w-4"
                             }, void 0, false, {
                                 fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                                lineNumber: 182,
+                                lineNumber: 186,
                                 columnNumber: 17
                             }, this))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                        lineNumber: 165,
+                        lineNumber: 169,
                         columnNumber: 11
                     }, this),
                     isExpanded && !collapsed && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -584,58 +596,58 @@ function Sidebar(param) {
                             const activeChild = child.route && pathname.startsWith(child.route);
                             return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                 href: child.route,
-                                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("flex items-center gap-2 rounded-md px-2 py-1.5 text-xs font-medium transition", activeChild ? "bg-[#E0E7FF] text-[#1F628E]" : "text-gray-700 hover:bg-[#E0E7FF] hover:text-[#1F628E]"),
+                                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("flex items-center gap-2 rounded-md px-2 py-1.5 text-xs font-medium transition-all", activeChild ? "bg-[#E0E7FF] text-[#1F628E]" : "text-gray-700 hover:bg-[#E0E7FF] hover:text-[#1F628E]"),
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ChildIcon, {
                                         className: "h-4 w-4"
                                     }, void 0, false, {
                                         fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                                        lineNumber: 205,
+                                        lineNumber: 209,
                                         columnNumber: 21
                                     }, this),
                                     child.name
                                 ]
                             }, child.route, true, {
                                 fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                                lineNumber: 195,
+                                lineNumber: 199,
                                 columnNumber: 19
                             }, this);
                         })
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                        lineNumber: 187,
+                        lineNumber: 191,
                         columnNumber: 13
                     }, this)
                 ]
             }, item.name, true, {
                 fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                lineNumber: 164,
+                lineNumber: 168,
                 columnNumber: 9
             }, this);
         }
         const active = item.route && pathname.startsWith(item.route);
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
             href: item.route,
-            className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("flex items-center gap-3 rounded-lg py-2 px-2 text-sm font-medium transition", active ? "bg-[#E0E7FF] text-[#1F628E]" : "text-gray-800 hover:bg-[#E0E7FF] hover:text-[#1F628E]"),
+            className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("flex items-center gap-3 rounded-lg py-2 px-2 text-sm font-medium transition-all", active ? "bg-[#E0E7FF] text-[#1F628E]" : "text-gray-800 hover:bg-[#E0E7FF] hover:text-[#1F628E]"),
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
                     className: "h-5 w-5"
                 }, void 0, false, {
                     fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                    lineNumber: 228,
+                    lineNumber: 232,
                     columnNumber: 9
                 }, this),
                 !collapsed && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                     children: item.name
                 }, void 0, false, {
                     fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                    lineNumber: 229,
+                    lineNumber: 233,
                     columnNumber: 24
                 }, this)
             ]
         }, item.route, true, {
             fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-            lineNumber: 218,
+            lineNumber: 222,
             columnNumber: 7
         }, this);
     };
@@ -649,49 +661,59 @@ function Sidebar(param) {
                     className: "bg-[#1F628E] hover:bg-[#164A73] text-white h-8 w-8 p-2",
                     children: collapsed ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$right$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronRight$3e$__["ChevronRight"], {}, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                        lineNumber: 246,
+                        lineNumber: 250,
                         columnNumber: 24
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$left$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronLeft$3e$__["ChevronLeft"], {}, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                        lineNumber: 246,
+                        lineNumber: 250,
                         columnNumber: 43
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                    lineNumber: 242,
+                    lineNumber: 246,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                lineNumber: 241,
+                lineNumber: 245,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
                 className: "mt-6 space-y-2 px-3 flex-1 overflow-y-auto",
                 children: [
                     NAV_SECTIONS.map(renderNavItem),
-                    showLogout && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                        onClick: logout,
+                    showLogout && role && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                        onClick: async ()=>{
+                            setIsLoggingOut(true);
+                            await logout(router);
+                        },
+                        disabled: isLoggingOut,
                         className: "w-full bg-[#1F628E] hover:bg-[#164A73] text-white mt-6 flex gap-2",
                         children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$log$2d$out$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LogOut$3e$__["LogOut"], {
+                            isLoggingOut ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
+                                className: "h-4 w-4 animate-spin"
+                            }, void 0, false, {
+                                fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+                                lineNumber: 266,
+                                columnNumber: 15
+                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$log$2d$out$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LogOut$3e$__["LogOut"], {
                                 className: "h-4 w-4"
                             }, void 0, false, {
                                 fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                                lineNumber: 257,
-                                columnNumber: 13
+                                lineNumber: 268,
+                                columnNumber: 15
                             }, this),
-                            " Logout"
+                            "Logout"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                        lineNumber: 253,
+                        lineNumber: 257,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                lineNumber: 250,
+                lineNumber: 254,
                 columnNumber: 7
             }, this),
             !collapsed && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -699,19 +721,20 @@ function Sidebar(param) {
                 children: "VERSION: 1.0.1"
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                lineNumber: 263,
+                lineNumber: 276,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-        lineNumber: 235,
+        lineNumber: 239,
         columnNumber: 5
     }, this);
 }
-_s(Sidebar, "EFL9T8dWYSIdBzqzMQoOrGCokCA=", false, function() {
+_s(Sidebar, "WK70MKNZ9cSnnOZI2vDPb1r9uFY=", false, function() {
     return [
-        __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"]
+        __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"],
+        __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"]
     ];
 });
 _c = Sidebar;
@@ -720,130 +743,266 @@ function MobileSidebarButton(param) {
     _s1();
     const [open, setOpen] = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"](false);
     const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"])();
+    const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
     const [expandedSections, setExpandedSections] = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"]({
         "Task Update": false,
-        "Live terminals": false,
+        "Live Terminals": false,
         "Inventory Terminals": false,
         "System": false
     });
+    const [isLoggingOut, setIsLoggingOut] = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"](false);
     const toggleSection = (name)=>setExpandedSections((prev)=>({
                 ...prev,
                 [name]: !prev[name]
             }));
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$sheet$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Sheet"], {
-        open: open,
-        onOpenChange: setOpen,
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$sheet$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SheetTrigger"], {
-                asChild: true,
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                    className: "md:hidden fixed top-4 right-4 z-50 bg-[#1F628E] text-white",
-                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$menu$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Menu$3e$__["Menu"], {}, void 0, false, {
-                        fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                        lineNumber: 289,
-                        columnNumber: 11
-                    }, this)
-                }, void 0, false, {
-                    fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                    lineNumber: 288,
-                    columnNumber: 9
-                }, this)
-            }, void 0, false, {
-                fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                lineNumber: 287,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$sheet$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SheetContent"], {
-                side: "left",
-                className: "bg-[#AEC6CF] w-52 p-6",
+    const renderMobileNavItem = (item)=>{
+        var _item_children;
+        const hasChildren = (_item_children = item.children) === null || _item_children === void 0 ? void 0 : _item_children.length;
+        const Icon = item.icon;
+        if (!isItemVisible(item, role)) return null;
+        if (hasChildren) {
+            const active = isParentActive(item.children, pathname);
+            const isExpanded = expandedSections[item.name];
+            return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "space-y-1",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex justify-end mb-4",
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                            onClick: ()=>setOpen(false),
-                            className: "bg-[#1F628E] text-white h-8 w-8",
-                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$x$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__X$3e$__["X"], {}, void 0, false, {
-                                fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                                lineNumber: 299,
-                                columnNumber: 13
-                            }, this)
-                        }, void 0, false, {
-                            fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                            lineNumber: 295,
-                            columnNumber: 11
-                        }, this)
-                    }, void 0, false, {
-                        fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                        lineNumber: 294,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
-                        className: "space-y-3",
+                        onClick: ()=>toggleSection(item.name),
+                        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("flex items-center justify-between rounded-lg py-2 px-3 text-sm font-medium cursor-pointer transition-all", active ? "bg-[#E0E7FF] text-[#1F628E]" : "text-gray-800 hover:bg-[#E0E7FF] hover:text-[#1F628E]"),
                         children: [
-                            NAV_SECTIONS.map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    children: isItemVisible(item, role) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                        href: item.route || "#",
-                                        onClick: ()=>setOpen(false),
-                                        className: "block rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-[#E0E7FF]",
-                                        children: item.name
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex items-center gap-3",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
+                                        className: "h-5 w-5"
                                     }, void 0, false, {
                                         fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                                        lineNumber: 307,
-                                        columnNumber: 17
-                                    }, this)
-                                }, item.name, false, {
-                                    fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                                    lineNumber: 305,
-                                    columnNumber: 13
-                                }, this)),
-                            role && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                onClick: logout,
-                                className: "w-full bg-[#1F628E] text-white mt-6",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$log$2d$out$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LogOut$3e$__["LogOut"], {
-                                        className: "h-4 w-4 mr-2"
+                                        lineNumber: 322,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        children: item.name
                                     }, void 0, false, {
                                         fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
                                         lineNumber: 323,
                                         columnNumber: 15
-                                    }, this),
-                                    " Logout"
+                                    }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                                lineNumber: 319,
+                                lineNumber: 321,
                                 columnNumber: 13
+                            }, this),
+                            isExpanded ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$up$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronUp$3e$__["ChevronUp"], {
+                                className: "h-4 w-4"
+                            }, void 0, false, {
+                                fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+                                lineNumber: 326,
+                                columnNumber: 15
+                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
+                                className: "h-4 w-4"
+                            }, void 0, false, {
+                                fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+                                lineNumber: 328,
+                                columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                        lineNumber: 303,
-                        columnNumber: 9
+                        lineNumber: 312,
+                        columnNumber: 11
                     }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "text-center text-xs text-gray-700 mt-6",
-                        children: "VERSION: 1.0.1"
+                    isExpanded && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "ml-6 space-y-1",
+                        children: item.children.map((child)=>{
+                            if (!isItemVisible(child, role)) return null;
+                            const ChildIcon = child.icon;
+                            const activeChild = child.route && pathname.startsWith(child.route);
+                            return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                href: child.route,
+                                onClick: ()=>setOpen(false),
+                                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("flex items-center gap-2 rounded-md px-3 py-1.5 text-xs font-medium transition-all", activeChild ? "bg-[#E0E7FF] text-[#1F628E]" : "text-gray-700 hover:bg-[#E0E7FF] hover:text-[#1F628E]"),
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ChildIcon, {
+                                        className: "h-4 w-4"
+                                    }, void 0, false, {
+                                        fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+                                        lineNumber: 351,
+                                        columnNumber: 21
+                                    }, this),
+                                    child.name
+                                ]
+                            }, child.route, true, {
+                                fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+                                lineNumber: 340,
+                                columnNumber: 19
+                            }, this);
+                        })
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                        lineNumber: 328,
-                        columnNumber: 9
+                        lineNumber: 333,
+                        columnNumber: 13
                     }, this)
                 ]
-            }, void 0, true, {
+            }, item.name, true, {
                 fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-                lineNumber: 293,
-                columnNumber: 7
-            }, this)
-        ]
-    }, void 0, true, {
-        fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
-        lineNumber: 286,
-        columnNumber: 5
-    }, this);
+                lineNumber: 311,
+                columnNumber: 9
+            }, this);
+        }
+        const active = item.route && pathname.startsWith(item.route);
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+            href: item.route,
+            onClick: ()=>setOpen(false),
+            className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("flex items-center gap-3 rounded-lg py-2 px-3 text-sm font-medium transition-all", active ? "bg-[#E0E7FF] text-[#1F628E]" : "text-gray-800 hover:bg-[#E0E7FF] hover:text-[#1F628E]"),
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
+                    className: "h-5 w-5"
+                }, void 0, false, {
+                    fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+                    lineNumber: 375,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                    children: item.name
+                }, void 0, false, {
+                    fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+                    lineNumber: 376,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, item.route, true, {
+            fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+            lineNumber: 364,
+            columnNumber: 7
+        }, this);
+    };
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$sheet$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Sheet"], {
+            open: open,
+            onOpenChange: setOpen,
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$sheet$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SheetTrigger"], {
+                    asChild: true,
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                        className: "md:hidden fixed top-4 right-4 z-50 bg-[#1F628E] text-white shadow-lg",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$menu$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Menu$3e$__["Menu"], {
+                            className: "h-5 w-5"
+                        }, void 0, false, {
+                            fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+                            lineNumber: 386,
+                            columnNumber: 13
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+                        lineNumber: 385,
+                        columnNumber: 11
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+                    lineNumber: 384,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$sheet$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SheetContent"], {
+                    side: "left",
+                    className: "bg-[#AEC6CF] w-64 p-6 overflow-y-auto",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex justify-between items-center mb-4",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                    className: "text-lg font-bold text-gray-800",
+                                    children: "Menu"
+                                }, void 0, false, {
+                                    fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+                                    lineNumber: 392,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                    onClick: ()=>setOpen(false),
+                                    className: "bg-[#1F628E] text-white h-8 w-8 p-0",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$x$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__X$3e$__["X"], {
+                                        className: "h-4 w-4"
+                                    }, void 0, false, {
+                                        fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+                                        lineNumber: 397,
+                                        columnNumber: 15
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+                                    lineNumber: 393,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+                            lineNumber: 391,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
+                            className: "space-y-3",
+                            children: [
+                                NAV_SECTIONS.map(renderMobileNavItem),
+                                role && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                    onClick: async ()=>{
+                                        setIsLoggingOut(true);
+                                        await logout(router);
+                                    },
+                                    disabled: isLoggingOut,
+                                    className: "w-full bg-[#1F628E] hover:bg-[#164A73] text-white mt-6 flex gap-2",
+                                    children: [
+                                        isLoggingOut ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
+                                            className: "h-4 w-4 animate-spin"
+                                        }, void 0, false, {
+                                            fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+                                            lineNumber: 414,
+                                            columnNumber: 19
+                                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$log$2d$out$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LogOut$3e$__["LogOut"], {
+                                            className: "h-4 w-4"
+                                        }, void 0, false, {
+                                            fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+                                            lineNumber: 416,
+                                            columnNumber: 19
+                                        }, this),
+                                        "Logout"
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+                                    lineNumber: 405,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+                            lineNumber: 401,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "text-center text-xs text-gray-700 mt-6",
+                            children: "VERSION: 1.0.1"
+                        }, void 0, false, {
+                            fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+                            lineNumber: 423,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+                    lineNumber: 390,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/bgi-inverntory/src/app/components/Sidebar.tsx",
+            lineNumber: 383,
+            columnNumber: 7
+        }, this)
+    }, void 0, false);
 }
-_s1(MobileSidebarButton, "m5ihI0pbqZTl+fteQiKu1mORwWM=", false, function() {
+_s1(MobileSidebarButton, "k7BnVP2DOh0XwnBEZErNsZ0PbqU=", false, function() {
     return [
-        __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"]
+        __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"],
+        __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"]
     ];
 });
 _c1 = MobileSidebarButton;
@@ -857,6 +1016,7 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 "[project]/bgi-inverntory/src/app/components/AuthLayout.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
+// app/(auth)/layout.tsx
 __turbopack_context__.s([
     "default",
     ()=>AuthLayout
@@ -865,9 +1025,11 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_mo
 var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/bgi-inverntory/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/bgi-inverntory/node_modules/next/navigation.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$app$2f$components$2f$Sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/bgi-inverntory/src/app/components/Sidebar.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__ = __turbopack_context__.i("[project]/bgi-inverntory/node_modules/lucide-react/dist/esm/icons/loader-circle.js [app-client] (ecmascript) <export default as Loader2>");
 ;
 var _s = __turbopack_context__.k.signature();
 "use client";
+;
 ;
 ;
 ;
@@ -876,37 +1038,75 @@ function AuthLayout(param) {
     _s();
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
     const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"])();
-    const [isAuthenticated, setIsAuthenticated] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [isLoading, setIsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     const [userRole, setUserRole] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "AuthLayout.useEffect": ()=>{
-            // Check for access token
             const token = localStorage.getItem("access_token");
-            const role = localStorage.getItem("role"); // store role on login
-            setIsAuthenticated(!!token);
-            setUserRole(role);
+            const role = localStorage.getItem("role");
+            // List of public paths that don't require authentication
             const publicPaths = [
-                "/login"
+                "/login",
+                "/register",
+                "/forgot-password"
             ];
-            // Redirect to login if not authenticated
             if (!token && !publicPaths.includes(pathname)) {
                 router.push("/login");
+                return;
             }
-            // Redirect to dashboard if authenticated and on login/registration page
-            if (token && publicPaths.includes(pathname)) {
-                router.push("/dashboard");
+            if (token) {
+                try {
+                    // Validate token expiry
+                    const payload = JSON.parse(atob(token.split(".")[1]));
+                    const isExpired = payload.exp && Date.now() > payload.exp * 1000;
+                    if (isExpired) {
+                        localStorage.removeItem("access_token");
+                        localStorage.removeItem("role");
+                        router.push("/login");
+                    } else {
+                        setUserRole(role);
+                    }
+                } catch (e) {
+                    localStorage.removeItem("access_token");
+                    localStorage.removeItem("role");
+                    router.push("/login");
+                }
             }
+            setIsLoading(false);
         }
     }["AuthLayout.useEffect"], [
         pathname,
         router
     ]);
-    if (isAuthenticated === null) return null; // Prevent flicker
-    // If not authenticated, render login/registration pages
-    if (!isAuthenticated) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-        children: children
-    }, void 0, false);
-    // Full-page layout after login
+    // Show loading spinner while checking auth
+    if (isLoading) {
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "min-h-screen flex items-center justify-center bg-muted/10",
+            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
+                className: "w-10 h-10 text-gray-800 animate-spin"
+            }, void 0, false, {
+                fileName: "[project]/bgi-inverntory/src/app/components/AuthLayout.tsx",
+                lineNumber: 54,
+                columnNumber: 9
+            }, this)
+        }, void 0, false, {
+            fileName: "[project]/bgi-inverntory/src/app/components/AuthLayout.tsx",
+            lineNumber: 53,
+            columnNumber: 7
+        }, this);
+    }
+    // For public pages (login/register), render without sidebar
+    const publicPaths = [
+        "/login",
+        "/register",
+        "/forgot-password"
+    ];
+    if (publicPaths.includes(pathname)) {
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+            children: children
+        }, void 0, false);
+    }
+    // For protected pages, show layout with sidebar
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "flex min-h-screen w-screen bg-muted/10",
         children: [
@@ -917,12 +1117,12 @@ function AuthLayout(param) {
                     role: userRole || undefined
                 }, void 0, false, {
                     fileName: "[project]/bgi-inverntory/src/app/components/AuthLayout.tsx",
-                    lineNumber: 43,
+                    lineNumber: 70,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/components/AuthLayout.tsx",
-                lineNumber: 42,
+                lineNumber: 69,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -930,24 +1130,24 @@ function AuthLayout(param) {
                 children: children
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/components/AuthLayout.tsx",
-                lineNumber: 47,
+                lineNumber: 74,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$app$2f$components$2f$Sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MobileSidebarButton"], {
                 role: userRole || undefined
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/components/AuthLayout.tsx",
-                lineNumber: 50,
+                lineNumber: 77,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/bgi-inverntory/src/app/components/AuthLayout.tsx",
-        lineNumber: 40,
+        lineNumber: 67,
         columnNumber: 5
     }, this);
 }
-_s(AuthLayout, "SGIhmbRLCE11Z4Xo4ZAuLeAjFo4=", false, function() {
+_s(AuthLayout, "MFrMt9alTLH7MFQsRyWmIe5ikqY=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"],
         __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"]

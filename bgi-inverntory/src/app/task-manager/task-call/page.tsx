@@ -5,25 +5,49 @@ import axios from "axios";
 import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+// Types
+type Task = {
+  id: number;
+  task_type: string;
+  merchant_name: string | null;
+  phone: string | null;
+  bank: string;
+  address: string | null;
+  problem_type: string | null;
+  comment: string | null;
+  status: "open" | "in_progress" | "completed";
+  assigned_to: number | null;
+  assigned_to_name: string | null;
+  create_time: string;
+  update_time: string;
+  tid: string | null;
+  mid: string | null;
+  sim_serial?: string | null;
+  operator?: string | null;
+};
+
+type Update = {
+  id: number;
+  task_id: number;
+  updated_by: number;
+  status: string;
+  update_text: string | null;
+  create_time: string;
+  update_time: string;
+  assigned_to_name: string | null;
+};
+
+type Bank = { id: number; name: string };
+type ProblemType = { id: number; name: string };
+type User = { id: number; username: string; role: string };
+
+// Config
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 axios.interceptors.request.use((cfg) => {
   const token = typeof window !== 'undefined' ? localStorage.getItem("access_token") : null;
   if (token) cfg.headers.Authorization = `Bearer ${token}`;
   return cfg;
 });
-
-type Task = {
-  id: number; task_type: string; merchant_name: string | null; phone: string | null;
-  bank: string; address: string | null; problem_type: string | null; comment: string | null;
-  status: "open" | "in_progress" | "completed"; assigned_to_name: string | null;
-  create_time: string; update_time: string; tid: string | null; mid: string | null;
-  sim_serial?: string | null; operator?: string | null;
-};
-
-type Update = {
-  id: number; task_id: number; updated_by: number; status: string;
-  update_text: string | null; create_time: string; update_time: string; assigned_to_name: string | null;
-};
 
 const queryClient = new QueryClient();
 
@@ -33,11 +57,16 @@ function SuperCallsBoard() {
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState<"all" | "open" | "in_progress" | "completed">("all");
   const [assigneeFilter, setAssigneeFilter] = useState<string>("all");
+  const [bankFilter, setBankFilter] = useState<string>("all");
+  const [problemTypeFilter, setProblemTypeFilter] = useState<string>("all");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<Partial<Task>>({});
+  const [statusNote, setStatusNote] = useState("");
+  const [updatingStatus, setUpdatingStatus] = useState<string | null>(null);
 
+  // Queries
   const { data = [], isLoading, refetch } = useQuery<Task[]>({
     queryKey: ["all-tasks"],
     queryFn: async () => (await axios.get("/tasks/all")).data,
@@ -49,32 +78,58 @@ function SuperCallsBoard() {
     enabled: !!selected,
   });
 
-  const assigneeOptions = useMemo(() => {
-    const names = Array.from(new Set(data.map((d) => d.assigned_to_name).filter(Boolean)));
-    return ["all", ...names];
-  }, [data]);
+  const { data: banks = [] } = useQuery<Bank[]>({
+    queryKey: ["banks"],
+    queryFn: async () => (await axios.get("/tasks/banks")).data,
+    staleTime: 5 * 60 * 1000,
+  });
 
+  const { data: users = [] } = useQuery<User[]>({
+    queryKey: ["assignable-users"],
+    queryFn: async () => (await axios.get("/auth/userlist?role=support,admin")).data,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const { data: problemTypes = [] } = useQuery<ProblemType[]>({
+    queryKey: ["problem-types"],
+    queryFn: async () => (await axios.get("/tasks/problem-types")).data,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  // Filter options
+  const assigneeOptions = useMemo(() => {
+    const names = Array.from(new Set(users.map((u) => u.username)));
+    return ["all", ...names];
+  }, [users]);
+
+  const bankOptions = useMemo(() => {
+    const names = Array.from(new Set(banks.map((b) => b.name)));
+    return ["all", ...names];
+  }, [banks]);
+
+  const problemTypeOptions = useMemo(() => {
+    const names = Array.from(new Set(problemTypes.map((pt) => pt.name)));
+    return ["all", ...names];
+  }, [problemTypes]);
+
+  // Filtered tasks
   const filtered = useMemo(() => {
     let base = data
       .filter((t) => (filterStatus === "all" ? true : t.status === filterStatus))
+      .filter((t) => (bankFilter === "all" ? true : t.bank === bankFilter))
+      .filter((t) => (problemTypeFilter === "all" ? true : t.problem_type === problemTypeFilter))
+      .filter((t) => (assigneeFilter === "all" ? true : t.assigned_to_name === assigneeFilter))
       .filter((t) =>
-        `${t.task_type} ${t.merchant_name || ''} ${t.address || ''} ${t.problem_type || ''} ${t.assigned_to_name || ''} ${t.tid || ''} ${t.mid || ''} ${t.bank}`
+        `${t.task_type} ${t.merchant_name || ''} ${t.address || ''} ${t.problem_type || ''} ${t.assigned_to_name || ''} ${t.tid || ''} ${t.mid || ''} ${t.bank} ${t.phone || ''}`
           .toLowerCase().includes(search.toLowerCase())
       );
-    if (assigneeFilter !== "all") base = base.filter((t) => t.assigned_to_name === assigneeFilter);
+    
     if (dateFrom) base = base.filter((t) => new Date(t.create_time) >= new Date(dateFrom));
     if (dateTo) base = base.filter((t) => new Date(t.create_time) <= new Date(dateTo));
     return base;
-  }, [data, filterStatus, search, assigneeFilter, dateFrom, dateTo]);
+  }, [data, filterStatus, bankFilter, problemTypeFilter, assigneeFilter, search, dateFrom, dateTo]);
 
-  const completeMut = useMutation({
-    mutationFn: (id: number) => axios.post(`/tasks/my/${id}/complete`, { note: "Task completed" }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["all-tasks"] });
-      setSelected(null); setIsEditing(false);
-    },
-  });
-
+  // Mutations
   const updateTaskMut = useMutation({
     mutationFn: ({ id, data }: { id: number; data: any }) => axios.put(`/tasks/${id}`, data),
     onSuccess: () => {
@@ -83,71 +138,217 @@ function SuperCallsBoard() {
     },
   });
 
+  const updateStatusMut = useMutation({
+    mutationFn: ({ id, status, note }: { id: number; status: string; note: string }) =>
+      axios.post(`/tasks/my/${id}/status`, { status, note }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["all-tasks"] });
+      setStatusNote("");
+      setUpdatingStatus(null);
+    },
+    onError: () => {
+      setUpdatingStatus(null);
+    }
+  });
+
+  // Effects
   useEffect(() => {
     if (selected) {
       setFormData({
-        merchant_name: selected.merchant_name || '', phone: selected.phone || '',
-        address: selected.address || '', tid: selected.tid || '', mid: selected.mid || '',
-        sim_serial: selected.sim_serial || '', operator: selected.operator || '',
-        problem_type: selected.problem_type || '', comment: selected.comment || '',
-        bank: selected.bank, task_type: selected.task_type, assigned_to: 1,
+        merchant_name: selected.merchant_name || '',
+        phone: selected.phone || '',
+        address: selected.address || '',
+        tid: selected.tid || '',
+        mid: selected.mid || '',
+        sim_serial: selected.sim_serial || '',
+        operator: selected.operator || '',
+        problem_type: selected.problem_type || '',
+        comment: selected.comment || '',
+        bank: selected.bank,
+        task_type: selected.task_type,
+        assigned_to: selected.assigned_to,
+        status: selected.status,
       });
       setIsEditing(false);
+      setStatusNote("");
     }
   }, [selected]);
 
-  const handleInputChange = (field: string, value: string) => {
+  // FIX: Allow null values in handleInputChange
+  const handleInputChange = (field: string, value: string | number | null) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   const handleSave = () => {
     if (!selected) return;
-    if (formData.tid && formData.tid.length !== 8) { alert("TID must be 8 characters"); return; }
-    if (formData.mid && formData.mid.length !== 15) { alert("MID must be 15 characters"); return; }
-    updateTaskMut.mutate({ id: selected.id, data: { ...formData, assigned_to: 1 } });
+    
+    // Add validation
+    if (!formData.assigned_to) {
+      alert("Please select an assignee");
+      return;
+    }
+    
+    if (formData.task_type === "Call" && !formData.problem_type) {
+      alert("Problem type is required for Call tasks");
+      return;
+    }
+    
+    if (formData.tid && formData.tid.length !== 8) {
+      alert("TID must be 8 characters");
+      return;
+    }
+    
+    if (formData.mid && formData.mid.length !== 15) {
+      alert("MID must be 15 characters");
+      return;
+    }
+    
+    // Send all required fields including assigned_to
+    const updateData = {
+      bank: formData.bank,
+      merchant_name: formData.merchant_name || null,
+      tid: formData.tid,
+      mid: formData.mid,
+      address: formData.address || null,
+      task_type: formData.task_type,
+      phone: formData.phone || null,
+      operator: formData.operator || null,
+      problem_type: formData.problem_type || null,
+      assigned_to: formData.assigned_to,
+      comment: formData.comment || null,
+      sim_serial: formData.sim_serial || null,
+    };
+    
+    updateTaskMut.mutate({ id: selected.id, data: updateData });
   };
 
-  const statusColor = (s: Task["status"]) => 
-    s === "completed" ? "bg-green-300 text-green-900" : 
+  const handleStatusChange = (newStatus: string) => {
+    if (!selected) return;
+    
+    // Optimistic UI update
+    setUpdatingStatus(newStatus);
+    setSelected(prev => prev ? { ...prev, status: newStatus as Task["status"] } : null);
+    
+    updateStatusMut.mutate({ 
+      id: selected.id, 
+      status: newStatus, 
+      note: statusNote || `Status changed to ${newStatus}` 
+    });
+  };
+
+  const statusColor = (s: Task["status"]) =>
+    s === "completed" ? "bg-green-300 text-green-900" :
     s === "in_progress" ? "bg-blue-300 text-blue-900" : "bg-yellow-300 text-yellow-900";
+
+  const statusButtonColor = (s: string) =>
+    s === "completed" ? "bg-green-300 text-green-900" :
+    s === "in_progress" ? "bg-blue-300 text-blue-900" : "bg-yellow-300 text-yellow-900";
+
+  // Mobile back button
+  const handleBackToList = () => {
+    setSelected(null);
+    setIsEditing(false);
+  };
 
   return (
     <div className="min-h-screen bg-[#f0f2f5] flex flex-col">
       {/* Header */}
       <div className="bg-[#f0f2f5] p-4 shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff]">
         <div className="max-w-[1800px] mx-auto flex items-center justify-between gap-4 flex-wrap">
-          <h1 className="text-2xl font-bold text-gray-800">📞 Call Manager</h1>
+          <div className="flex items-center gap-2">
+            {/* Mobile Back Button */}
+            {selected && (
+              <button
+                onClick={handleBackToList}
+                className="md:hidden p-2 rounded-lg bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all"
+              >
+                ← Back
+              </button>
+            )}
+            <h1 className="text-2xl font-bold text-gray-800">📞 Call Manager</h1>
+          </div>
           
           <div className="flex items-center gap-3 flex-wrap flex-1 max-w-4xl">
-            <input type="text" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)}
-              className="flex-1 min-w-[200px] px-4 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-gray-800 text-sm focus:outline-none" />
+            <input
+              type="text"
+              placeholder="Search..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="flex-1 min-w-[200px] px-4 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-gray-800 text-sm focus:outline-none"
+            />
             
-            <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value as any)}
-              className="px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-gray-700 text-sm">
-              <option value="all">All Status</option><option value="open">Open</option>
-              <option value="in_progress">In Progress</option><option value="completed">Completed</option>
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value as any)}
+              className="px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-gray-700 text-sm"
+            >
+              <option value="all">All Status</option>
+              <option value="open">Open</option>
+              <option value="in_progress">In Progress</option>
+              <option value="completed">Completed</option>
             </select>
 
-            <select value={assigneeFilter} onChange={(e) => setAssigneeFilter(e.target.value)}
-              className="px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-gray-700 text-sm">
-              {assigneeOptions.map(name => <option key={name} value={name}>{name === "all" ? "All Assignees" : name}</option>)}
+            <select
+              value={bankFilter}
+              onChange={(e) => setBankFilter(e.target.value)}
+              className="px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-gray-700 text-sm"
+            >
+              <option value="all">All Banks</option>
+              {bankOptions.slice(1).map(name => (
+                <option key={name} value={name}>{name}</option>
+              ))}
             </select>
 
-            <input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)}
-              className="px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-sm" />
+            <select
+              value={problemTypeFilter}
+              onChange={(e) => setProblemTypeFilter(e.target.value)}
+              className="px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-gray-700 text-sm"
+            >
+              <option value="all">All Problem Types</option>
+              {problemTypeOptions.slice(1).map(name => (
+                <option key={name} value={name}>{name}</option>
+              ))}
+            </select>
+
+            <select
+              value={assigneeFilter}
+              onChange={(e) => setAssigneeFilter(e.target.value)}
+              className="px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-gray-700 text-sm"
+            >
+              {assigneeOptions.map(name => (
+                <option key={name} value={name}>
+                  {name === "all" ? "All Assignees" : name}
+                </option>
+              ))}
+            </select>
+
+            <input
+              type="date"
+              value={dateFrom}
+              onChange={(e) => setDateFrom(e.target.value)}
+              className="px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-sm"
+            />
             <span className="text-gray-500">to</span>
-            <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)}
-              className="px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-sm" />
+            <input
+              type="date"
+              value={dateTo}
+              onChange={(e) => setDateTo(e.target.value)}
+              className="px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-sm"
+            />
           </div>
 
           <div className="flex items-center gap-3">
             <span className="text-sm text-gray-600 font-semibold">{filtered.length} calls</span>
-            <button onClick={() => refetch()}
-              className="p-2 rounded-lg bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all">
+            <button
+              onClick={() => refetch()}
+              className="p-2 rounded-lg bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all"
+            >
               {isLoading ? <div className="w-5 h-5 border-2 border-gray-400 border-t-gray-700 rounded-full animate-spin" /> : "🔄"}
             </button>
-            <button onClick={() => router.push("/task-manager/create-task")}
-              className="px-4 py-2 rounded-lg bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all font-semibold text-gray-800 text-sm">
+            <button
+              onClick={() => router.push("/task-manager/create-task")}
+              className="px-4 py-2 rounded-lg bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all font-semibold text-gray-800 text-sm"
+            >
               ➕ Add Call
             </button>
           </div>
@@ -155,142 +356,437 @@ function SuperCallsBoard() {
       </div>
 
       {/* Content */}
-      <div className="flex-1 flex overflow-hidden">
-        {/* Left Panel - Task Cards (280px width) */}
-        <div className="w-[280px] border-r border-gray-300 overflow-y-auto p-3 bg-[#f0f2f5]">
+      <div className="flex-1 flex overflow-hidden flex-col md:flex-row">
+        {/* Left Panel - Task Cards */}
+        <div className={`w-full md:w-[280px] border-r-0 md:border-r border-gray-300 overflow-y-auto p-3 bg-[#f0f2f5] ${selected ? 'hidden md:block' : 'block'}`}>
           <div className="space-y-2">
             {filtered.map((t) => (
-              <div key={t.id} onClick={() => setSelected(t)}
-                className={`p-3 rounded-xl cursor-pointer transition-all ${
+              <div
+                key={t.id}
+                onClick={() => setSelected(t)}
+                className={`group relative p-3 rounded-xl cursor-pointer transition-all duration-200 transform ${
                   selected?.id === t.id
                     ? "bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff]"
-                    : "bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)]"
-                }`}>
+                    : "bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] hover:scale-[1.01]"
+                }`}
+              >
+                {/* Hover Indicator - Desktop only */}
+                <div className="hidden md:block absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+                
                 <div className="flex flex-wrap gap-1 mb-2">
                   <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${statusColor(t.status)}`}>
                     {t.status.replace("_", " ").toUpperCase()}
                   </span>
                   <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-blue-300 text-blue-900">{t.bank}</span>
+                  {t.problem_type && (
+                    <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-purple-300 text-purple-900">
+                      {t.problem_type}
+                    </span>
+                  )}
                 </div>
                 <h3 className="font-bold text-sm text-gray-800 mb-2">{t.task_type}</h3>
-                {t.merchant_name && <p className="text-xs text-gray-600 mb-1 truncate"><span className="font-semibold">DBA:</span> {t.merchant_name}</p>}
-                {t.phone && <p className="text-xs text-gray-600 mb-1"><span className="font-semibold">Phone:</span> <span className="font-mono">{t.phone}</span></p>}
-                {t.address && <p className="text-xs text-gray-600 mb-1"><span className="font-semibold">Address:</span> <span className="font-mono">{t.address}</span></p>}
-                {t.assigned_to_name && <p className="text-xs text-gray-600 mb-1"><span className="font-semibold">Assigned To:</span> <span className="font-mono">{t.assigned_to_name}</span></p>}
+                {t.merchant_name && (
+                  <p className="text-xs text-gray-600 mb-1 truncate"><span className="font-semibold">DBA:</span> {t.merchant_name}</p>
+                )}
+                {t.phone && (
+                  <p className="text-xs text-gray-600 mb-1"><span className="font-semibold">Phone:</span> <span className="font-mono">{t.phone}</span></p>
+                )}
+                {t.address && (
+                  <p className="text-xs text-gray-600 mb-1"><span className="font-semibold">Address:</span> <span className="font-mono">{t.address}</span></p>
+                )}
+                {t.assigned_to_name && (
+                  <p className="text-xs text-gray-600 mb-1"><span className="font-semibold">Assigned To:</span> <span className="font-mono">{t.assigned_to_name}</span></p>
+                )}
                 <p className="text-xs text-gray-500 mt-2">📅 {new Date(t.create_time).toLocaleDateString()}</p>
               </div>
             ))}
+            {filtered.length === 0 && (
+              <div className="text-center text-gray-500 mt-8">
+                <p className="text-lg">🎉</p>
+                <p className="text-sm mt-2">No tasks found</p>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Right Panel */}
-        <div className="flex-1 overflow-y-auto p-4 bg-[#f0f2f5]">
+        {/* Right Panel - Details */}
+        <div className={`w-full md:flex-1 overflow-y-auto p-4 bg-[#f0f2f5] ${selected ? 'block' : 'hidden md:block'}`}>
           {selected ? (
             <div className="max-w-5xl mx-auto">
+              {/* Mobile Header with Back */}
+              <div className="md:hidden mb-4 flex items-center justify-between">
+                <button
+                  onClick={handleBackToList}
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all font-semibold text-gray-800 text-sm"
+                >
+                  ← Back to Calls
+                </button>
+                <span className="text-sm text-gray-600 font-semibold">Call #{selected.id}</span>
+              </div>
+
               <div className="mb-4 flex items-center justify-between">
-                <h1 className="text-2xl font-bold text-gray-800">Call #{selected.id} – {selected.task_type}</h1>
+                <h1 className="text-xl md:text-2xl font-bold text-gray-800">Call #{selected.id} – {selected.task_type}</h1>
                 <div className="flex gap-2">
-                  {!isEditing ? (
-                    <button onClick={() => setIsEditing(true)}
-                      className="px-6 py-2 rounded-xl bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all font-bold text-gray-800">
+                  {/* Show Edit button only if status is NOT completed */}
+                  {selected.status !== "completed" && !isEditing && (
+                    <button
+                      onClick={() => setIsEditing(true)}
+                      className="px-4 md:px-6 py-2 rounded-xl bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all font-bold text-gray-800 text-sm md:text-base"
+                    >
                       ✏️ Edit
                     </button>
-                  ) : (
+                  )}
+                  {isEditing && (
                     <>
-                      <button onClick={() => { setIsEditing(false); setFormData({ merchant_name: selected.merchant_name || '', phone: selected.phone || '', address: selected.address || '', tid: selected.tid || '', mid: selected.mid || '', sim_serial: selected.sim_serial || '', operator: selected.operator || '', problem_type: selected.problem_type || '', comment: selected.comment || '' }); }}
-                        className="px-6 py-2 rounded-xl bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06)] font-bold text-gray-600">❌ Cancel</button>
-                      <button onClick={handleSave} disabled={updateTaskMut.isPending}
-                        className="px-6 py-2 rounded-xl bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06)] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all font-bold text-gray-800 disabled:opacity-50">
-                        {updateTaskMut.isPending ? <div className="w-5 h-5 border-2 border-gray-700 border-t-transparent rounded-full animate-spin mx-auto" /> : "💾 Save"}
+                      <button
+                        onClick={() => {
+                          setIsEditing(false);
+                          setFormData({
+                            merchant_name: selected.merchant_name || '',
+                            phone: selected.phone || '',
+                            address: selected.address || '',
+                            tid: selected.tid || '',
+                            mid: selected.mid || '',
+                            sim_serial: selected.sim_serial || '',
+                            operator: selected.operator || '',
+                            problem_type: selected.problem_type || '',
+                            comment: selected.comment || '',
+                            bank: selected.bank,
+                            task_type: selected.task_type,
+                            assigned_to: selected.assigned_to,
+                            status: selected.status,
+                          });
+                          setStatusNote("");
+                          setUpdatingStatus(null);
+                        }}
+                        className="px-4 md:px-6 py-2 rounded-xl bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06)] font-bold text-gray-600 text-sm md:text-base"
+                      >
+                        ❌ Cancel
+                      </button>
+                      <button
+                        onClick={handleSave}
+                        disabled={updateTaskMut.isPending}
+                        className="px-4 md:px-6 py-2 rounded-xl bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06)] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all font-bold text-gray-800 disabled:opacity-50 text-sm md:text-base"
+                      >
+                        {updateTaskMut.isPending ? (
+                          <div className="w-5 h-5 border-2 border-gray-700 border-t-transparent rounded-full animate-spin mx-auto" />
+                        ) : "💾 Save"}
                       </button>
                     </>
-                  )}
-                  {selected.status !== "completed" && (
-                    <button onClick={() => completeMut.mutate(selected.id)} disabled={completeMut.isPending}
-                      className="px-6 py-2 rounded-xl bg-green-300 text-green-900 shadow-[4px_4px_8px_rgba(0,0,0,0.06)] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all font-bold disabled:opacity-50">
-                      ✅ Complete
-                    </button>
                   )}
                 </div>
               </div>
 
-              {/* Form */}
-              <div className="bg-[#f0f2f5] rounded-2xl shadow-[6px_6px_12px_rgba(0,0,0,0.06),-6px_-6px_12px_#ffffff] p-4 space-y-4">
-                {/* Section 1 */}
-                <div className="bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div><label className="block text-sm font-semibold text-gray-700 mb-1">Bank</label>
-                      <input type="text" value={selected.bank} disabled className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 opacity-50" /></div>
-                    <div><label className="block text-sm font-semibold text-gray-700 mb-1">DBA Name</label>
-                      <input type="text" value={formData.merchant_name || ''} onChange={(e) => handleInputChange('merchant_name', e.target.value)} disabled={!isEditing}
-                        className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 disabled:opacity-50" /></div>
-                    <div><label className="block text-sm font-semibold text-gray-700 mb-1">TID (8 chars)</label>
-                      <input type="text" value={formData.tid || ''} onChange={(e) => handleInputChange('tid', e.target.value)} disabled={!isEditing} maxLength={8}
-                        className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 font-mono disabled:opacity-50" /></div>
-                    <div><label className="block text-sm font-semibold text-gray-700 mb-1">MID (15 chars)</label>
-                      <input type="text" value={formData.mid || ''} onChange={(e) => handleInputChange('mid', e.target.value)} disabled={!isEditing} maxLength={15}
-                        className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 font-mono disabled:opacity-50" /></div>
-                  </div>
-                </div>
-
-                {/* Section 2 */}
-                <div className="bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div><label className="block text-sm font-semibold text-gray-700 mb-1">ADDRESS</label>
-                      <textarea value={formData.address || ''} onChange={(e) => handleInputChange('address', e.target.value)} disabled={!isEditing} rows={3}
-                        className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 resize-none disabled:opacity-50" /></div>
-                    <div className="space-y-3">
-                      <div><label className="block text-sm font-semibold text-gray-700 mb-1">PHONE</label>
-                        <input type="text" value={formData.phone || ''} onChange={(e) => handleInputChange('phone', e.target.value)} disabled={!isEditing}
-                          className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 disabled:opacity-50" /></div>
-                      <div><label className="block text-sm font-semibold text-gray-700 mb-1">OPERATOR</label>
-                        <select value={formData.operator || ''} onChange={(e) => handleInputChange('operator', e.target.value)} disabled={!isEditing}
-                          className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 disabled:opacity-50">
-                          <option value="">Select</option><option value="ROBI">ROBI</option>
-                          <option value="GRAMEENPHONE">GRAMEENPHONE</option><option value="BANGLALINK">BANGLALINK</option>
-                        </select></div>
+              {/* Status Change Section - Only visible when editing */}
+              {isEditing && (
+                <div className="mb-4 bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4">
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <span className="text-sm font-semibold text-gray-700">Status:</span>
+                    <div className="flex gap-2">
+                      {(["open", "in_progress", "completed"] as const).map((status) => {
+                        const isActive = selected.status === status;
+                        const isLoading = updatingStatus === status;
+                        
+                        return (
+                          <button
+                            key={status}
+                            onClick={() => handleStatusChange(status)}
+                            disabled={isLoading}
+                            className={`relative px-3 py-1 rounded-lg font-bold text-xs shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] 
+                              hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] hover:scale-105 hover:-translate-y-0.5 
+                              transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed
+                              ${isActive ? statusButtonColor(status) : "bg-[#f0f2f5] text-gray-600"}
+                              ${isActive ? 'ring-2 ring-offset-2 ring-offset-[#f0f2f5]' : ''}
+                              ${isActive && status === 'open' ? 'ring-yellow-400' : ''}
+                              ${isActive && status === 'in_progress' ? 'ring-blue-400' : ''}
+                              ${isActive && status === 'completed' ? 'ring-green-400' : ''}`}
+                          >
+                            {isLoading ? (
+                              <div className="flex items-center gap-1">
+                                <div className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                                <span>{status.replace("_", " ").toUpperCase()}</span>
+                              </div>
+                            ) : (
+                              status.replace("_", " ").toUpperCase()
+                            )}
+                          </button>
+                        );
+                      })}
                     </div>
-                    <div><label className="block text-sm font-semibold text-gray-700 mb-1">SIM Serial</label>
-                      <input type="text" value={formData.sim_serial || ''} onChange={(e) => handleInputChange('sim_serial', e.target.value)} disabled={!isEditing} maxLength={30}
-                        className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 font-mono disabled:opacity-50" /></div>
-                    <div><label className="block text-sm font-semibold text-gray-700 mb-1">Problem Type</label>
-                      <input type="text" value={formData.problem_type || ''} onChange={(e) => handleInputChange('problem_type', e.target.value)} disabled={!isEditing}
-                        className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 disabled:opacity-50" /></div>
+                    <input
+                      type="text"
+                      placeholder="Status change note (optional)"
+                      value={statusNote}
+                      onChange={(e) => setStatusNote(e.target.value)}
+                      className="flex-1 min-w-[200px] px-3 py-1 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-gray-800 text-sm focus:outline-none"
+                    />
                   </div>
                 </div>
+              )}
 
-                {/* Section 3 */}
-                <div className="bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4">
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">COMMENT</label>
-                  <textarea value={formData.comment || ''} onChange={(e) => handleInputChange('comment', e.target.value)} disabled={!isEditing} rows={4}
-                    className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 resize-none disabled:opacity-50" />
-                </div>
+              {/* View-Only Form (when not editing) */}
+              {!isEditing && (
+                <div className="bg-[#f0f2f5] rounded-2xl shadow-[6px_6px_12px_rgba(0,0,0,0.06),-6px_-6px_12px_#ffffff] p-4 space-y-4">
+                  {/* Section 1 */}
+                  <div className="bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">Bank</label>
+                        <input type="text" value={selected.bank} disabled className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 opacity-50" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">DBA Name</label>
+                        <input type="text" value={formData.merchant_name || ''} disabled className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 opacity-50" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">TID (8 chars)</label>
+                        <input type="text" value={formData.tid || ''} disabled className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 font-mono opacity-50" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">MID (15 chars)</label>
+                        <input type="text" value={formData.mid || ''} disabled className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 font-mono opacity-50" />
+                      </div>
+                    </div>
+                  </div>
 
-                {/* Timeline */}
-                <div className="bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4">
-                  <h2 className="text-lg font-bold text-gray-800 mb-3">Update Timeline</h2>
-                  {timeline.length === 0 ? (
-                    <div className="bg-blue-100 text-blue-800 p-3 rounded-lg text-sm">ℹ️ No updates yet</div>
-                  ) : (
-                    <div className="space-y-3">
-                      {timeline.map((u) => (
-                        <div key={u.id} className="bg-[#f0f2f5] rounded-lg shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] p-3">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className={`px-2 py-1 rounded-full text-xs font-bold ${statusColor(u.status as any)}`}>{u.status.toUpperCase()}</span>
-                            <span className="text-xs text-gray-500">📅 {new Date(u.update_time).toLocaleString([], { dateStyle: "short", timeStyle: "short" })}</span>
-                          </div>
-                          <p className="text-sm text-gray-700 mb-1">{u.update_text || "—"}</p>
-                          {u.assigned_to_name && <p className="text-xs text-gray-500">by <span className="font-semibold">{u.assigned_to_name}</span></p>}
+                  {/* Section 2 */}
+                  <div className="bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">ADDRESS</label>
+                        <textarea value={formData.address || ''} disabled rows={3} className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 resize-none opacity-50" />
+                      </div>
+                      <div className="space-y-3">
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-1">PHONE</label>
+                          <input type="text" value={formData.phone || ''} disabled className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 opacity-50" />
                         </div>
-                      ))}
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-1">OPERATOR</label>
+                          <input type="text" value={formData.operator || ''} disabled className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 opacity-50" />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">SIM Serial</label>
+                        <input type="text" value={formData.sim_serial || ''} disabled className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 font-mono opacity-50" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">Problem Type</label>
+                        <input type="text" value={formData.problem_type || ''} disabled className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 opacity-50" />
+                      </div>
                     </div>
-                  )}
+                  </div>
+
+                  {/* Section 3 - Added Assigned To display in view mode */}
+                  <div className="bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">COMMENT</label>
+                        <textarea value={formData.comment || ''} disabled rows={4} className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 resize-none opacity-50" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">Assigned To</label>
+                        <input type="text" value={selected.assigned_to_name || ''} disabled className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 opacity-50" />
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              )}
+
+              {/* Edit Form (when editing) */}
+              {isEditing && (
+                <div className="bg-[#f0f2f5] rounded-2xl shadow-[6px_6px_12px_rgba(0,0,0,0.06),-6px_-6px_12px_#ffffff] p-4 space-y-4">
+                  {/* Section 1 */}
+                  <div className="bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">Bank *</label>
+                        <select
+                          value={formData.bank || ''}
+                          onChange={(e) => handleInputChange('bank', e.target.value)}
+                          disabled={!isEditing}
+                          className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-gray-800 disabled:opacity-50"
+                        >
+                          <option value="">Select Bank</option>
+                          {banks.map((bank) => (
+                            <option key={bank.id} value={bank.name}>
+                              {bank.name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">DBA Name</label>
+                        <input
+                          type="text"
+                          value={formData.merchant_name || ''}
+                          onChange={(e) => handleInputChange('merchant_name', e.target.value)}
+                          disabled={!isEditing}
+                          className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 disabled:opacity-50"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">TID (8 chars)</label>
+                        <input
+                          type="text"
+                          value={formData.tid || ''}
+                          onChange={(e) => handleInputChange('tid', e.target.value)}
+                          disabled={!isEditing}
+                          maxLength={8}
+                          className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 font-mono disabled:opacity-50"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">MID (15 chars)</label>
+                        <input
+                          type="text"
+                          value={formData.mid || ''}
+                          onChange={(e) => handleInputChange('mid', e.target.value)}
+                          disabled={!isEditing}
+                          maxLength={15}
+                          className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 font-mono disabled:opacity-50"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Section 2 */}
+                  <div className="bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">ADDRESS</label>
+                        <textarea
+                          value={formData.address || ''}
+                          onChange={(e) => handleInputChange('address', e.target.value)}
+                          disabled={!isEditing}
+                          rows={3}
+                          className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 resize-none disabled:opacity-50"
+                        />
+                      </div>
+                      <div className="space-y-3">
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-1">PHONE</label>
+                          <input
+                            type="text"
+                            value={formData.phone || ''}
+                            onChange={(e) => handleInputChange('phone', e.target.value)}
+                            disabled={!isEditing}
+                            className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 disabled:opacity-50"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-1">OPERATOR</label>
+                          <select
+                            value={formData.operator || ''}
+                            onChange={(e) => handleInputChange('operator', e.target.value)}
+                            disabled={!isEditing}
+                            className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 disabled:opacity-50"
+                          >
+                            <option value="">Select</option>
+                            <option value="ROBI">ROBI</option>
+                            <option value="GRAMEENPHONE">GRAMEENPHONE</option>
+                            <option value="BANGLALINK">BANGLALINK</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">SIM Serial</label>
+                        <input
+                          type="text"
+                          value={formData.sim_serial || ''}
+                          onChange={(e) => handleInputChange('sim_serial', e.target.value)}
+                          disabled={!isEditing}
+                          maxLength={30}
+                          className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 font-mono disabled:opacity-50"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">Problem Type</label>
+                        <select
+                          value={formData.problem_type || ''}
+                          onChange={(e) => handleInputChange('problem_type', e.target.value)}
+                          disabled={!isEditing}
+                          className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 disabled:opacity-50"
+                        >
+                          <option value="">Select Problem Type</option>
+                          {problemTypes.map((pt) => (
+                            <option key={pt.id} value={pt.name}>
+                              {pt.name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Assigned To Section - FIXED: Now properly shows current value */}
+                  <div className="bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4">
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">Assigned To *</label>
+                    <select
+                      value={formData.assigned_to ?? ''}
+                      onChange={(e) => handleInputChange('assigned_to', e.target.value ? parseInt(e.target.value) : null)}
+                      disabled={!isEditing}
+                      className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 disabled:opacity-50"
+                    >
+                      <option value="">Select Assignee</option>
+                      {users.map((user) => (
+                        <option key={user.id} value={user.id}>
+                          {user.username} ({user.role})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Section 3 */}
+                  <div className="bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4">
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">COMMENT</label>
+                    <textarea
+                      value={formData.comment || ''}
+                      onChange={(e) => handleInputChange('comment', e.target.value)}
+                      disabled={!isEditing}
+                      rows={4}
+                      className="w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 resize-none disabled:opacity-50"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Timeline */}
+              <div className="bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4">
+                <h2 className="text-lg font-bold text-gray-800 mb-3">Update Timeline</h2>
+                {timeline.length === 0 ? (
+                  <div className="bg-blue-100 text-blue-800 p-3 rounded-lg text-sm">ℹ️ No updates yet</div>
+                ) : (
+                  <div className="space-y-3">
+                    {timeline.map((u) => (
+                      <div key={u.id} className="bg-[#f0f2f5] rounded-lg shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] p-3">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className={`px-2 py-1 rounded-full text-xs font-bold ${statusColor(u.status as any)}`}>{u.status.toUpperCase()}</span>
+                          <span className="text-xs text-gray-500">📅 {new Date(u.update_time).toLocaleString([], { dateStyle: "short", timeStyle: "short" })}</span>
+                        </div>
+                        <p className="text-sm text-gray-700 mb-1">{u.update_text || "—"}</p>
+                        {u.assigned_to_name && <p className="text-xs text-gray-500">by <span className="font-semibold">{u.assigned_to_name}</span></p>}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           ) : (
             <div className="flex items-center justify-center h-full text-gray-500 text-xl font-medium">
-              Select a call on the left to view details
+              <div className="text-center p-8">
+                <div className="mb-4">
+                  <svg className="w-16 h-16 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                </div>
+                <p className="text-lg">Select a call to view details</p>
+                <p className="text-sm text-gray-400 mt-2">Tap a card from the list</p>
+              </div>
             </div>
           )}
         </div>

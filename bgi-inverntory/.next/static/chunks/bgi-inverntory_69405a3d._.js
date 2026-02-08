@@ -2,6 +2,7 @@
 "[project]/bgi-inverntory/src/app/dashboard/page.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
+// app/dashboard/page.tsx
 __turbopack_context__.s([
     "default",
     ()=>HomePage
@@ -11,6 +12,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_mo
 var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$activity$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Activity$3e$__ = __turbopack_context__.i("[project]/bgi-inverntory/node_modules/lucide-react/dist/esm/icons/activity.js [app-client] (ecmascript) <export default as Activity>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$factory$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Factory$3e$__ = __turbopack_context__.i("[project]/bgi-inverntory/node_modules/lucide-react/dist/esm/icons/factory.js [app-client] (ecmascript) <export default as Factory>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$cpu$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Cpu$3e$__ = __turbopack_context__.i("[project]/bgi-inverntory/node_modules/lucide-react/dist/esm/icons/cpu.js [app-client] (ecmascript) <export default as Cpu>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__ = __turbopack_context__.i("[project]/bgi-inverntory/node_modules/lucide-react/dist/esm/icons/loader-circle.js [app-client] (ecmascript) <export default as Loader2>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/bgi-inverntory/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.signature();
@@ -23,78 +25,128 @@ var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.sign
     store: __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$factory$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Factory$3e$__["Factory"],
     tasks: __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$cpu$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Cpu$3e$__["Cpu"]
 };
-/* ---------- card component ---------- */ function DashboardCard(param) {
-    let { title, gradient, onClick, icon: Icon } = param;
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+/* ---------- neumorphic dashboard card ---------- */ function DashboardCard(param) {
+    let { title, onClick, icon: Icon, isLoading } = param;
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
         onClick: onClick,
-        className: "\n        cursor-pointer select-none\n        rounded-2xl\n        py-10 px-10\n        shadow-lg\n        bg-gradient-to-br ".concat(gradient, "\n        hover:shadow-xl hover:scale-[1.02]\n        transition-all duration-300\n        flex flex-col items-center justify-center\n        w-[300px] h-[180px]\n      "),
+        disabled: isLoading,
+        className: "\n        relative\n        w-full max-w-sm sm:w-80 h-40 sm:h-48\n        rounded-2xl\n        bg-[#e6e9ef]\n        flex flex-col items-center justify-center\n        transition-all duration-300 ease-in-out\n        shadow-[10px_10px_18px_rgba(0,0,0,0.18),-8px_-8px_16px_#ffffff]\n        hover:shadow-[6px_6px_14px_rgba(0,0,0,0.22),-6px_-6px_14px_#ffffff]\n        active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25),inset_-6px_-6px_12px_#ffffff]\n        disabled:opacity-60 disabled:cursor-not-allowed\n        focus:outline-none\n      ",
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
-                className: "w-12 h-12 mb-3 text-white/90"
+            isLoading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "absolute inset-0 rounded-2xl bg-white/60 flex items-center justify-center",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
+                    className: "w-8 h-8 text-gray-700 animate-spin"
+                }, void 0, false, {
+                    fileName: "[project]/bgi-inverntory/src/app/dashboard/page.tsx",
+                    lineNumber: 42,
+                    columnNumber: 11
+                }, this)
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/dashboard/page.tsx",
-                lineNumber: 31,
+                lineNumber: 41,
+                columnNumber: 9
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
+                className: "w-11 h-11 sm:w-12 sm:h-12 mb-4 text-gray-800"
+            }, void 0, false, {
+                fileName: "[project]/bgi-inverntory/src/app/dashboard/page.tsx",
+                lineNumber: 46,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                className: "text-xl font-semibold text-white text-center drop-shadow",
+                className: "text-base sm:text-lg font-semibold text-gray-800 text-center tracking-wide",
                 children: title
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/dashboard/page.tsx",
-                lineNumber: 32,
+                lineNumber: 47,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/bgi-inverntory/src/app/dashboard/page.tsx",
-        lineNumber: 17,
+        lineNumber: 23,
         columnNumber: 5
     }, this);
 }
 _c = DashboardCard;
 /* ---------- hook: read role from JWT ---------- */ function useRole() {
     _s();
-    const [role, setRole] = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useState("");
-    __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useEffect({
+    const [role, setRole] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [isLoading, setIsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "useRole.useEffect": ()=>{
             const token = localStorage.getItem("access_token");
-            if (!token) return;
+            if (!token) {
+                setIsLoading(false);
+                return;
+            }
             try {
                 const payload = JSON.parse(atob(token.split(".")[1]));
                 var _payload_role;
                 setRole((_payload_role = payload.role) !== null && _payload_role !== void 0 ? _payload_role : "");
             } catch (e) {
                 setRole("");
+            } finally{
+                setIsLoading(false);
             }
         }
     }["useRole.useEffect"], []);
-    return role;
+    return {
+        role,
+        isLoading
+    };
 }
-_s(useRole, "ttrZ0iOMgbYFZQq9b9BWJ5hMm/4=");
+_s(useRole, "l5gK1btcd4iBcOruFIpKb0rIg8U=");
 function HomePage() {
     _s1();
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
-    const role = useRole();
-    /* ---------- buttons that exist for each role ---------- */ const buttons = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useMemo({
+    const { role, isLoading } = useRole();
+    const [isLoggingOut, setIsLoggingOut] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    // Redirect if not logged in
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "HomePage.useEffect": ()=>{
+            const token = localStorage.getItem("access_token");
+            if (!token) {
+                router.push("/login");
+            }
+        }
+    }["HomePage.useEffect"], [
+        router
+    ]);
+    const handleLogout = async ()=>{
+        setIsLoggingOut(true);
+        try {
+            const token = localStorage.getItem("access_token");
+            if (token) {
+                await fetch("http://127.0.0.1:8000/auth/logout", {
+                    method: "POST",
+                    headers: {
+                        Authorization: "Bearer ".concat(token),
+                        "Content-Type": "application/json"
+                    }
+                });
+            }
+        } catch (err) {
+            console.error("Logout API error:", err);
+        } finally{
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("role");
+            router.replace("/login");
+        }
+    };
+    const buttons = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useMemo({
         "HomePage.useMemo[buttons]": ()=>{
+            if (isLoading) return [];
             const all = [
                 {
                     name: "Live Terminals",
-                    gradient: "from-emerald-500 to-emerald-700",
                     route: "/live",
                     icon: iconMap.live
-                },
-                {
-                    name: "Task Update",
-                    gradient: "from-rose-500 to-rose-700",
-                    route: "/task-manager",
-                    icon: iconMap.tasks
                 }
             ];
-            /* super-admin extra cards */ if (role === "superadmin") {
+            if (role === "superadmin") {
                 all.push({
                     name: "Inventory Terminals",
-                    gradient: "from-blue-600 to-blue-800",
                     route: "/inventory",
                     icon: iconMap.store
                 });
@@ -102,63 +154,84 @@ function HomePage() {
             return all;
         }
     }["HomePage.useMemo[buttons]"], [
-        role
+        role,
+        isLoading
     ]);
+    if (isLoading) {
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "min-h-screen flex items-center justify-center bg-[#e6e9ef]",
+            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
+                className: "w-10 h-10 text-gray-800 animate-spin"
+            }, void 0, false, {
+                fileName: "[project]/bgi-inverntory/src/app/dashboard/page.tsx",
+                lineNumber: 136,
+                columnNumber: 9
+            }, this)
+        }, void 0, false, {
+            fileName: "[project]/bgi-inverntory/src/app/dashboard/page.tsx",
+            lineNumber: 135,
+            columnNumber: 7
+        }, this);
+    }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "min-h-screen flex flex-col items-center bg-gradient-to-b from-gray-50 to-gray-200",
+        className: "min-h-screen flex flex-col items-center bg-[#e6e9ef]",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
-                className: "w-full bg-white shadow-md flex flex-col items-center py-4",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                        className: "text-2xl font-bold text-gray-700 tracking-wide text-center",
-                        children: "BGI INVENTORY SYSTEM"
-                    }, void 0, false, {
-                        fileName: "[project]/bgi-inverntory/src/app/dashboard/page.tsx",
-                        lineNumber: 94,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                        src: "/BGI-logo.jpg",
-                        alt: "BGI Logo",
-                        className: "h-24 object-contain mt-1"
-                    }, void 0, false, {
-                        fileName: "[project]/bgi-inverntory/src/app/dashboard/page.tsx",
-                        lineNumber: 97,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/bgi-inverntory/src/app/dashboard/page.tsx",
-                lineNumber: 93,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
-                className: "flex-1 flex flex-col items-center w-full p-10",
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 mt-10",
-                    children: buttons.map((btn)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(DashboardCard, {
-                            title: btn.name,
-                            gradient: btn.gradient,
-                            onClick: ()=>router.push(btn.route),
-                            icon: btn.icon
-                        }, btn.name, false, {
-                            fileName: "[project]/bgi-inverntory/src/app/dashboard/page.tsx",
-                            lineNumber: 108,
-                            columnNumber: 13
-                        }, this))
+                className: "hidden md:flex mt-10",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                    className: "text-3xl font-bold text-gray-800 tracking-wide",
+                    children: "BGI INVENTORY SYSTEM"
                 }, void 0, false, {
                     fileName: "[project]/bgi-inverntory/src/app/dashboard/page.tsx",
-                    lineNumber: 106,
+                    lineNumber: 145,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/dashboard/page.tsx",
-                lineNumber: 105,
+                lineNumber: 144,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "md:hidden mt-12 pt-20",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                    className: "text-xl font-bold text-gray-800 text-center",
+                    children: "BGI INVENTORY SYSTEM"
+                }, void 0, false, {
+                    fileName: "[project]/bgi-inverntory/src/app/dashboard/page.tsx",
+                    lineNumber: 152,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/bgi-inverntory/src/app/dashboard/page.tsx",
+                lineNumber: 151,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
+                className: "flex-1 flex items-center justify-center w-full px-4",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-12",
+                    children: buttons.map((btn)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(DashboardCard, {
+                            title: btn.name,
+                            onClick: ()=>router.push(btn.route),
+                            icon: btn.icon,
+                            isLoading: isLoggingOut
+                        }, btn.name, false, {
+                            fileName: "[project]/bgi-inverntory/src/app/dashboard/page.tsx",
+                            lineNumber: 161,
+                            columnNumber: 13
+                        }, this))
+                }, void 0, false, {
+                    fileName: "[project]/bgi-inverntory/src/app/dashboard/page.tsx",
+                    lineNumber: 159,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/bgi-inverntory/src/app/dashboard/page.tsx",
+                lineNumber: 158,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("footer", {
-                className: "w-full py-6 bg-white border-t text-center text-gray-500 text-sm",
+                className: "w-full py-6 text-center text-gray-600 text-sm",
                 children: [
                     "© ",
                     new Date().getFullYear(),
@@ -166,17 +239,17 @@ function HomePage() {
                 ]
             }, void 0, true, {
                 fileName: "[project]/bgi-inverntory/src/app/dashboard/page.tsx",
-                lineNumber: 120,
+                lineNumber: 172,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/bgi-inverntory/src/app/dashboard/page.tsx",
-        lineNumber: 91,
+        lineNumber: 142,
         columnNumber: 5
     }, this);
 }
-_s1(HomePage, "Kz2y7NythTs230fErXcbNxUWDbM=", false, function() {
+_s1(HomePage, "nsEsPtOPFQlK4REXHWATSoLWzL0=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"],
         useRole

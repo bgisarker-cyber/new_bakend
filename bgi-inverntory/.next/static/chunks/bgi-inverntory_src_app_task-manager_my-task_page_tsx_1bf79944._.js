@@ -20,6 +20,7 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
+// Config
 __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].defaults.baseURL = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].interceptors.request.use((cfg)=>{
     const token = ("TURBOPACK compile-time truthy", 1) ? localStorage.getItem("access_token") : "TURBOPACK unreachable";
@@ -32,11 +33,14 @@ function MyTasksBoard() {
     const [selected, setSelected] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [search, setSearch] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
     const [filterStatus, setFilterStatus] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("all");
+    const [bankFilter, setBankFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("all");
+    const [problemTypeFilter, setProblemTypeFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("all");
+    const [dateFrom, setDateFrom] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [dateTo, setDateTo] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [isEditing, setIsEditing] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [formData, setFormData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({});
-    const [statusUpdate, setStatusUpdate] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("open");
-    const [updateNote, setUpdateNote] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
-    const [showStatusDialog, setShowStatusDialog] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
-    // FIXED: Changed endpoint from /tasks/my to /my-tasks
+    const [statusNote, setStatusNote] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    // Queries
     const { data = [], isLoading, refetch } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useQuery$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useQuery"])({
         queryKey: [
             "my-tasks"
@@ -57,20 +61,99 @@ function MyTasksBoard() {
         }["MyTasksBoard.useQuery"],
         enabled: !!selected
     });
+    const { data: banks = [] } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useQuery$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useQuery"])({
+        queryKey: [
+            "banks"
+        ],
+        queryFn: {
+            "MyTasksBoard.useQuery": async ()=>(await __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get("/tasks/banks")).data
+        }["MyTasksBoard.useQuery"],
+        staleTime: 5 * 60 * 1000
+    });
+    const { data: problemTypes = [] } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useQuery$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useQuery"])({
+        queryKey: [
+            "problem-types"
+        ],
+        queryFn: {
+            "MyTasksBoard.useQuery": async ()=>(await __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get("/tasks/problem-types")).data
+        }["MyTasksBoard.useQuery"],
+        staleTime: 5 * 60 * 1000
+    });
+    // Filter options
+    const bankOptions = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
+        "MyTasksBoard.useMemo[bankOptions]": ()=>{
+            const names = Array.from(new Set(banks.map({
+                "MyTasksBoard.useMemo[bankOptions].names": (b)=>b.name
+            }["MyTasksBoard.useMemo[bankOptions].names"])));
+            return [
+                "all",
+                ...names
+            ];
+        }
+    }["MyTasksBoard.useMemo[bankOptions]"], [
+        banks
+    ]);
+    const problemTypeOptions = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
+        "MyTasksBoard.useMemo[problemTypeOptions]": ()=>{
+            const names = Array.from(new Set(problemTypes.map({
+                "MyTasksBoard.useMemo[problemTypeOptions].names": (pt)=>pt.name
+            }["MyTasksBoard.useMemo[problemTypeOptions].names"])));
+            return [
+                "all",
+                ...names
+            ];
+        }
+    }["MyTasksBoard.useMemo[problemTypeOptions]"], [
+        problemTypes
+    ]);
+    // Filtered tasks
     const filtered = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
         "MyTasksBoard.useMemo[filtered]": ()=>{
             let base = data.filter({
                 "MyTasksBoard.useMemo[filtered].base": (t)=>filterStatus === "all" ? true : t.status === filterStatus
             }["MyTasksBoard.useMemo[filtered].base"]).filter({
-                "MyTasksBoard.useMemo[filtered].base": (t)=>"".concat(t.task_type, " ").concat(t.merchant_name || '', " ").concat(t.address || '', " ").concat(t.problem_type || '', " ").concat(t.tid || '', " ").concat(t.mid || '', " ").concat(t.bank).toLowerCase().includes(search.toLowerCase())
+                "MyTasksBoard.useMemo[filtered].base": (t)=>bankFilter === "all" ? true : t.bank === bankFilter
+            }["MyTasksBoard.useMemo[filtered].base"]).filter({
+                "MyTasksBoard.useMemo[filtered].base": (t)=>problemTypeFilter === "all" ? true : t.problem_type === problemTypeFilter
+            }["MyTasksBoard.useMemo[filtered].base"]).filter({
+                "MyTasksBoard.useMemo[filtered].base": (t)=>"".concat(t.task_type, " ").concat(t.merchant_name || '', " ").concat(t.address || '', " ").concat(t.problem_type || '', " ").concat(t.tid || '', " ").concat(t.mid || '', " ").concat(t.bank, " ").concat(t.phone || '').toLowerCase().includes(search.toLowerCase())
             }["MyTasksBoard.useMemo[filtered].base"]);
+            if (dateFrom) base = base.filter({
+                "MyTasksBoard.useMemo[filtered]": (t)=>new Date(t.create_time) >= new Date(dateFrom)
+            }["MyTasksBoard.useMemo[filtered]"]);
+            if (dateTo) base = base.filter({
+                "MyTasksBoard.useMemo[filtered]": (t)=>new Date(t.create_time) <= new Date(dateTo)
+            }["MyTasksBoard.useMemo[filtered]"]);
             return base;
         }
     }["MyTasksBoard.useMemo[filtered]"], [
         data,
         filterStatus,
-        search
+        bankFilter,
+        problemTypeFilter,
+        search,
+        dateFrom,
+        dateTo
     ]);
+    // Mutations
+    const updateTaskMut = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useMutation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMutation"])({
+        mutationFn: {
+            "MyTasksBoard.useMutation[updateTaskMut]": (param)=>{
+                let { id, data } = param;
+                return __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].put("/my-tasks/".concat(id), data);
+            }
+        }["MyTasksBoard.useMutation[updateTaskMut]"],
+        onSuccess: {
+            "MyTasksBoard.useMutation[updateTaskMut]": ()=>{
+                queryClient.invalidateQueries({
+                    queryKey: [
+                        "my-tasks"
+                    ]
+                });
+                setIsEditing(false);
+            }
+        }["MyTasksBoard.useMutation[updateTaskMut]"]
+    });
     const updateStatusMut = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useMutation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMutation"])({
         mutationFn: {
             "MyTasksBoard.useMutation[updateStatusMut]": (param)=>{
@@ -94,35 +177,12 @@ function MyTasksBoard() {
                         selected === null || selected === void 0 ? void 0 : selected.id
                     ]
                 });
-                setShowStatusDialog(false);
-                setUpdateNote("");
+                setStatusNote("");
+                setIsEditing(false); // Exit edit mode when status changes to completed
             }
         }["MyTasksBoard.useMutation[updateStatusMut]"]
     });
-    const completeMut = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useMutation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMutation"])({
-        mutationFn: {
-            "MyTasksBoard.useMutation[completeMut]": (id)=>__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].post("/my-tasks/".concat(id, "/complete"), {
-                    note: updateNote || "Task completed"
-                })
-        }["MyTasksBoard.useMutation[completeMut]"],
-        onSuccess: {
-            "MyTasksBoard.useMutation[completeMut]": ()=>{
-                queryClient.invalidateQueries({
-                    queryKey: [
-                        "my-tasks"
-                    ]
-                });
-                queryClient.invalidateQueries({
-                    queryKey: [
-                        "my-timeline",
-                        selected === null || selected === void 0 ? void 0 : selected.id
-                    ]
-                });
-                setSelected(null);
-                setShowStatusDialog(false);
-            }
-        }["MyTasksBoard.useMutation[completeMut]"]
-    });
+    // Effects
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "MyTasksBoard.useEffect": ()=>{
             if (selected) {
@@ -135,15 +195,76 @@ function MyTasksBoard() {
                     sim_serial: selected.sim_serial || '',
                     operator: selected.operator || '',
                     problem_type: selected.problem_type || '',
-                    comment: selected.comment || ''
+                    comment: selected.comment || '',
+                    bank: selected.bank,
+                    task_type: selected.task_type,
+                    // assigned_to is NOT included - it's managed separately
+                    status: selected.status
                 });
-                setStatusUpdate(selected.status);
+                setIsEditing(false);
+                setStatusNote("");
             }
         }
     }["MyTasksBoard.useEffect"], [
         selected
     ]);
+    // Handlers
+    const handleInputChange = (field, value)=>{
+        setFormData((prev)=>({
+                ...prev,
+                [field]: value
+            }));
+    };
+    const handleSave = ()=>{
+        if (!selected) return;
+        // Add validation
+        if (formData.task_type === "Call" && !formData.problem_type) {
+            alert("Problem type is required for Call tasks");
+            return;
+        }
+        if (formData.tid && formData.tid.length !== 8) {
+            alert("TID must be 8 characters");
+            return;
+        }
+        if (formData.mid && formData.mid.length !== 15) {
+            alert("MID must be 15 characters");
+            return;
+        }
+        // Send update data WITHOUT assigned_to - it's not editable
+        const updateData = {
+            bank: formData.bank,
+            merchant_name: formData.merchant_name || null,
+            tid: formData.tid,
+            mid: formData.mid,
+            address: formData.address || null,
+            task_type: formData.task_type,
+            phone: formData.phone || null,
+            operator: formData.operator || null,
+            problem_type: formData.problem_type || null,
+            comment: formData.comment || null,
+            sim_serial: formData.sim_serial || null,
+            assigned_to: selected.assigned_to
+        };
+        updateTaskMut.mutate({
+            id: selected.id,
+            data: updateData
+        });
+    };
+    const handleStatusChange = (newStatus)=>{
+        if (!selected) return;
+        updateStatusMut.mutate({
+            id: selected.id,
+            status: newStatus,
+            note: statusNote || "Status changed to ".concat(newStatus)
+        });
+    };
     const statusColor = (s)=>s === "completed" ? "bg-green-300 text-green-900" : s === "in_progress" ? "bg-blue-300 text-blue-900" : "bg-yellow-300 text-yellow-900";
+    const statusButtonColor = (s)=>s === "completed" ? "bg-green-300 text-green-900" : s === "in_progress" ? "bg-blue-300 text-blue-900" : "bg-yellow-300 text-yellow-900";
+    // Mobile back button
+    const handleBackToList = ()=>{
+        setSelected(null);
+        setIsEditing(false);
+    };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "min-h-screen bg-[#f0f2f5] flex flex-col",
         children: [
@@ -152,26 +273,44 @@ function MyTasksBoard() {
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "max-w-[1800px] mx-auto flex items-center justify-between gap-4 flex-wrap",
                     children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                            className: "text-2xl font-bold text-gray-800",
-                            children: "📋 My Tasks"
-                        }, void 0, false, {
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex items-center gap-2",
+                            children: [
+                                selected && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    onClick: handleBackToList,
+                                    className: "md:hidden p-2 rounded-lg bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all",
+                                    children: "← Back"
+                                }, void 0, false, {
+                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                    lineNumber: 233,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                                    className: "text-2xl font-bold text-gray-800",
+                                    children: "📋 My CallS"
+                                }, void 0, false, {
+                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                    lineNumber: 240,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
                             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                            lineNumber: 99,
+                            lineNumber: 230,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "flex items-center gap-3 flex-wrap",
+                            className: "flex items-center gap-3 flex-wrap flex-1 max-w-4xl",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                     type: "text",
                                     placeholder: "Search my tasks...",
                                     value: search,
                                     onChange: (e)=>setSearch(e.target.value),
-                                    className: "px-4 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-gray-800 text-sm focus:outline-none min-w-[250px]"
+                                    className: "flex-1 min-w-[200px] px-4 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-gray-800 text-sm focus:outline-none"
                                 }, void 0, false, {
                                     fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                    lineNumber: 102,
+                                    lineNumber: 244,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -184,7 +323,7 @@ function MyTasksBoard() {
                                             children: "All Status"
                                         }, void 0, false, {
                                             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                            lineNumber: 107,
+                                            lineNumber: 257,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -192,15 +331,15 @@ function MyTasksBoard() {
                                             children: "Open"
                                         }, void 0, false, {
                                             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                            lineNumber: 107,
-                                            columnNumber: 54
+                                            lineNumber: 258,
+                                            columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                             value: "in_progress",
                                             children: "In Progress"
                                         }, void 0, false, {
                                             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                            lineNumber: 108,
+                                            lineNumber: 259,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -208,15 +347,106 @@ function MyTasksBoard() {
                                             children: "Completed"
                                         }, void 0, false, {
                                             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                            lineNumber: 108,
-                                            columnNumber: 63
+                                            lineNumber: 260,
+                                            columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                    lineNumber: 105,
+                                    lineNumber: 252,
                                     columnNumber: 13
                                 }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                    value: bankFilter,
+                                    onChange: (e)=>setBankFilter(e.target.value),
+                                    className: "px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-gray-700 text-sm",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                            value: "all",
+                                            children: "All Banks"
+                                        }, void 0, false, {
+                                            fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                            lineNumber: 268,
+                                            columnNumber: 15
+                                        }, this),
+                                        bankOptions.slice(1).map((name)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                value: name,
+                                                children: name
+                                            }, name, false, {
+                                                fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                lineNumber: 270,
+                                                columnNumber: 17
+                                            }, this))
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                    lineNumber: 263,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                    value: problemTypeFilter,
+                                    onChange: (e)=>setProblemTypeFilter(e.target.value),
+                                    className: "px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-gray-700 text-sm",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                            value: "all",
+                                            children: "All Problem Types"
+                                        }, void 0, false, {
+                                            fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                            lineNumber: 279,
+                                            columnNumber: 15
+                                        }, this),
+                                        problemTypeOptions.slice(1).map((name)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                value: name,
+                                                children: name
+                                            }, name, false, {
+                                                fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                lineNumber: 281,
+                                                columnNumber: 17
+                                            }, this))
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                    lineNumber: 274,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                    type: "date",
+                                    value: dateFrom,
+                                    onChange: (e)=>setDateFrom(e.target.value),
+                                    className: "px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-sm"
+                                }, void 0, false, {
+                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                    lineNumber: 285,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    className: "text-gray-500",
+                                    children: "to"
+                                }, void 0, false, {
+                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                    lineNumber: 291,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                    type: "date",
+                                    value: dateTo,
+                                    onChange: (e)=>setDateTo(e.target.value),
+                                    className: "px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-sm"
+                                }, void 0, false, {
+                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                    lineNumber: 292,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                            lineNumber: 243,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex items-center gap-3",
+                            children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                     className: "text-sm text-gray-600 font-semibold",
                                     children: [
@@ -225,7 +455,7 @@ function MyTasksBoard() {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                    lineNumber: 111,
+                                    lineNumber: 301,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -235,43 +465,70 @@ function MyTasksBoard() {
                                         className: "w-5 h-5 border-2 border-gray-400 border-t-gray-700 rounded-full animate-spin"
                                     }, void 0, false, {
                                         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                        lineNumber: 114,
+                                        lineNumber: 306,
                                         columnNumber: 28
                                     }, this) : "🔄"
                                 }, void 0, false, {
                                     fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                    lineNumber: 112,
+                                    lineNumber: 302,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                            lineNumber: 101,
+                            lineNumber: 300,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                    lineNumber: 98,
+                    lineNumber: 229,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                lineNumber: 97,
+                lineNumber: 228,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex-1 flex overflow-hidden",
+                className: "flex-1 flex overflow-hidden flex-col md:flex-row",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "w-[280px] border-r border-gray-300 overflow-y-auto p-3 bg-[#f0f2f5]",
+                        className: "w-full md:w-[280px] border-r-0 md:border-r border-gray-300 overflow-y-auto p-3 bg-[#f0f2f5] ".concat(selected ? 'hidden md:block' : 'block'),
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "space-y-2",
                             children: [
                                 filtered.map((t)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         onClick: ()=>setSelected(t),
-                                        className: "p-3 rounded-xl cursor-pointer transition-all ".concat((selected === null || selected === void 0 ? void 0 : selected.id) === t.id ? "bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff]" : "bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)]"),
+                                        className: "group relative p-3 rounded-xl cursor-pointer transition-all duration-200 transform ".concat((selected === null || selected === void 0 ? void 0 : selected.id) === t.id ? "bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff]" : "bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] hover:scale-[1.01]"),
                                         children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "hidden md:block absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity",
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                                                    className: "w-5 h-5 text-gray-500",
+                                                    fill: "none",
+                                                    stroke: "currentColor",
+                                                    viewBox: "0 0 24 24",
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                                        strokeLinecap: "round",
+                                                        strokeLinejoin: "round",
+                                                        strokeWidth: 2,
+                                                        d: "M9 5l7 7-7 7"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                        lineNumber: 330,
+                                                        columnNumber: 21
+                                                    }, this)
+                                                }, void 0, false, {
+                                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                    lineNumber: 329,
+                                                    columnNumber: 19
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                lineNumber: 328,
+                                                columnNumber: 17
+                                            }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "flex flex-wrap gap-1 mb-2",
                                                 children: [
@@ -280,7 +537,7 @@ function MyTasksBoard() {
                                                         children: t.status.replace("_", " ").toUpperCase()
                                                     }, void 0, false, {
                                                         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                        lineNumber: 133,
+                                                        lineNumber: 335,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -288,13 +545,21 @@ function MyTasksBoard() {
                                                         children: t.bank
                                                     }, void 0, false, {
                                                         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                        lineNumber: 136,
+                                                        lineNumber: 338,
                                                         columnNumber: 19
+                                                    }, this),
+                                                    t.problem_type && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        className: "px-2 py-0.5 rounded-full text-xs font-bold bg-purple-300 text-purple-900",
+                                                        children: t.problem_type
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                        lineNumber: 340,
+                                                        columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                lineNumber: 132,
+                                                lineNumber: 334,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -302,7 +567,7 @@ function MyTasksBoard() {
                                                 children: t.task_type
                                             }, void 0, false, {
                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                lineNumber: 138,
+                                                lineNumber: 345,
                                                 columnNumber: 17
                                             }, this),
                                             t.merchant_name && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -313,42 +578,94 @@ function MyTasksBoard() {
                                                         children: "DBA:"
                                                     }, void 0, false, {
                                                         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                        lineNumber: 139,
-                                                        columnNumber: 88
+                                                        lineNumber: 347,
+                                                        columnNumber: 70
                                                     }, this),
                                                     " ",
                                                     t.merchant_name
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                lineNumber: 139,
-                                                columnNumber: 37
+                                                lineNumber: 347,
+                                                columnNumber: 19
                                             }, this),
-                                            t.tid && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            t.phone && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 className: "text-xs text-gray-600 mb-1",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         className: "font-semibold",
-                                                        children: "TID:"
+                                                        children: "Phone:"
                                                     }, void 0, false, {
                                                         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                        lineNumber: 140,
-                                                        columnNumber: 69
+                                                        lineNumber: 350,
+                                                        columnNumber: 61
                                                     }, this),
                                                     " ",
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         className: "font-mono",
-                                                        children: t.tid
+                                                        children: t.phone
                                                     }, void 0, false, {
                                                         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                        lineNumber: 140,
+                                                        lineNumber: 350,
+                                                        columnNumber: 107
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                lineNumber: 350,
+                                                columnNumber: 19
+                                            }, this),
+                                            t.address && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                className: "text-xs text-gray-600 mb-1",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        className: "font-semibold",
+                                                        children: "Address:"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                        lineNumber: 353,
+                                                        columnNumber: 61
+                                                    }, this),
+                                                    " ",
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        className: "font-mono",
+                                                        children: t.address
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                        lineNumber: 353,
+                                                        columnNumber: 109
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                lineNumber: 353,
+                                                columnNumber: 19
+                                            }, this),
+                                            t.assigned_to_name && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                className: "text-xs text-gray-600 mb-1",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        className: "font-semibold",
+                                                        children: "Assigned To:"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                        lineNumber: 356,
+                                                        columnNumber: 61
+                                                    }, this),
+                                                    " ",
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        className: "font-mono",
+                                                        children: t.assigned_to_name
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                        lineNumber: 356,
                                                         columnNumber: 113
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                lineNumber: 140,
-                                                columnNumber: 27
+                                                lineNumber: 356,
+                                                columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 className: "text-xs text-gray-500 mt-2",
@@ -358,13 +675,13 @@ function MyTasksBoard() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                lineNumber: 141,
+                                                lineNumber: 358,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, t.id, true, {
                                         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                        lineNumber: 126,
+                                        lineNumber: 318,
                                         columnNumber: 15
                                     }, this)),
                                 filtered.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -375,7 +692,7 @@ function MyTasksBoard() {
                                             children: "🎉"
                                         }, void 0, false, {
                                             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                            lineNumber: 146,
+                                            lineNumber: 363,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -383,36 +700,65 @@ function MyTasksBoard() {
                                             children: "No tasks found"
                                         }, void 0, false, {
                                             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                            lineNumber: 147,
+                                            lineNumber: 364,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                    lineNumber: 145,
+                                    lineNumber: 362,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                            lineNumber: 124,
+                            lineNumber: 316,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                        lineNumber: 123,
+                        lineNumber: 315,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex-1 overflow-y-auto p-4 bg-[#f0f2f5]",
+                        className: "w-full md:flex-1 overflow-y-auto p-4 bg-[#f0f2f5] ".concat(selected ? 'block' : 'hidden md:block'),
                         children: selected ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "max-w-5xl mx-auto",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "md:hidden mb-4 flex items-center justify-between",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                            onClick: handleBackToList,
+                                            className: "flex items-center gap-2 px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all font-semibold text-gray-800 text-sm",
+                                            children: "← Back to Tasks"
+                                        }, void 0, false, {
+                                            fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                            lineNumber: 376,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                            className: "text-sm text-gray-600 font-semibold",
+                                            children: [
+                                                "Task #",
+                                                selected.id
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                            lineNumber: 382,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                    lineNumber: 375,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "mb-4 flex items-center justify-between",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                                            className: "text-2xl font-bold text-gray-800",
+                                            className: "text-xl md:text-2xl font-bold text-gray-800",
                                             children: [
                                                 "Task #",
                                                 selected.id,
@@ -421,103 +767,185 @@ function MyTasksBoard() {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                            lineNumber: 159,
+                                            lineNumber: 386,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "flex gap-2",
                                             children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                    onClick: ()=>setShowStatusDialog(true),
-                                                    className: "px-6 py-2 rounded-xl bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all font-bold text-gray-800",
-                                                    children: "📝 Update Status"
+                                                selected.status !== "completed" && !isEditing && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    onClick: ()=>setIsEditing(true),
+                                                    className: "px-4 md:px-6 py-2 rounded-xl bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all font-bold text-gray-800 text-sm md:text-base",
+                                                    children: "✏️ Edit"
                                                 }, void 0, false, {
                                                     fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                    lineNumber: 161,
-                                                    columnNumber: 19
-                                                }, this),
-                                                selected.status !== "completed" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                    onClick: ()=>{
-                                                        setShowStatusDialog(true);
-                                                        setStatusUpdate("completed");
-                                                    },
-                                                    className: "px-6 py-2 rounded-xl bg-green-300 text-green-900 shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all font-bold",
-                                                    children: "✅ Complete"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                    lineNumber: 166,
+                                                    lineNumber: 390,
                                                     columnNumber: 21
-                                                }, this)
+                                                }, this),
+                                                isEditing && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                            onClick: ()=>{
+                                                                setIsEditing(false);
+                                                                setFormData({
+                                                                    merchant_name: selected.merchant_name || '',
+                                                                    phone: selected.phone || '',
+                                                                    address: selected.address || '',
+                                                                    tid: selected.tid || '',
+                                                                    mid: selected.mid || '',
+                                                                    sim_serial: selected.sim_serial || '',
+                                                                    operator: selected.operator || '',
+                                                                    problem_type: selected.problem_type || '',
+                                                                    comment: selected.comment || '',
+                                                                    bank: selected.bank,
+                                                                    task_type: selected.task_type,
+                                                                    status: selected.status
+                                                                });
+                                                                setStatusNote("");
+                                                            },
+                                                            className: "px-4 md:px-6 py-2 rounded-xl bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06)] font-bold text-gray-600 text-sm md:text-base",
+                                                            children: "❌ Cancel"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                            lineNumber: 399,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                            onClick: handleSave,
+                                                            disabled: updateTaskMut.isPending,
+                                                            className: "px-4 md:px-6 py-2 rounded-xl bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06)] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all font-bold text-gray-800 disabled:opacity-50 text-sm md:text-base",
+                                                            children: updateTaskMut.isPending ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "w-5 h-5 border-2 border-gray-700 border-t-transparent rounded-full animate-spin mx-auto"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                                lineNumber: 428,
+                                                                columnNumber: 27
+                                                            }, this) : "💾 Save"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                            lineNumber: 422,
+                                                            columnNumber: 23
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                            lineNumber: 160,
+                                            lineNumber: 387,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                    lineNumber: 158,
+                                    lineNumber: 385,
                                     columnNumber: 15
                                 }, this),
+                                isEditing && selected.status !== "completed" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "mb-4 bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "flex items-center gap-3 flex-wrap",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "text-sm font-semibold text-gray-700",
+                                                children: "Status:"
+                                            }, void 0, false, {
+                                                fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                lineNumber: 440,
+                                                columnNumber: 21
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "flex gap-2",
+                                                children: [
+                                                    "open",
+                                                    "in_progress",
+                                                    "completed"
+                                                ].map((status)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                        onClick: ()=>handleStatusChange(status),
+                                                        disabled: updateStatusMut.isPending,
+                                                        className: "px-3 py-1 rounded-lg font-bold text-xs shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all disabled:opacity-50 ".concat(selected.status === status ? statusButtonColor(status) : "bg-[#f0f2f5] text-gray-600"),
+                                                        children: status.replace("_", " ").toUpperCase()
+                                                    }, status, false, {
+                                                        fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                        lineNumber: 443,
+                                                        columnNumber: 25
+                                                    }, this))
+                                            }, void 0, false, {
+                                                fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                lineNumber: 441,
+                                                columnNumber: 21
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                type: "text",
+                                                placeholder: "Status change note (optional)",
+                                                value: statusNote,
+                                                onChange: (e)=>setStatusNote(e.target.value),
+                                                className: "flex-1 min-w-[200px] px-3 py-1 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-gray-800 text-sm focus:outline-none"
+                                            }, void 0, false, {
+                                                fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                lineNumber: 455,
+                                                columnNumber: 21
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                        lineNumber: 439,
+                                        columnNumber: 19
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                    lineNumber: 438,
+                                    columnNumber: 17
+                                }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "bg-[#f0f2f5] rounded-2xl shadow-[6px_6px_12px_rgba(0,0,0,0.06),-6px_-6px_12px_#ffffff] p-4 space-y-4",
+                                    className: "bg-[#f0f2f5] rounded-2xl shadow-[6px_6px_12px_rgba(0,0,0,0.06),-6px_-6px_12px_#fff] p-4 space-y-4",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4",
+                                            className: "bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#fff] p-4",
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "grid grid-cols-2 gap-3",
+                                                className: "grid grid-cols-1 md:grid-cols-2 gap-3",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                                                 className: "block text-sm font-semibold text-gray-700 mb-1",
-                                                                children: "Bank"
+                                                                children: "Bank *"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                lineNumber: 180,
-                                                                columnNumber: 26
+                                                                lineNumber: 472,
+                                                                columnNumber: 23
                                                             }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                                type: "text",
-                                                                value: selected.bank,
-                                                                disabled: true,
-                                                                className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 opacity-50"
-                                                            }, void 0, false, {
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                                                value: formData.bank || '',
+                                                                onChange: (e)=>handleInputChange('bank', e.target.value),
+                                                                disabled: !isEditing,
+                                                                className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#fff] border-0 text-gray-800 disabled:opacity-50",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                        value: "",
+                                                                        children: "Select Bank"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                                        lineNumber: 479,
+                                                                        columnNumber: 25
+                                                                    }, this),
+                                                                    banks.map((bank)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                            value: bank.name,
+                                                                            children: bank.name
+                                                                        }, bank.id, false, {
+                                                                            fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                                            lineNumber: 481,
+                                                                            columnNumber: 27
+                                                                        }, this))
+                                                                ]
+                                                            }, void 0, true, {
                                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                lineNumber: 181,
+                                                                lineNumber: 473,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                        lineNumber: 180,
-                                                        columnNumber: 21
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                                                className: "block text-sm font-semibold text-gray-700 mb-1",
-                                                                children: "Status"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                lineNumber: 182,
-                                                                columnNumber: 26
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                                type: "text",
-                                                                value: selected.status.replace("_", " ").toUpperCase(),
-                                                                disabled: true,
-                                                                className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 opacity-50"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                lineNumber: 183,
-                                                                columnNumber: 23
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                        lineNumber: 182,
+                                                        lineNumber: 471,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -527,118 +955,97 @@ function MyTasksBoard() {
                                                                 children: "DBA Name"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                lineNumber: 184,
-                                                                columnNumber: 26
+                                                                lineNumber: 488,
+                                                                columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                                                 type: "text",
                                                                 value: formData.merchant_name || '',
-                                                                disabled: true,
-                                                                className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 opacity-50"
+                                                                onChange: (e)=>handleInputChange('merchant_name', e.target.value),
+                                                                disabled: !isEditing,
+                                                                className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 disabled:opacity-50"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                lineNumber: 185,
+                                                                lineNumber: 489,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                        lineNumber: 184,
+                                                        lineNumber: 487,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                                                 className: "block text-sm font-semibold text-gray-700 mb-1",
-                                                                children: "Task Type"
+                                                                children: "TID (8 chars)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                lineNumber: 186,
-                                                                columnNumber: 26
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                                type: "text",
-                                                                value: selected.task_type,
-                                                                disabled: true,
-                                                                className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 opacity-50"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                lineNumber: 187,
+                                                                lineNumber: 498,
                                                                 columnNumber: 23
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                        lineNumber: 186,
-                                                        columnNumber: 21
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                                                className: "block text-sm font-semibold text-gray-700 mb-1",
-                                                                children: "TID"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                lineNumber: 188,
-                                                                columnNumber: 26
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                                                 type: "text",
                                                                 value: formData.tid || '',
-                                                                disabled: true,
-                                                                className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 font-mono opacity-50"
+                                                                onChange: (e)=>handleInputChange('tid', e.target.value),
+                                                                disabled: !isEditing,
+                                                                maxLength: 8,
+                                                                className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 font-mono disabled:opacity-50"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                lineNumber: 189,
+                                                                lineNumber: 499,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                        lineNumber: 188,
+                                                        lineNumber: 497,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                                                 className: "block text-sm font-semibold text-gray-700 mb-1",
-                                                                children: "MID"
+                                                                children: "MID (15 chars)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                lineNumber: 190,
-                                                                columnNumber: 26
+                                                                lineNumber: 509,
+                                                                columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                                                 type: "text",
                                                                 value: formData.mid || '',
-                                                                disabled: true,
-                                                                className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 font-mono opacity-50"
+                                                                onChange: (e)=>handleInputChange('mid', e.target.value),
+                                                                disabled: !isEditing,
+                                                                maxLength: 15,
+                                                                className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 font-mono disabled:opacity-50"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                lineNumber: 191,
+                                                                lineNumber: 510,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                        lineNumber: 190,
+                                                        lineNumber: 508,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                lineNumber: 179,
+                                                lineNumber: 470,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                            lineNumber: 177,
+                                            lineNumber: 469,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4",
+                                            className: "bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#fff] p-4",
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "grid grid-cols-2 gap-3",
+                                                className: "grid grid-cols-1 md:grid-cols-2 gap-3",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         children: [
@@ -647,23 +1054,24 @@ function MyTasksBoard() {
                                                                 children: "ADDRESS"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                lineNumber: 199,
-                                                                columnNumber: 26
+                                                                lineNumber: 526,
+                                                                columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
                                                                 value: formData.address || '',
-                                                                disabled: true,
+                                                                onChange: (e)=>handleInputChange('address', e.target.value),
+                                                                disabled: !isEditing,
                                                                 rows: 3,
-                                                                className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 resize-none opacity-50"
+                                                                className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 resize-none disabled:opacity-50"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                lineNumber: 200,
+                                                                lineNumber: 527,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                        lineNumber: 199,
+                                                        lineNumber: 525,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -676,23 +1084,24 @@ function MyTasksBoard() {
                                                                         children: "PHONE"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                        lineNumber: 202,
-                                                                        columnNumber: 28
+                                                                        lineNumber: 537,
+                                                                        columnNumber: 25
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                                                         type: "text",
                                                                         value: formData.phone || '',
-                                                                        disabled: true,
-                                                                        className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 opacity-50"
+                                                                        onChange: (e)=>handleInputChange('phone', e.target.value),
+                                                                        disabled: !isEditing,
+                                                                        className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 disabled:opacity-50"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                        lineNumber: 203,
+                                                                        lineNumber: 538,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                lineNumber: 202,
+                                                                lineNumber: 536,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -702,29 +1111,63 @@ function MyTasksBoard() {
                                                                         children: "OPERATOR"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                        lineNumber: 204,
-                                                                        columnNumber: 28
+                                                                        lineNumber: 547,
+                                                                        columnNumber: 25
                                                                     }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                                        type: "text",
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
                                                                         value: formData.operator || '',
-                                                                        disabled: true,
-                                                                        className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 opacity-50"
-                                                                    }, void 0, false, {
+                                                                        onChange: (e)=>handleInputChange('operator', e.target.value),
+                                                                        disabled: !isEditing,
+                                                                        className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 disabled:opacity-50",
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                                value: "",
+                                                                                children: "Select"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                                                lineNumber: 554,
+                                                                                columnNumber: 27
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                                value: "ROBI",
+                                                                                children: "ROBI"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                                                lineNumber: 555,
+                                                                                columnNumber: 27
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                                value: "GRAMEENPHONE",
+                                                                                children: "GRAMEENPHONE"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                                                lineNumber: 556,
+                                                                                columnNumber: 27
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                                value: "BANGLALINK",
+                                                                                children: "BANGLALINK"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                                                lineNumber: 557,
+                                                                                columnNumber: 27
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
                                                                         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                        lineNumber: 205,
+                                                                        lineNumber: 548,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                lineNumber: 204,
+                                                                lineNumber: 546,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                        lineNumber: 201,
+                                                        lineNumber: 535,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -734,23 +1177,25 @@ function MyTasksBoard() {
                                                                 children: "SIM Serial"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                lineNumber: 207,
-                                                                columnNumber: 26
+                                                                lineNumber: 562,
+                                                                columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                                                 type: "text",
                                                                 value: formData.sim_serial || '',
-                                                                disabled: true,
-                                                                className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 font-mono opacity-50"
+                                                                onChange: (e)=>handleInputChange('sim_serial', e.target.value),
+                                                                disabled: !isEditing,
+                                                                maxLength: 30,
+                                                                className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 font-mono disabled:opacity-50"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                lineNumber: 208,
+                                                                lineNumber: 563,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                        lineNumber: 207,
+                                                        lineNumber: 561,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -760,141 +1205,91 @@ function MyTasksBoard() {
                                                                 children: "Problem Type"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                lineNumber: 209,
-                                                                columnNumber: 26
+                                                                lineNumber: 573,
+                                                                columnNumber: 23
                                                             }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                                type: "text",
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
                                                                 value: formData.problem_type || '',
-                                                                disabled: true,
-                                                                className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 opacity-50"
-                                                            }, void 0, false, {
+                                                                onChange: (e)=>handleInputChange('problem_type', e.target.value),
+                                                                disabled: !isEditing,
+                                                                className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 disabled:opacity-50",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                        value: "",
+                                                                        children: "Select Problem Type"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                                        lineNumber: 580,
+                                                                        columnNumber: 25
+                                                                    }, this),
+                                                                    problemTypes.map((pt)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                            value: pt.name,
+                                                                            children: pt.name
+                                                                        }, pt.id, false, {
+                                                                            fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                                            lineNumber: 582,
+                                                                            columnNumber: 27
+                                                                        }, this))
+                                                                ]
+                                                            }, void 0, true, {
                                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                lineNumber: 210,
+                                                                lineNumber: 574,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                        lineNumber: 209,
+                                                        lineNumber: 572,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                lineNumber: 198,
+                                                lineNumber: 524,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                            lineNumber: 196,
+                                            lineNumber: 523,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4",
+                                            className: "bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#fff] p-4",
                                             children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                                            className: "block text-sm font-semibold text-gray-700 mb-1",
-                                                            children: "COMMENT"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                            lineNumber: 217,
-                                                            columnNumber: 24
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
-                                                            value: formData.comment || '',
-                                                            disabled: true,
-                                                            rows: 4,
-                                                            className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 resize-none opacity-50"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                            lineNumber: 218,
-                                                            columnNumber: 21
-                                                        }, this)
-                                                    ]
-                                                }, void 0, true, {
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                    className: "block text-sm font-semibold text-gray-700 mb-1",
+                                                    children: "COMMENT"
+                                                }, void 0, false, {
                                                     fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                    lineNumber: 217,
+                                                    lineNumber: 593,
                                                     columnNumber: 19
                                                 }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "grid grid-cols-2 gap-3 mt-3",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                                                    className: "block text-sm font-semibold text-gray-700 mb-1",
-                                                                    children: "Created"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                    lineNumber: 221,
-                                                                    columnNumber: 26
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                                    type: "text",
-                                                                    value: new Date(selected.create_time).toLocaleString(),
-                                                                    disabled: true,
-                                                                    className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 opacity-50"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                    lineNumber: 222,
-                                                                    columnNumber: 23
-                                                                }, this)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                            lineNumber: 221,
-                                                            columnNumber: 21
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                                                    className: "block text-sm font-semibold text-gray-700 mb-1",
-                                                                    children: "Last Updated"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                    lineNumber: 223,
-                                                                    columnNumber: 26
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                                    type: "text",
-                                                                    value: new Date(selected.update_time).toLocaleString(),
-                                                                    disabled: true,
-                                                                    className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 opacity-50"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                    lineNumber: 224,
-                                                                    columnNumber: 23
-                                                                }, this)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                            lineNumber: 223,
-                                                            columnNumber: 21
-                                                        }, this)
-                                                    ]
-                                                }, void 0, true, {
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
+                                                    value: formData.comment || '',
+                                                    onChange: (e)=>handleInputChange('comment', e.target.value),
+                                                    disabled: !isEditing,
+                                                    rows: 4,
+                                                    className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1)] border-0 text-gray-800 resize-none disabled:opacity-50"
+                                                }, void 0, false, {
                                                     fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                    lineNumber: 220,
+                                                    lineNumber: 594,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                            lineNumber: 215,
+                                            lineNumber: 592,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#ffffff] p-4",
+                                            className: "bg-[#f0f2f5] rounded-xl shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_#fff] p-4",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
                                                     className: "text-lg font-bold text-gray-800 mb-3",
                                                     children: "Update Timeline"
                                                 }, void 0, false, {
                                                     fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                    lineNumber: 230,
+                                                    lineNumber: 605,
                                                     columnNumber: 19
                                                 }, this),
                                                 timeline.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -902,12 +1297,12 @@ function MyTasksBoard() {
                                                     children: "ℹ️ No updates yet"
                                                 }, void 0, false, {
                                                     fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                    lineNumber: 232,
+                                                    lineNumber: 607,
                                                     columnNumber: 21
                                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "space-y-3",
                                                     children: timeline.map((u)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "bg-[#f0f2f5] rounded-lg shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] p-3",
+                                                            className: "bg-[#f0f2f5] rounded-lg shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#fff] p-3",
                                                             children: [
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                     className: "flex items-center gap-2 mb-1",
@@ -917,7 +1312,7 @@ function MyTasksBoard() {
                                                                             children: u.status.toUpperCase()
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                            lineNumber: 238,
+                                                                            lineNumber: 613,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -931,13 +1326,13 @@ function MyTasksBoard() {
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                            lineNumber: 239,
+                                                                            lineNumber: 614,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                    lineNumber: 237,
+                                                                    lineNumber: 612,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -945,7 +1340,7 @@ function MyTasksBoard() {
                                                                     children: u.update_text || "—"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                    lineNumber: 241,
+                                                                    lineNumber: 616,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 u.assigned_to_name && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -957,229 +1352,124 @@ function MyTasksBoard() {
                                                                             children: u.assigned_to_name
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                            lineNumber: 242,
+                                                                            lineNumber: 617,
                                                                             columnNumber: 90
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                                    lineNumber: 242,
+                                                                    lineNumber: 617,
                                                                     columnNumber: 50
                                                                 }, this)
                                                             ]
                                                         }, u.id, true, {
                                                             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                            lineNumber: 236,
+                                                            lineNumber: 611,
                                                             columnNumber: 25
                                                         }, this))
                                                 }, void 0, false, {
                                                     fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                    lineNumber: 234,
+                                                    lineNumber: 609,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                            lineNumber: 229,
+                                            lineNumber: 604,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                    lineNumber: 175,
+                                    lineNumber: 467,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                            lineNumber: 156,
+                            lineNumber: 373,
                             columnNumber: 13
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "flex items-center justify-center h-full text-gray-500 text-xl font-medium",
-                            children: "Select a task on the left to view details"
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "text-center p-8",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "mb-4",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                                            className: "w-16 h-16 mx-auto text-gray-400",
+                                            fill: "none",
+                                            stroke: "currentColor",
+                                            viewBox: "0 0 24 24",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                                strokeLinecap: "round",
+                                                strokeLinejoin: "round",
+                                                strokeWidth: 2,
+                                                d: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                                            }, void 0, false, {
+                                                fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                                lineNumber: 630,
+                                                columnNumber: 21
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                            lineNumber: 629,
+                                            columnNumber: 19
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                        lineNumber: 628,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                        className: "text-lg",
+                                        children: "Select a task to view details"
+                                    }, void 0, false, {
+                                        fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                        lineNumber: 633,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                        className: "text-sm text-gray-400 mt-2",
+                                        children: "Tap a card from the list"
+                                    }, void 0, false, {
+                                        fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                        lineNumber: 634,
+                                        columnNumber: 17
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
+                                lineNumber: 627,
+                                columnNumber: 15
+                            }, this)
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                            lineNumber: 251,
+                            lineNumber: 626,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                        lineNumber: 154,
+                        lineNumber: 371,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                lineNumber: 121,
+                lineNumber: 313,
                 columnNumber: 7
-            }, this),
-            showStatusDialog && selected && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50",
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "bg-[#f0f2f5] rounded-2xl shadow-[8px_8px_16px_rgba(0,0,0,0.1),-8px_-8px_16px_#ffffff] w-full max-w-md p-6",
-                    children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                            className: "text-xl font-bold text-gray-800 mb-4",
-                            children: "Update Task Status"
-                        }, void 0, false, {
-                            fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                            lineNumber: 262,
-                            columnNumber: 13
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "space-y-4",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                            className: "block text-sm font-semibold text-gray-700 mb-2",
-                                            children: "Status"
-                                        }, void 0, false, {
-                                            fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                            lineNumber: 266,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
-                                            value: statusUpdate,
-                                            onChange: (e)=>setStatusUpdate(e.target.value),
-                                            className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-gray-800 focus:outline-none",
-                                            children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                    value: "open",
-                                                    children: "Open"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                    lineNumber: 269,
-                                                    columnNumber: 19
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                    value: "in_progress",
-                                                    children: "In Progress"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                    lineNumber: 270,
-                                                    columnNumber: 19
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                    value: "completed",
-                                                    children: "Completed"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                                    lineNumber: 271,
-                                                    columnNumber: 19
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                            lineNumber: 267,
-                                            columnNumber: 17
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                    lineNumber: 265,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                            className: "block text-sm font-semibold text-gray-700 mb-2",
-                                            children: "Note (optional)"
-                                        }, void 0, false, {
-                                            fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                            lineNumber: 276,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
-                                            value: updateNote,
-                                            onChange: (e)=>setUpdateNote(e.target.value),
-                                            rows: 3,
-                                            placeholder: "Add a note about this update...",
-                                            className: "w-full px-3 py-2 rounded-lg bg-[#f0f2f5] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.1),inset_-2px_-2px_4px_#ffffff] border-0 text-gray-800 focus:outline-none resize-none"
-                                        }, void 0, false, {
-                                            fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                            lineNumber: 277,
-                                            columnNumber: 17
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                    lineNumber: 275,
-                                    columnNumber: 15
-                                }, this)
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                            lineNumber: 264,
-                            columnNumber: 13
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "flex gap-3 mt-6",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                    onClick: ()=>{
-                                        setShowStatusDialog(false);
-                                        setUpdateNote("");
-                                    },
-                                    className: "flex-1 px-4 py-2 rounded-xl bg-[#f0f2f5] shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] transition-all font-bold text-gray-600",
-                                    children: "Cancel"
-                                }, void 0, false, {
-                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                    lineNumber: 284,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                    onClick: ()=>{
-                                        if (statusUpdate === "completed") {
-                                            completeMut.mutate(selected.id);
-                                        } else {
-                                            updateStatusMut.mutate({
-                                                id: selected.id,
-                                                status: statusUpdate,
-                                                note: updateNote
-                                            });
-                                        }
-                                    },
-                                    disabled: updateStatusMut.isPending || completeMut.isPending,
-                                    className: "flex-1 px-4 py-2 rounded-xl bg-blue-300 text-blue-900 shadow-[4px_4px_8px_rgba(0,0,0,0.06),-4px_-4px_8px_#ffffff] hover:shadow-[2px_2px_6px_rgba(0,0,0,0.08)] active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.12)] transition-all font-bold disabled:opacity-50",
-                                    children: updateStatusMut.isPending || completeMut.isPending ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "w-5 h-5 border-2 border-blue-900 border-t-transparent rounded-full animate-spin mx-auto"
-                                    }, void 0, false, {
-                                        fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                        lineNumber: 299,
-                                        columnNumber: 19
-                                    }, this) : "Save"
-                                }, void 0, false, {
-                                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                                    lineNumber: 288,
-                                    columnNumber: 15
-                                }, this)
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                            lineNumber: 283,
-                            columnNumber: 13
-                        }, this)
-                    ]
-                }, void 0, true, {
-                    fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                    lineNumber: 261,
-                    columnNumber: 11
-                }, this)
-            }, void 0, false, {
-                fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-                lineNumber: 260,
-                columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-        lineNumber: 95,
+        lineNumber: 226,
         columnNumber: 5
     }, this);
 }
-_s(MyTasksBoard, "2Y4elxiIiegfBXlAaEHvfDd/VYA=", false, function() {
+_s(MyTasksBoard, "MkRF2Ccp2G5R7hCAvFiHOyrOBIY=", false, function() {
     return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useQuery$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useQuery"],
+        __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useQuery$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useQuery"],
         __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useQuery$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useQuery"],
         __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useQuery$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useQuery"],
         __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useMutation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMutation"],
@@ -1192,12 +1482,12 @@ function MyTasksPage() {
         client: queryClient,
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(MyTasksBoard, {}, void 0, false, {
             fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-            lineNumber: 313,
+            lineNumber: 647,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/app/task-manager/my-task/page.tsx",
-        lineNumber: 312,
+        lineNumber: 646,
         columnNumber: 5
     }, this);
 }

@@ -24,6 +24,7 @@ const UsersPage = () => {
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [counter_users, setCounter_users] = useState(0);
 
   // Filters
   const [usernameFilter, setUsernameFilter] = useState("");
@@ -34,7 +35,7 @@ const UsersPage = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
-  const API_BASE = "http://127.0.0.1:8000/auth"; // 🔧 Adjust backend base URL if needed
+  const API_BASE = "http://127.0.0.1:8000/auth"; // Removed trailing space
 
   // ==========================
   // Auth Headers
@@ -62,6 +63,7 @@ const UsersPage = () => {
         if (!res.ok) throw new Error("Failed to load users");
 
         const data = await res.json();
+        setCounter_users(data.data.length);
         setUsers(data.data);
         setFilteredUsers(data.data);
       } catch (err: any) {
@@ -93,6 +95,28 @@ const UsersPage = () => {
   }, [usernameFilter, emailFilter, roleFilter, users]);
 
   // ==========================
+  // Export Excel
+  // ==========================
+  const handleExport = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(`${API_BASE}/download`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "Users_Export.xlsx";
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (err: any) {
+      alert("❌ Download failed: " + err.message);
+    }
+  };
+
+  // ==========================
   // Delete User
   // ==========================
   const handleDeleteUser = async () => {
@@ -118,6 +142,7 @@ const UsersPage = () => {
 
       alert("✅ User deleted!");
       setShowDeleteModal(false);
+      setCounter_users(prev => prev - 1);
       setUsers((prev) => prev.filter((u) => u.id !== selectedUser.id));
       setFilteredUsers((prev) => prev.filter((u) => u.id !== selectedUser.id));
     } catch (err: any) {
@@ -130,11 +155,9 @@ const UsersPage = () => {
   // ==========================
   const columns: TableColumn<User>[] = [
     { name: "SL", selector: (row) => row.id, width: "60px" },
-    { name: "Username", selector: (row) => row.username },
-    { name: "Email", selector: (row) => row.email },
-    
-
-    { name: "Role", selector: (row) => row.role },
+    { name: "Username", selector: (row) => row.username, style: { minWidth: "150px" } },
+    { name: "Email", selector: (row) => row.email, style: { minWidth: "200px" } },
+    { name: "Role", selector: (row) => row.role, style: { minWidth: "120px" } },
     {
       name: "Actions",
       cell: (row) => (
@@ -155,35 +178,57 @@ const UsersPage = () => {
   // ==========================
   // Render UI
   // ==========================
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (loading) return <p className="text-center mt-20">Loading...</p>;
+  if (error) return <p className="text-red-500 text-center mt-20">{error}</p>;
 
   return (
-    <div className="p-6 relative">
-      <h1 className="text-2xl font-bold mb-4">User Management</h1>
+    <div className="min-h-screen p-6 bg-[#e6e9ef] flex flex-col items-center">
+      {/* Title and Top Bar */}
+      <div className="flex flex-col items-center mb-6 w-full max-w-7xl">
+        <h1 className="text-3xl font-bold mb-2 text-center">User Management</h1>
+        <div className="flex justify-between items-center w-full px-4">
+          {/* Left - Export */}
+          <div className="flex-1">
+            <button
+              onClick={handleExport}
+              className="px-6 py-3 rounded-2xl bg-[#e6e9ef] shadow-[6px_6px_12px_rgba(0,0,0,0.15),-6px_-6px_#ffffff] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_#ffffff] font-semibold"
+            >
+              ⬇️ Export Excel
+            </button>
+          </div>
+          
+          {/* Center - Total Users */}
+          <div className="flex-1 text-center">
+            <h2 className="text-xl font-semibold">Total Users: {counter_users}</h2>
+          </div>
+          
+          {/* Right - Empty for balance */}
+          <div className="flex-1"></div>
+        </div>
+      </div>
 
-      {/* Filters */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+      {/* Filters - Neumorphic styled */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 max-w-7xl w-full px-4">
         <input
           type="text"
           placeholder="Filter by Username"
           value={usernameFilter}
           onChange={(e) => setUsernameFilter(e.target.value)}
-          className="border rounded px-3 py-2"
+          className="px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
         <input
           type="text"
           placeholder="Filter by Email"
           value={emailFilter}
           onChange={(e) => setEmailFilter(e.target.value)}
-          className="border rounded px-3 py-2"
+          className="px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
         <input
           type="text"
           placeholder="Filter by Role"
           value={roleFilter}
           onChange={(e) => setRoleFilter(e.target.value)}
-          className="border rounded px-3 py-2"
+          className="px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
         <button
           onClick={() => {
@@ -191,14 +236,14 @@ const UsersPage = () => {
             setEmailFilter("");
             setRoleFilter("");
           }}
-          className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
+          className="px-4 py-2 rounded-2xl bg-gray-200 hover:bg-gray-300 font-semibold"
         >
           Clear
         </button>
       </div>
 
-      {/* Table */}
-      <div className="bg-white rounded shadow-md p-2">
+      {/* Data Table - Neumorphic container */}
+      <div className="bg-white rounded-2xl shadow-md p-2 overflow-x-auto w-full max-w-7xl px-4">
         <DataTable
           columns={columns}
           data={filteredUsers}
@@ -209,10 +254,10 @@ const UsersPage = () => {
         />
       </div>
 
-      {/* DELETE MODAL */}
+      {/* DELETE MODAL - Neumorphic styled */}
       {showDeleteModal && selectedUser && (
-        <div className="absolute top-20 left-1/2 transform -translate-x-1/2 z-50">
-          <div className="bg-white p-6 rounded shadow-xl w-full max-w-sm border border-gray-200 text-center">
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+          <div className="bg-[#e6e9ef] p-6 rounded-2xl w-full max-w-sm shadow-[8px_8px_16px_rgba(0,0,0,0.18),-6px_-6px_#ffffff] text-center">
             <h2 className="text-lg font-semibold mb-3">Confirm Delete</h2>
             <p className="mb-4">
               Are you sure you want to delete user{" "}
@@ -221,13 +266,13 @@ const UsersPage = () => {
             <div className="flex justify-center gap-4">
               <button
                 onClick={() => setShowDeleteModal(false)}
-                className="bg-gray-300 px-4 py-2 rounded"
+                className="bg-gray-300 px-4 py-2 rounded-2xl font-semibold"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDeleteUser}
-                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                className="bg-red-600 text-white px-4 py-2 rounded-2xl hover:bg-red-700 font-semibold"
               >
                 Delete
               </button>

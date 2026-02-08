@@ -1,15 +1,17 @@
 {
   "/citybank/page": "app/citybank/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
+  "/debug/page": "app/debug/page.js",
+  "/demo/page": "app/demo/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/islamibank/page": "app/islamibank/page.js",
+  "/live/page": "app/live/page.js",
   "/login/page": "app/login/page.js",
-  "/mtbbank/page": "app/mtbbank/page.js",
-  "/page": "app/page.js",
-  "/pubalibank/page": "app/pubalibank/page.js",
   "/standardbank/page": "app/standardbank/page.js",
+  "/store/page": "app/store/page.js",
   "/task-manager/create-task/page": "app/task-manager/create-task/page.js",
-  "/task-manager/my-task/page": "app/task-manager/my-task/page.js",
   "/task-manager/task-call/page": "app/task-manager/task-call/page.js",
-  "/task_control/page": "app/task_control/page.js"
+  "/task_control/page": "app/task_control/page.js",
+  "/user-log/page": "app/user-log/page.js",
+  "/user-show/page": "app/user-show/page.js",
+  "/users-add/page": "app/users-add/page.js"
 }

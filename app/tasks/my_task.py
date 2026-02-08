@@ -1,6 +1,5 @@
-# app/routers/my_task.py
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 from fastapi import APIRouter, HTTPException, status, Body, Depends
 from psycopg2.extras import RealDictCursor
 from pydantic import BaseModel, Field
@@ -12,7 +11,6 @@ from app.utils.role_check import check_role
 from app.routers.task_helpers import _get_task_or_404
 import logging
 
-# CRITICAL: Use different prefix to avoid route conflicts with tasks.py
 router = APIRouter(prefix="/my-tasks", tags=["MyTasks"])
 logger = logging.getLogger(__name__)
 
@@ -23,6 +21,21 @@ class StatusUpdateInput(BaseModel):
 
 class CompleteInput(BaseModel):
     note: str = Field("", max_length=500)
+
+# NEW MODEL for my-tasks update - assigned_to is optional
+class TaskUpdateMy(BaseModel):
+    bank: str
+    merchant_name: Optional[str] = None
+    tid: str
+    mid: str
+    address: Optional[str] = None
+    task_type: str
+    phone: Optional[str] = None
+    operator: Optional[str] = None
+    problem_type: Optional[str] = None
+    comment: Optional[str] = None
+    sim_serial: Optional[str] = None
+    assigned_to: Optional[int] = None  # Make it optional
 
 # ==================== GET MY TASKS ====================
 @router.get("", response_model=List[TaskResponse])
@@ -170,3 +183,54 @@ def my_task_timeline(task_id: int, current_user=Depends(get_current_user)):
         timeline.append(TaskUpdateResponse(**update_dict))
     
     return timeline
+
+# ==================== UPDATE MY TASK (FULL) ====================
+@router.put("/{task_id}", response_model=dict)
+def update_my_task(
+    task_id: int, 
+    data: TaskUpdateMy,  # Use the new model with optional assigned_to
+    current_user=Depends(get_current_user)
+):
+    """Update task assigned to current user"""
+    check_role(current_user, ["support", "admin", "superadmin"])
+    
+    task = _get_task_or_404(task_id)
+    if task["assigned_to"] != current_user["id"] and current_user["role"] not in ["admin", "superadmin"]:
+        raise HTTPException(status_code=403, detail="Task not assigned to you")
+    
+    # Validation
+    if len(data.tid) != 8:
+        raise HTTPException(status_code=400, detail="TID must be exactly 8 characters")
+    if len(data.mid) != 15:
+        raise HTTPException(status_code=400, detail="MID must be exactly 15 characters")
+    if data.sim_serial and len(data.sim_serial) > 30:
+        raise HTTPException(status_code=400, detail="SIM Serial must be 30 characters or less")
+    
+    if data.task_type == "Call" and not data.problem_type:
+        raise HTTPException(status_code=400, detail="Problem type required for Call tasks")
+    
+    # Use existing assigned_to if not provided (for my-tasks, we don't allow reassigning)
+    assigned_to = data.assigned_to if data.assigned_to is not None else task["assigned_to"]
+    
+    sql = """
+        UPDATE tasks
+        SET bank = %s, merchant_name = %s, tid = %s, mid = %s, address = %s, task_type = %s,
+            phone = %s, operator = %s, problem_type = %s,
+            assigned_to = %s, update_time = NOW(), comment = %s, sim_serial = %s
+        WHERE id = %s;
+    """
+    
+    try:
+        with conn.cursor() as cur:
+            cur.execute(sql, (
+                data.bank, data.merchant_name, data.tid, data.mid, data.address, 
+                data.task_type, data.phone, data.operator, 
+                data.problem_type if data.task_type == "Call" else None,
+                assigned_to, data.comment, data.sim_serial, task_id
+            ))
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=500, detail=f"Update error: {e}")
+    
+    return {"message": "Task updated successfully", "task_id": task_id}

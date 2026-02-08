@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.database import conn, cursor
 from app.routers import users
 from app.local import debug, demo, store, faulty
-from app.routers import citypos, pubalipos, islami, mtb, standard, pb_wittdraw, pb_replace, city_replace
+from app.routers import citypos, pubalipos, islami, mtb, standard, pb_wittdraw, pb_replace, city_replace,terminals
 from app.utils import logger
 from app.tasks import tasks, uit_task, my_task, task_control
 
@@ -25,6 +25,7 @@ app.include_router(standard.router)
 app.include_router(pb_wittdraw.router)
 app.include_router(pb_replace.router)
 app.include_router(city_replace.router)
+app.include_router(terminals.router)
 
 # Include for local routers
 app.include_router(store.router)

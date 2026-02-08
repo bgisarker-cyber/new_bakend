@@ -203,35 +203,47 @@ const CityPOSPage = ()=>{
         {
             name: "MID",
             selector: (r)=>r.mid,
-            minWidth: "150px"
+            style: {
+                minWidth: "150px"
+            }
         },
         {
             name: "Merchant Name",
             selector: (r)=>r.merchant_name,
             wrap: true,
-            minWidth: "200px"
+            style: {
+                minWidth: "200px"
+            }
         },
         {
             name: "DBA Name",
             selector: (r)=>r.dba_name,
             wrap: true,
-            minWidth: "200px"
+            style: {
+                minWidth: "200px"
+            }
         },
         {
             name: "Address",
             selector: (r)=>r.address,
             wrap: true,
-            minWidth: "300px"
+            style: {
+                minWidth: "300px"
+            }
         },
         {
             name: "City",
             selector: (r)=>r.city,
-            minWidth: "150px"
+            style: {
+                minWidth: "150px"
+            }
         },
         {
             name: "Location",
             selector: (r)=>r.location,
-            minWidth: "180px"
+            style: {
+                minWidth: "180px"
+            }
         },
         {
             name: "Vendor",
@@ -244,17 +256,23 @@ const CityPOSPage = ()=>{
         {
             name: "POS Model",
             selector: (r)=>r.pos_model,
-            minWidth: "110px"
+            style: {
+                minWidth: "110px"
+            }
         },
         {
             name: "POS Serial",
             selector: (r)=>r.pos_serial,
-            minWidth: "120px"
+            style: {
+                minWidth: "120px"
+            }
         },
         {
             name: "SIM Serial",
             selector: (r)=>r.sim_serial_number,
-            minWidth: "190px"
+            style: {
+                minWidth: "190px"
+            }
         },
         {
             name: "SIM Carrier",
@@ -307,7 +325,7 @@ const CityPOSPage = ()=>{
         children: "Loading..."
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-        lineNumber: 237,
+        lineNumber: 236,
         columnNumber: 23
     }, ("TURBOPACK compile-time value", void 0));
     if (error) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -315,7 +333,7 @@ const CityPOSPage = ()=>{
         children: error
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-        lineNumber: 238,
+        lineNumber: 237,
         columnNumber: 21
     }, ("TURBOPACK compile-time value", void 0));
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -326,7 +344,7 @@ const CityPOSPage = ()=>{
                 children: "CBL LIVE TERMINALS"
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                lineNumber: 243,
+                lineNumber: 241,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -337,8 +355,8 @@ const CityPOSPage = ()=>{
                 ]
             }, void 0, true, {
                 fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                lineNumber: 246,
-                columnNumber: 9
+                lineNumber: 243,
+                columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "flex flex-col md:flex-row w-full max-w-7xl justify-between items-center mb-6 gap-4",
@@ -351,12 +369,12 @@ const CityPOSPage = ()=>{
                             children: "⬇️ Export Excel"
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                            lineNumber: 255,
+                            lineNumber: 251,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0))
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                        lineNumber: 254,
+                        lineNumber: 250,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -368,7 +386,7 @@ const CityPOSPage = ()=>{
                                 children: "📂 Upload Excel"
                             }, void 0, false, {
                                 fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                                lineNumber: 268,
+                                lineNumber: 264,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -377,19 +395,19 @@ const CityPOSPage = ()=>{
                                 children: "🔵 Replace"
                             }, void 0, false, {
                                 fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                                lineNumber: 278,
+                                lineNumber: 274,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                        lineNumber: 267,
+                        lineNumber: 263,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                lineNumber: 252,
+                lineNumber: 248,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -402,7 +420,7 @@ const CityPOSPage = ()=>{
                         className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                        lineNumber: 292,
+                        lineNumber: 288,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -412,7 +430,7 @@ const CityPOSPage = ()=>{
                         className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                        lineNumber: 293,
+                        lineNumber: 289,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -422,7 +440,7 @@ const CityPOSPage = ()=>{
                         className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                        lineNumber: 294,
+                        lineNumber: 290,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -432,7 +450,7 @@ const CityPOSPage = ()=>{
                         className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                        lineNumber: 295,
+                        lineNumber: 291,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -442,7 +460,7 @@ const CityPOSPage = ()=>{
                         className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                        lineNumber: 296,
+                        lineNumber: 292,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -457,13 +475,13 @@ const CityPOSPage = ()=>{
                         children: "Clear"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                        lineNumber: 297,
+                        lineNumber: 293,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                lineNumber: 291,
+                lineNumber: 287,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -478,12 +496,12 @@ const CityPOSPage = ()=>{
                     persistTableHead: true
                 }, void 0, false, {
                     fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                    lineNumber: 302,
+                    lineNumber: 298,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                lineNumber: 301,
+                lineNumber: 297,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             showUploadModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -496,7 +514,7 @@ const CityPOSPage = ()=>{
                             children: "Upload via Excel"
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                            lineNumber: 317,
+                            lineNumber: 313,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -509,7 +527,7 @@ const CityPOSPage = ()=>{
                             className: "border rounded px-3 py-2 mb-3 w-full"
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                            lineNumber: 318,
+                            lineNumber: 314,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -518,7 +536,7 @@ const CityPOSPage = ()=>{
                             children: "Upload"
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                            lineNumber: 319,
+                            lineNumber: 315,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0)),
                         uploadMsg && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("pre", {
@@ -526,7 +544,7 @@ const CityPOSPage = ()=>{
                             children: uploadMsg
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                            lineNumber: 320,
+                            lineNumber: 316,
                             columnNumber: 27
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -538,7 +556,7 @@ const CityPOSPage = ()=>{
                                     children: "📥 Download Template"
                                 }, void 0, false, {
                                     fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                                    lineNumber: 322,
+                                    lineNumber: 318,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -547,31 +565,31 @@ const CityPOSPage = ()=>{
                                     children: "Close"
                                 }, void 0, false, {
                                     fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                                    lineNumber: 323,
+                                    lineNumber: 319,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                            lineNumber: 321,
+                            lineNumber: 317,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                    lineNumber: 316,
+                    lineNumber: 312,
                     columnNumber: 11
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-                lineNumber: 315,
+                lineNumber: 311,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/bgi-inverntory/src/app/citybank/page.tsx",
-        lineNumber: 242,
-        columnNumber: 7
+        lineNumber: 240,
+        columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };
 _s(CityPOSPage, "JKQNd9UJT2E0aDhj9B3JNVyU8zs=", false, function() {

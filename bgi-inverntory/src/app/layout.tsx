@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "BGI",
-  description: "E-Receipt for City Bank",
+  description: "Enterprise Inventory Management System",
 };
 
 export default function RootLayout({
@@ -27,6 +27,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen w-screen`}
+        suppressHydrationWarning
       >
         {/* Client wrapper handles authentication + layout */}
         <AuthLayout>{children}</AuthLayout>

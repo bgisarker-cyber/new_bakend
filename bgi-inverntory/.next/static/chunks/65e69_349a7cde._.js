@@ -158,7 +158,7 @@ HookFormContext.displayName = 'HookFormContext';
  * ```
  */ const useFormContext = ()=>__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useContext(HookFormContext);
 /**
- * A provider component that propagates the `useForm` methods to all children components via [React Context](https://reactjs.org/docs/context.html) API. To be used with {@link useFormContext}.
+ * A provider component that propagates the `useForm` methods to all children components via [React Context](https://react.dev/reference/react/useContext) API. To be used with {@link useFormContext}.
  *
  * @remarks
  * [API](https://react-hook-form.com/docs/useformcontext) • [Demo](https://codesandbox.io/s/react-hook-form-v7-form-context-ytudi)
@@ -304,7 +304,7 @@ var isPrimitive = (value1)=>isNullOrUndefined(value1) || !isObjectType(value1);
 function deepEqual(object1, object2) {
     let _internal_visited = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : new WeakSet();
     if (isPrimitive(object1) || isPrimitive(object2)) {
-        return object1 === object2;
+        return Object.is(object1, object2);
     }
     if (isDateObject(object1) && isDateObject(object2)) {
         return object1.getTime() === object2.getTime();
@@ -326,7 +326,7 @@ function deepEqual(object1, object2) {
         }
         if (key !== 'ref') {
             const val2 = object2[key];
-            if (isDateObject(val1) && isDateObject(val2) || isObject(val1) && isObject(val2) || Array.isArray(val1) && Array.isArray(val2) ? !deepEqual(val1, val2, _internal_visited) : val1 !== val2) {
+            if (isDateObject(val1) && isDateObject(val2) || isObject(val1) && isObject(val2) || Array.isArray(val1) && Array.isArray(val2) ? !deepEqual(val1, val2, _internal_visited) : !Object.is(val1, val2)) {
                 return false;
             }
         }
@@ -354,16 +354,54 @@ function deepEqual(object1, object2) {
     const _defaultValue = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useRef(defaultValue);
     const _compute = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useRef(compute);
     const _computeFormValues = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useRef(undefined);
+    const _prevControl = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useRef(control);
+    const _prevName = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useRef(name);
     _compute.current = compute;
-    const defaultValueMemo = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useMemo({
-        "useWatch.useMemo[defaultValueMemo]": ()=>control._getWatch(name, _defaultValue.current)
-    }["useWatch.useMemo[defaultValueMemo]"], [
-        control,
+    const [value1, updateValue] = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useState({
+        "useWatch.useState": ()=>{
+            const defaultValue = control._getWatch(name, _defaultValue.current);
+            return _compute.current ? _compute.current(defaultValue) : defaultValue;
+        }
+    }["useWatch.useState"]);
+    const getCurrentOutput = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useCallback({
+        "useWatch.useCallback[getCurrentOutput]": (values)=>{
+            const formValues = generateWatchOutput(name, control._names, values || control._formValues, false, _defaultValue.current);
+            return _compute.current ? _compute.current(formValues) : formValues;
+        }
+    }["useWatch.useCallback[getCurrentOutput]"], [
+        control._formValues,
+        control._names,
         name
     ]);
-    const [value1, updateValue] = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useState(_compute.current ? _compute.current(defaultValueMemo) : defaultValueMemo);
+    const refreshValue = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useCallback({
+        "useWatch.useCallback[refreshValue]": (values)=>{
+            if (!disabled) {
+                const formValues = generateWatchOutput(name, control._names, values || control._formValues, false, _defaultValue.current);
+                if (_compute.current) {
+                    const computedFormValues = _compute.current(formValues);
+                    if (!deepEqual(computedFormValues, _computeFormValues.current)) {
+                        updateValue(computedFormValues);
+                        _computeFormValues.current = computedFormValues;
+                    }
+                } else {
+                    updateValue(formValues);
+                }
+            }
+        }
+    }["useWatch.useCallback[refreshValue]"], [
+        control._formValues,
+        control._names,
+        disabled,
+        name
+    ]);
     useIsomorphicLayoutEffect({
-        "useWatch.useIsomorphicLayoutEffect": ()=>control._subscribe({
+        "useWatch.useIsomorphicLayoutEffect": ()=>{
+            if (_prevControl.current !== control || !deepEqual(_prevName.current, name)) {
+                _prevControl.current = control;
+                _prevName.current = name;
+                refreshValue();
+            }
+            return control._subscribe({
                 name,
                 formState: {
                     values: true
@@ -371,31 +409,45 @@ function deepEqual(object1, object2) {
                 exact,
                 callback: {
                     "useWatch.useIsomorphicLayoutEffect": (formState)=>{
-                        if (!disabled) {
-                            const formValues = generateWatchOutput(name, control._names, formState.values || control._formValues, false, _defaultValue.current);
-                            if (_compute.current) {
-                                const computedFormValues = _compute.current(formValues);
-                                if (!deepEqual(computedFormValues, _computeFormValues.current)) {
-                                    updateValue(computedFormValues);
-                                    _computeFormValues.current = computedFormValues;
-                                }
-                            } else {
-                                updateValue(formValues);
-                            }
-                        }
+                        refreshValue(formState.values);
                     }
                 }["useWatch.useIsomorphicLayoutEffect"]
-            })
+            });
+        }
     }["useWatch.useIsomorphicLayoutEffect"], [
         control,
-        disabled,
+        exact,
         name,
-        exact
+        refreshValue
     ]);
     __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useEffect({
         "useWatch.useEffect": ()=>control._removeUnmounted()
     }["useWatch.useEffect"]);
-    return value1;
+    // If name or control changed for this render, synchronously reflect the
+    // latest value so callers (like useController) see the correct value
+    // immediately on the same render.
+    // Optimize: Check control reference first before expensive deepEqual
+    const controlChanged = _prevControl.current !== control;
+    const prevName = _prevName.current;
+    // Cache the computed output to avoid duplicate calls within the same render
+    // We include shouldReturnImmediate in deps to ensure proper recomputation
+    const computedOutput = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useMemo({
+        "useWatch.useMemo[computedOutput]": ()=>{
+            if (disabled) {
+                return null;
+            }
+            const nameChanged = !controlChanged && !deepEqual(prevName, name);
+            const shouldReturnImmediate = controlChanged || nameChanged;
+            return shouldReturnImmediate ? getCurrentOutput() : null;
+        }
+    }["useWatch.useMemo[computedOutput]"], [
+        disabled,
+        controlChanged,
+        name,
+        prevName,
+        getCurrentOutput
+    ]);
+    return computedOutput !== null ? computedOutput : value1;
 }
 /**
  * Custom hook to work with controlled component, this function provide you with both form and field level state. Re-render is isolated at the hook level.
@@ -901,10 +953,11 @@ function isTraversable(value1) {
 function markFieldsDirty(data) {
     let fields = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
     for(const key in data){
-        if (isTraversable(data[key])) {
-            fields[key] = Array.isArray(data[key]) ? [] : {};
-            markFieldsDirty(data[key], fields[key]);
-        } else if (!isUndefined(data[key])) {
+        const value1 = data[key];
+        if (isTraversable(value1)) {
+            fields[key] = Array.isArray(value1) ? [] : {};
+            markFieldsDirty(value1, fields[key]);
+        } else if (!isUndefined(value1)) {
             fields[key] = true;
         }
     }
@@ -915,14 +968,16 @@ function getDirtyFields(data, formValues, dirtyFieldsFromValues) {
         dirtyFieldsFromValues = markFieldsDirty(formValues);
     }
     for(const key in data){
-        if (isTraversable(data[key])) {
+        const value1 = data[key];
+        if (isTraversable(value1)) {
             if (isUndefined(formValues) || isPrimitive(dirtyFieldsFromValues[key])) {
-                dirtyFieldsFromValues[key] = markFieldsDirty(data[key], Array.isArray(data[key]) ? [] : {});
+                dirtyFieldsFromValues[key] = markFieldsDirty(value1, Array.isArray(value1) ? [] : {});
             } else {
-                getDirtyFields(data[key], isNullOrUndefined(formValues) ? {} : formValues[key], dirtyFieldsFromValues[key]);
+                getDirtyFields(value1, isNullOrUndefined(formValues) ? {} : formValues[key], dirtyFieldsFromValues[key]);
             }
         } else {
-            dirtyFieldsFromValues[key] = !deepEqual(data[key], formValues[key]);
+            const formValue = formValues[key];
+            dirtyFieldsFromValues[key] = !deepEqual(value1, formValue);
         }
     }
     return dirtyFieldsFromValues;
@@ -1404,7 +1459,7 @@ function createFormControl() {
         if (field) {
             const defaultValue = get(_formValues, name, isUndefined(value1) ? get(_defaultValues, name) : value1);
             isUndefined(defaultValue) || ref && ref.defaultChecked || shouldSkipSetValueAs ? set(_formValues, name, shouldSkipSetValueAs ? defaultValue : getFieldValue(field._f)) : setFieldValue(name, defaultValue);
-            _state.mount && _setValid();
+            _state.mount && !_state.action && _setValid();
         }
     };
     const updateTouchAndDirty = (name, fieldValue, isBlurEvent, shouldDirty, shouldRender)=>{
@@ -2084,7 +2139,7 @@ function createFormControl() {
             watchAll: false,
             focus: ''
         };
-        _state.mount = !_proxyFormState.isValid || !!keepStateOptions.keepIsValid || !!keepStateOptions.keepDirtyValues;
+        _state.mount = !_proxyFormState.isValid || !!keepStateOptions.keepIsValid || !!keepStateOptions.keepDirtyValues || !_options.shouldUnregister && !isEmptyObject(values);
         _state.watch = !!_options.shouldUnregister;
         _subjects.state.next({
             submitCount: keepStateOptions.keepSubmitCount ? _formState.submitCount : 0,
@@ -2716,11 +2771,15 @@ var updateAt = (fieldValues, index, value1)=>{
     ]);
     __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useEffect({
         "useForm.useEffect": ()=>{
+            var _a;
             if (props.values && !deepEqual(props.values, _values.current)) {
                 control._reset(props.values, {
                     keepFieldsRef: true,
                     ...control._options.resetOptions
                 });
+                if (!((_a = control._options.resetOptions) === null || _a === void 0 ? void 0 : _a.keepIsValid)) {
+                    control._setValid();
+                }
                 _values.current = props.values;
                 updateFormState({
                     "useForm.useEffect": (state)=>({

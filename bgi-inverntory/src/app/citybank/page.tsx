@@ -209,19 +209,18 @@ const CityPOSPage = () => {
   const columns: TableColumn<CityPOS>[] = [
     { name: "SL", selector: (r) => r.sl, width: "70px" },
     { name: "Config Date", selector: (r) => r.configdate, width: "100px" },
-
     { name: "TID", selector: (r) => r.tid },
-    { name: "MID", selector: (r) => r.mid, minWidth: "150px" },
-    { name: "Merchant Name", selector: (r) => r.merchant_name, wrap: true, minWidth: "200px" },
-    { name: "DBA Name", selector: (r) => r.dba_name, wrap: true, minWidth: "200px" },
-    { name: "Address", selector: (r) => r.address, wrap: true, minWidth: "300px" },
-    { name: "City", selector: (r) => r.city, minWidth: "150px" },
-    { name: "Location", selector: (r) => r.location, minWidth: "180px" },
+    { name: "MID", selector: (r) => r.mid, style: { minWidth: "150px" } },
+    { name: "Merchant Name", selector: (r) => r.merchant_name, wrap: true, style: { minWidth: "200px" } },
+    { name: "DBA Name", selector: (r) => r.dba_name, wrap: true, style: { minWidth: "200px" } },
+    { name: "Address", selector: (r) => r.address, wrap: true, style: { minWidth: "300px" } },
+    { name: "City", selector: (r) => r.city, style: { minWidth: "150px" } },
+    { name: "Location", selector: (r) => r.location, style: { minWidth: "180px" } },
     { name: "Vendor", selector: (r) => r.vendor },
     { name: "POS Type", selector: (r) => r.pos_type },
-    { name: "POS Model", selector: (r) => r.pos_model, minWidth: "110px" },
-    { name: "POS Serial", selector: (r) => r.pos_serial, minWidth: "120px" },
-    { name: "SIM Serial", selector: (r) => r.sim_serial_number, minWidth: "190px" },
+    { name: "POS Model", selector: (r) => r.pos_model, style: { minWidth: "110px" } },
+    { name: "POS Serial", selector: (r) => r.pos_serial, style: { minWidth: "120px" } },
+    { name: "SIM Serial", selector: (r) => r.sim_serial_number, style: { minWidth: "190px" } },
     { name: "SIM Carrier", selector: (r) => r.sim_carrier },
     { name: "IP Address", selector: (r) => r.ip_address, width: "120px" },
     { name: "Port Number", selector: (r) => r.port_number },
@@ -238,15 +237,12 @@ const CityPOSPage = () => {
   if (error) return <p className="text-red-500 text-center mt-20">{error}</p>;
 
   return (
-   
-      <div className="min-h-screen p-6 bg-[#e6e9ef] flex flex-col items-center">
+    <div className="min-h-screen p-6 bg-[#e6e9ef] flex flex-col items-center">
       <h1 className="text-3xl font-bold mb-6 text-center">CBL LIVE TERMINALS</h1>
 
-      
-        <h2 className="text-xl font-semibold text-gray-700 text-center">
-          Total Terminals: {counter_terminal}
-        </h2>
-      
+      <h2 className="text-xl font-semibold text-gray-700 text-center">
+        Total Terminals: {counter_terminal}
+      </h2>
 
       {/* Action Buttons */}
       <div className="flex flex-col md:flex-row w-full max-w-7xl justify-between items-center mb-6 gap-4">
@@ -325,7 +321,6 @@ const CityPOSPage = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };

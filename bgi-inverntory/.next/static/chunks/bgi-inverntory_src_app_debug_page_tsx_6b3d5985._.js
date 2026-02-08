@@ -23,13 +23,14 @@ const DebugPage = ()=>{
     const [filteredRecords, setFilteredRecords] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [counter_terminal, setCounter_terminal] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
     // Filters
     const [serialFilter, setSerialFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
     const [modelFilter, setModelFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
     const [oemFilter, setOemFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
     const [bankFilter, setBankFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
-    // Modal
-    const [showAddModal, setShowAddModal] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    // Form visibility state
+    const [showForm, setShowForm] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     // Form Data
     const [formData, setFormData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
         pos_serial: "",
@@ -58,13 +59,14 @@ const DebugPage = ()=>{
                     try {
                         const token = localStorage.getItem("access_token");
                         if (!token) throw new Error("Please log in first.");
-                        const response = await fetch("http://127.0.0.1:8000/debug/all", {
+                        const response = await fetch("http://127.0.0.1:8000/debug/all ", {
                             headers: {
                                 Authorization: "Bearer ".concat(token)
                             }
                         });
                         if (!response.ok) throw new Error("Failed to fetch data (status: ".concat(response.status, ")"));
                         const data = await response.json();
+                        setCounter_terminal(data.data.length);
                         setRecords(data.data);
                         setFilteredRecords(data.data);
                     } catch (err) {
@@ -113,7 +115,7 @@ const DebugPage = ()=>{
             return;
         }
         try {
-            const response = await fetch("http://127.0.0.1:8000/debug/add", {
+            const response = await fetch("http://127.0.0.1:8000/debug/add ", {
                 method: "POST",
                 headers: getAuthHeaders(),
                 body: JSON.stringify(formData)
@@ -123,17 +125,18 @@ const DebugPage = ()=>{
                 throw new Error(err.detail || "Failed to add record");
             }
             alert("✅ Record added successfully!");
-            setShowAddModal(false);
+            setShowForm(false);
             setFormData({
                 pos_serial: "",
                 model: "",
                 oem: "",
                 assigned_bank: ""
             });
-            const updated = await fetch("http://127.0.0.1:8000/debug/all", {
+            const updated = await fetch("http://127.0.0.1:8000/debug/all ", {
                 headers: getAuthHeaders()
             });
             const newData = await updated.json();
+            setCounter_terminal(newData.data.length);
             setRecords(newData.data);
             setFilteredRecords(newData.data);
         } catch (e) {
@@ -145,7 +148,7 @@ const DebugPage = ()=>{
     // ==========================
     const handleEditClick = (record)=>{
         setEditingRecord(record);
-        setShowAddModal(true);
+        setShowForm(true);
         setFormData({
             pos_serial: record.pos_serial,
             model: record.model,
@@ -164,7 +167,7 @@ const DebugPage = ()=>{
             return;
         }
         try {
-            const response = await fetch("http://127.0.0.1:8000/debug/edit/".concat(editingRecord.id), {
+            const response = await fetch("http://127.0.0.1:8000/debug/edit/ ".concat(editingRecord.id), {
                 method: "PUT",
                 headers: getAuthHeaders(),
                 body: JSON.stringify(formData)
@@ -174,7 +177,7 @@ const DebugPage = ()=>{
                 throw new Error(err.detail || "Failed to update record");
             }
             alert("✅ Record updated successfully!");
-            setShowAddModal(false);
+            setShowForm(false);
             setEditingRecord(null);
             setFormData({
                 pos_serial: "",
@@ -182,7 +185,7 @@ const DebugPage = ()=>{
                 oem: "",
                 assigned_bank: ""
             });
-            const updated = await fetch("http://127.0.0.1:8000/debug/all", {
+            const updated = await fetch("http://127.0.0.1:8000/debug/all ", {
                 headers: getAuthHeaders()
             });
             const newData = await updated.json();
@@ -199,7 +202,7 @@ const DebugPage = ()=>{
         const confirmDelete = window.confirm("Are you sure you want to delete record: ".concat(pos_serial, "?"));
         if (!confirmDelete) return;
         try {
-            const response = await fetch("http://127.0.0.1:8000/debug/delete/".concat(id), {
+            const response = await fetch("http://127.0.0.1:8000/debug/delete/ ".concat(id), {
                 method: "DELETE",
                 headers: getAuthHeaders()
             });
@@ -225,19 +228,31 @@ const DebugPage = ()=>{
         },
         {
             name: "POS Serial",
-            selector: (row)=>row.pos_serial
+            selector: (row)=>row.pos_serial,
+            style: {
+                minWidth: "150px"
+            }
         },
         {
             name: "Model",
-            selector: (row)=>row.model
+            selector: (row)=>row.model,
+            style: {
+                minWidth: "120px"
+            }
         },
         {
             name: "OEM",
-            selector: (row)=>row.oem
+            selector: (row)=>row.oem,
+            style: {
+                minWidth: "120px"
+            }
         },
         {
             name: "Assigned Bank",
-            selector: (row)=>row.assigned_bank
+            selector: (row)=>row.assigned_bank,
+            style: {
+                minWidth: "150px"
+            }
         },
         {
             name: "Actions",
@@ -250,7 +265,7 @@ const DebugPage = ()=>{
                             children: "Edit"
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                            lineNumber: 237,
+                            lineNumber: 240,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -259,13 +274,13 @@ const DebugPage = ()=>{
                             children: "Delete"
                         }, void 0, false, {
                             fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                            lineNumber: 243,
+                            lineNumber: 246,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                    lineNumber: 236,
+                    lineNumber: 239,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0))
         }
@@ -274,68 +289,215 @@ const DebugPage = ()=>{
     // Render UI
     // ==========================
     if (loading) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+        className: "text-center mt-20",
         children: "Loading..."
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-        lineNumber: 257,
+        lineNumber: 260,
         columnNumber: 23
     }, ("TURBOPACK compile-time value", void 0));
     if (error) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-        className: "text-red-500",
+        className: "text-red-500 text-center mt-20",
         children: error
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-        lineNumber: 258,
+        lineNumber: 261,
         columnNumber: 21
     }, ("TURBOPACK compile-time value", void 0));
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "p-6 relative",
+        className: "min-h-screen p-6 bg-[#e6e9ef] flex flex-col items-center",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                className: "text-2xl font-bold mb-4",
+                className: "text-3xl font-bold mb-6 text-center",
                 children: "Debug Terminals Records"
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                lineNumber: 262,
+                lineNumber: 266,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex justify-end gap-4 mb-6",
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                    onClick: ()=>{
-                        setShowAddModal(true);
-                        setEditingRecord(null);
-                        setFormData({
-                            pos_serial: "",
-                            model: "",
-                            oem: "",
-                            assigned_bank: ""
-                        });
-                    },
-                    className: "bg-white text-black font-bold text-lg px-6 py-3 rounded-lg border border-gray-400 hover:bg-gray-100",
-                    children: "➕ Add Record"
-                }, void 0, false, {
-                    fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                    lineNumber: 266,
-                    columnNumber: 9
-                }, ("TURBOPACK compile-time value", void 0))
-            }, void 0, false, {
+                className: "flex justify-between items-center w-full max-w-7xl mb-6 px-4",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex-1"
+                    }, void 0, false, {
+                        fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
+                        lineNumber: 271,
+                        columnNumber: 9
+                    }, ("TURBOPACK compile-time value", void 0)),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                        className: "text-xl font-semibold text-center",
+                        children: [
+                            "Total Terminals: ",
+                            counter_terminal
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
+                        lineNumber: 274,
+                        columnNumber: 9
+                    }, ("TURBOPACK compile-time value", void 0)),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex-1 flex justify-end",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                            onClick: ()=>{
+                                setShowForm(true);
+                                setEditingRecord(null);
+                                setFormData({
+                                    pos_serial: "",
+                                    model: "",
+                                    oem: "",
+                                    assigned_bank: ""
+                                });
+                            },
+                            className: "px-6 py-3 rounded-2xl bg-[#e6e9ef] shadow-[6px_6px_12px_rgba(0,0,0,0.15),-6px_-6px_#ffffff] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_#ffffff] font-semibold",
+                            children: "➕ Add Record"
+                        }, void 0, false, {
+                            fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
+                            lineNumber: 278,
+                            columnNumber: 11
+                        }, ("TURBOPACK compile-time value", void 0))
+                    }, void 0, false, {
+                        fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
+                        lineNumber: 277,
+                        columnNumber: 9
+                    }, ("TURBOPACK compile-time value", void 0))
+                ]
+            }, void 0, true, {
                 fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                lineNumber: 265,
+                lineNumber: 269,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
+            showForm && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "bg-[#e6e9ef] p-6 rounded-2xl w-full max-w-2xl mb-6 shadow-[8px_8px_16px_rgba(0,0,0,0.18),-6px_-6px_#ffffff]",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                        className: "text-xl font-semibold mb-4 text-center",
+                        children: editingRecord ? "Edit Record" : "Add New Record"
+                    }, void 0, false, {
+                        fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
+                        lineNumber: 294,
+                        columnNumber: 11
+                    }, ("TURBOPACK compile-time value", void 0)),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "grid grid-cols-1 md:grid-cols-2 gap-4 mb-4",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                type: "text",
+                                placeholder: "POS_SERIAL",
+                                value: formData.pos_serial,
+                                onChange: (e)=>setFormData({
+                                        ...formData,
+                                        pos_serial: e.target.value
+                                    }),
+                                disabled: !!editingRecord,
+                                className: "border rounded-2xl w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 ".concat(editingRecord ? "bg-gray-100 cursor-not-allowed" : "")
+                            }, void 0, false, {
+                                fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
+                                lineNumber: 299,
+                                columnNumber: 13
+                            }, ("TURBOPACK compile-time value", void 0)),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                type: "text",
+                                placeholder: "MODEL",
+                                value: formData.model,
+                                onChange: (e)=>setFormData({
+                                        ...formData,
+                                        model: e.target.value
+                                    }),
+                                className: "border rounded-2xl w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            }, void 0, false, {
+                                fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
+                                lineNumber: 311,
+                                columnNumber: 13
+                            }, ("TURBOPACK compile-time value", void 0)),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                type: "text",
+                                placeholder: "OEM",
+                                value: formData.oem,
+                                onChange: (e)=>setFormData({
+                                        ...formData,
+                                        oem: e.target.value
+                                    }),
+                                className: "border rounded-2xl w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            }, void 0, false, {
+                                fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
+                                lineNumber: 320,
+                                columnNumber: 13
+                            }, ("TURBOPACK compile-time value", void 0)),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                type: "text",
+                                placeholder: "ASSIGNED BANK",
+                                value: formData.assigned_bank,
+                                onChange: (e)=>setFormData({
+                                        ...formData,
+                                        assigned_bank: e.target.value
+                                    }),
+                                className: "border rounded-2xl w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            }, void 0, false, {
+                                fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
+                                lineNumber: 329,
+                                columnNumber: 13
+                            }, ("TURBOPACK compile-time value", void 0))
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
+                        lineNumber: 298,
+                        columnNumber: 11
+                    }, ("TURBOPACK compile-time value", void 0)),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex justify-between",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: ()=>{
+                                    setShowForm(false);
+                                    setEditingRecord(null);
+                                    setFormData({
+                                        pos_serial: "",
+                                        model: "",
+                                        oem: "",
+                                        assigned_bank: ""
+                                    });
+                                },
+                                className: "px-4 py-2 rounded-2xl bg-gray-300 hover:bg-gray-400 font-semibold",
+                                children: "Cancel"
+                            }, void 0, false, {
+                                fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
+                                lineNumber: 341,
+                                columnNumber: 13
+                            }, ("TURBOPACK compile-time value", void 0)),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: editingRecord ? handleUpdateRecord : handleAddRecord,
+                                className: "".concat(editingRecord ? "bg-yellow-500 hover:bg-yellow-600" : "bg-green-600 hover:bg-green-700", " text-white px-4 py-2 rounded-2xl font-semibold"),
+                                children: editingRecord ? "Update" : "Save"
+                            }, void 0, false, {
+                                fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
+                                lineNumber: 351,
+                                columnNumber: 13
+                            }, ("TURBOPACK compile-time value", void 0))
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
+                        lineNumber: 340,
+                        columnNumber: 11
+                    }, ("TURBOPACK compile-time value", void 0))
+                ]
+            }, void 0, true, {
+                fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
+                lineNumber: 293,
+                columnNumber: 9
+            }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "grid grid-cols-1 md:grid-cols-5 gap-4 mb-4",
+                className: "grid grid-cols-1 md:grid-cols-5 gap-4 mb-6 max-w-7xl w-full px-4",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         type: "text",
                         placeholder: "Filter by Serial",
                         value: serialFilter,
                         onChange: (e)=>setSerialFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                        lineNumber: 280,
+                        lineNumber: 367,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -343,10 +505,10 @@ const DebugPage = ()=>{
                         placeholder: "Filter by Model",
                         value: modelFilter,
                         onChange: (e)=>setModelFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                        lineNumber: 287,
+                        lineNumber: 374,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -354,10 +516,10 @@ const DebugPage = ()=>{
                         placeholder: "Filter by OEM",
                         value: oemFilter,
                         onChange: (e)=>setOemFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                        lineNumber: 294,
+                        lineNumber: 381,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -365,10 +527,10 @@ const DebugPage = ()=>{
                         placeholder: "Filter by Assigned Bank",
                         value: bankFilter,
                         onChange: (e)=>setBankFilter(e.target.value),
-                        className: "border rounded px-3 py-2"
+                        className: "px-3 py-2 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                        lineNumber: 301,
+                        lineNumber: 388,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -378,21 +540,21 @@ const DebugPage = ()=>{
                             setOemFilter("");
                             setBankFilter("");
                         },
-                        className: "bg-gray-200 px-4 py-2 rounded hover:bg-gray-300",
+                        className: "px-4 py-2 rounded-2xl bg-gray-200 hover:bg-gray-300 font-semibold",
                         children: "Clear"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                        lineNumber: 308,
+                        lineNumber: 395,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                lineNumber: 279,
+                lineNumber: 366,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "bg-white rounded shadow-md p-2",
+                className: "bg-white rounded-2xl shadow-md p-2 overflow-x-auto w-full max-w-7xl px-4",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$react$2d$data$2d$table$2d$component$2f$dist$2f$index$2e$cjs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                     columns: columns,
                     data: filteredRecords,
@@ -402,133 +564,22 @@ const DebugPage = ()=>{
                     dense: true
                 }, void 0, false, {
                     fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                    lineNumber: 323,
+                    lineNumber: 410,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                lineNumber: 322,
+                lineNumber: 409,
                 columnNumber: 7
-            }, ("TURBOPACK compile-time value", void 0)),
-            showAddModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "absolute top-20 left-1/2 transform -translate-x-1/2 z-50",
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "bg-white p-6 rounded shadow-xl w-full max-w-md border border-gray-200",
-                    children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                            className: "text-xl font-semibold mb-4",
-                            children: editingRecord ? "Edit Record" : "Add New Record"
-                        }, void 0, false, {
-                            fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                            lineNumber: 337,
-                            columnNumber: 13
-                        }, ("TURBOPACK compile-time value", void 0)),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                            type: "text",
-                            placeholder: "POS_SERIAL",
-                            value: formData.pos_serial,
-                            onChange: (e)=>setFormData({
-                                    ...formData,
-                                    pos_serial: e.target.value
-                                }),
-                            disabled: !!editingRecord,
-                            className: "border rounded w-full p-2 mb-2 ".concat(editingRecord ? "bg-gray-100 cursor-not-allowed" : "")
-                        }, void 0, false, {
-                            fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                            lineNumber: 341,
-                            columnNumber: 13
-                        }, ("TURBOPACK compile-time value", void 0)),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                            type: "text",
-                            placeholder: "MODEL",
-                            value: formData.model,
-                            onChange: (e)=>setFormData({
-                                    ...formData,
-                                    model: e.target.value
-                                }),
-                            className: "border rounded w-full p-2 mb-2"
-                        }, void 0, false, {
-                            fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                            lineNumber: 353,
-                            columnNumber: 13
-                        }, ("TURBOPACK compile-time value", void 0)),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                            type: "text",
-                            placeholder: "OEM",
-                            value: formData.oem,
-                            onChange: (e)=>setFormData({
-                                    ...formData,
-                                    oem: e.target.value
-                                }),
-                            className: "border rounded w-full p-2 mb-2"
-                        }, void 0, false, {
-                            fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                            lineNumber: 362,
-                            columnNumber: 13
-                        }, ("TURBOPACK compile-time value", void 0)),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                            type: "text",
-                            placeholder: "ASSIGNED BANK",
-                            value: formData.assigned_bank,
-                            onChange: (e)=>setFormData({
-                                    ...formData,
-                                    assigned_bank: e.target.value
-                                }),
-                            className: "border rounded w-full p-2 mb-2"
-                        }, void 0, false, {
-                            fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                            lineNumber: 371,
-                            columnNumber: 13
-                        }, ("TURBOPACK compile-time value", void 0)),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "flex justify-end gap-3 mt-4",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                    onClick: ()=>{
-                                        setShowAddModal(false);
-                                        setEditingRecord(null);
-                                    },
-                                    className: "bg-gray-300 px-4 py-2 rounded",
-                                    children: "Cancel"
-                                }, void 0, false, {
-                                    fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                                    lineNumber: 382,
-                                    columnNumber: 15
-                                }, ("TURBOPACK compile-time value", void 0)),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                    onClick: editingRecord ? handleUpdateRecord : handleAddRecord,
-                                    className: "".concat(editingRecord ? "bg-yellow-500 hover:bg-yellow-600" : "bg-blue-600 hover:bg-blue-700", " text-white px-4 py-2 rounded"),
-                                    children: editingRecord ? "Update" : "Save"
-                                }, void 0, false, {
-                                    fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                                    lineNumber: 391,
-                                    columnNumber: 15
-                                }, ("TURBOPACK compile-time value", void 0))
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                            lineNumber: 381,
-                            columnNumber: 13
-                        }, ("TURBOPACK compile-time value", void 0))
-                    ]
-                }, void 0, true, {
-                    fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                    lineNumber: 336,
-                    columnNumber: 11
-                }, ("TURBOPACK compile-time value", void 0))
-            }, void 0, false, {
-                fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-                lineNumber: 335,
-                columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/bgi-inverntory/src/app/debug/page.tsx",
-        lineNumber: 261,
+        lineNumber: 264,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };
-_s(DebugPage, "F5CLHhwjrU99iZEW7jjPqO0Vaac=");
+_s(DebugPage, "I8pOZS7/7ViWjpdujqGXQz/wpY0=");
 _c = DebugPage;
 const __TURBOPACK__default__export__ = DebugPage;
 var _c;

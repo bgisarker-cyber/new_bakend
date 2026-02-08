@@ -13,10 +13,26 @@ from app.models import (
 from app.utils.auth import get_current_user
 from app.utils.role_check import check_role
 from app.routers.task_helpers import _get_task_or_404
+from pydantic import BaseModel
+from contextlib import contextmanager
 import logging
 
 router = APIRouter(prefix="/tasks", tags=["Tasks"])
 logger = logging.getLogger(__name__)
+
+# ==================== CONTEXT MANAGER FOR DB TRANSACTIONS ====================
+@contextmanager
+def get_cursor():
+    """Context manager for database cursor with automatic commit/rollback"""
+    cur = conn.cursor()
+    try:
+        yield cur
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        raise e
+    finally:
+        cur.close()
 
 # ==================== SCHEMA VALIDATION HELPER ====================
 def validate_task_schema():
@@ -55,6 +71,11 @@ def validate_task_schema():
             detail=f"Database schema error: Missing columns {missing}. Please run: ALTER TABLE tasks ADD COLUMN tid VARCHAR(8), ADD COLUMN mid VARCHAR(15), ADD COLUMN sim_serial VARCHAR(30);"
         )
 
+# ==================== STATUS UPDATE MODEL ====================
+class StatusUpdate(BaseModel):
+    status: str
+    note: Optional[str] = None
+
 # ==================== DYNAMIC DROPDOWN ENDPOINTS ====================
 @router.get("/banks", response_model=List[Bank])
 def get_banks(current_user=Depends(get_current_user)):
@@ -80,7 +101,7 @@ def get_problem_types(current_user=Depends(get_current_user)):
 @router.post("/create", response_model=dict, status_code=status.HTTP_201_CREATED)
 def create_task(data: TaskCreateNew, current_user=Depends(get_current_user)):
     """Create a new task with dynamic selections"""
-    check_role(current_user, ["admin", "superadmin"])
+    check_role(current_user, ["admin", "superadmin", "support"])
     
     validate_task_schema()
     
@@ -105,29 +126,26 @@ def create_task(data: TaskCreateNew, current_user=Depends(get_current_user)):
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 'open', NOW(), NOW(), %s, %s)
         RETURNING id;
     """
-    try:
-        with conn.cursor() as cur:
-            cur.execute(sql, (
-                data.bank, data.merchant_name, data.tid, data.mid, data.address, 
-                data.task_type, data.phone, data.operator, 
-                data.problem_type if data.task_type == "Call" else None,
-                data.assigned_to, current_user["id"], 
-                data.comment, data.sim_serial
-            ))
-            (new_id,) = cur.fetchone()
-        conn.commit()
-    except Exception as e:
-        conn.rollback()
-        raise HTTPException(status_code=500, detail=f"DB error: {e}")
+    
+    with get_cursor() as cur:
+        cur.execute(sql, (
+            data.bank, data.merchant_name, data.tid, data.mid, data.address, 
+            data.task_type, data.phone, data.operator, 
+            data.problem_type if data.task_type == "Call" else None,
+            data.assigned_to, current_user["id"], 
+            data.comment, data.sim_serial
+        ))
+        (new_id,) = cur.fetchone()
     
     return {"message": "Task created successfully", "task_id": new_id}
 
 # ==================== GET ALL TASKS ====================
-# ✅ FIXED: Moved BEFORE /{task_id} route to avoid path conflicts
 @router.get("/all", response_model=List[TaskResponse])
 def get_all_tasks(current_user=Depends(get_current_user)):
     """Get all tasks with assigned user names"""
     check_role(current_user, ["admin", "superadmin"])
+    
+    # Fixed SQL - removed invalid comment and redundant column selection
     sql = """
         SELECT t.*,
                u.username AS assigned_to_name
@@ -135,11 +153,12 @@ def get_all_tasks(current_user=Depends(get_current_user)):
         LEFT JOIN users u ON u.id = t.assigned_to
         ORDER  BY t.id DESC;
     """
+    
     with conn.cursor(cursor_factory=RealDictCursor) as cur:
         cur.execute(sql)
         rows = cur.fetchall()
     
-    # ✅ CRITICAL FIX: Convert datetime objects to strings before creating TaskResponse
+    # Convert datetime objects to strings before creating TaskResponse
     tasks = []
     for row in rows:
         task_dict = dict(row)
@@ -154,6 +173,7 @@ def get_all_tasks(current_user=Depends(get_current_user)):
         task_dict['bank'] = task_dict.get('bank') or ''
         task_dict['status'] = task_dict.get('status') or 'open'
         task_dict['task_type'] = task_dict.get('task_type') or 'Call'
+        task_dict['assigned_to'] = task_dict.get('assigned_to')  # Include assigned_to field
         
         tasks.append(TaskResponse(**task_dict))
     
@@ -204,18 +224,14 @@ def update_task(task_id: int, data: TaskCreateNew, current_user=Depends(get_curr
             assigned_to = %s, update_time = NOW(), comment = %s, sim_serial = %s
         WHERE id = %s;
     """
-    try:
-        with conn.cursor() as cur:
-            cur.execute(sql, (
-                data.bank, data.merchant_name, data.tid, data.mid, data.address, 
-                data.task_type, data.phone, data.operator, 
-                data.problem_type if data.task_type == "Call" else None,
-                data.assigned_to, data.comment, data.sim_serial, task_id
-            ))
-        conn.commit()
-    except Exception as e:
-        conn.rollback()
-        raise HTTPException(status_code=500, detail=f"Update error: {e}")
+    
+    with get_cursor() as cur:
+        cur.execute(sql, (
+            data.bank, data.merchant_name, data.tid, data.mid, data.address, 
+            data.task_type, data.phone, data.operator, 
+            data.problem_type if data.task_type == "Call" else None,
+            data.assigned_to, data.comment, data.sim_serial, task_id
+        ))
     
     return {"message": "Task updated successfully", "task_id": task_id}
 
@@ -266,22 +282,17 @@ def complete_task(
     if task["status"] == "completed":
         raise HTTPException(status_code=400, detail="Task already completed")
     
-    try:
-        with conn.cursor() as cur:
-            cur.execute("""
-                UPDATE tasks 
-                SET status = 'completed', update_time = NOW()
-                WHERE id = %s
-            """, (task_id,))
-            
-            cur.execute("""
-                INSERT INTO task_updates (task_id, updated_by, status, update_text, create_time, update_time)
-                VALUES (%s, %s, 'completed', %s, NOW(), NOW())
-            """, (task_id, current_user["id"], note or "Task completed"))
-        conn.commit()
-    except Exception as e:
-        conn.rollback()
-        raise HTTPException(status_code=500, detail=f"Error completing task: {e}")
+    with get_cursor() as cur:
+        cur.execute("""
+            UPDATE tasks 
+            SET status = 'completed', update_time = NOW()
+            WHERE id = %s
+        """, (task_id,))
+        
+        cur.execute("""
+            INSERT INTO task_updates (task_id, updated_by, status, update_text, create_time, update_time)
+            VALUES (%s, %s, 'completed', %s, NOW(), NOW())
+        """, (task_id, current_user["id"], note or "Task completed"))
     
     return {"message": "Task marked as completed"}
 
@@ -316,3 +327,38 @@ def task_timeline(task_id: int, current_user=Depends(get_current_user)):
         timeline.append(TaskUpdateResponse(**update_dict))
     
     return timeline
+
+# ==================== UPDATE TASK STATUS ENDPOINT ====================
+@router.post("/my/{task_id}/status", response_model=dict)
+def update_task_status(
+    task_id: int,
+    status_data: StatusUpdate,
+    current_user=Depends(get_current_user)
+):
+    """Update task status with note"""
+    check_role(current_user, ["support", "admin", "superadmin"])
+    task = _get_task_or_404(task_id)
+    
+    new_status = status_data.status
+    note = status_data.note or f"Status changed to {new_status}"
+    
+    if new_status not in ["open", "in_progress", "completed"]:
+        raise HTTPException(status_code=400, detail="Invalid status")
+    
+    # Check permissions - users can only update their own tasks unless admin
+    if task["assigned_to"] != current_user["id"] and current_user["role"] not in ["admin", "superadmin"]:
+        raise HTTPException(status_code=403, detail="Task not assigned to you")
+    
+    with get_cursor() as cur:
+        cur.execute("""
+            UPDATE tasks 
+            SET status = %s, update_time = NOW()
+            WHERE id = %s
+        """, (new_status, task_id))
+        
+        cur.execute("""
+            INSERT INTO task_updates (task_id, updated_by, status, update_text, create_time, update_time)
+            VALUES (%s, %s, %s, %s, NOW(), NOW())
+        """, (task_id, current_user["id"], new_status, note))
+    
+    return {"message": f"Task status updated to {new_status}"}

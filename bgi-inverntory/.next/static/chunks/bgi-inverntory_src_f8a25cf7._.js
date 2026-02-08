@@ -195,9 +195,9 @@ function LoginPage() {
             localStorage.setItem("role", data.role);
             // ✅ Redirect by role
             if (data.role === "superadmin" || data.role === "admin") {
-                router.push("/dashboard");
+                router.push("/live");
             } else {
-                router.push("/support/dashboard");
+                router.push("/live");
             }
         } catch (err) {
             var _err_response_data, _err_response;

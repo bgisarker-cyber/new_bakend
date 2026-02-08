@@ -1,9 +1,9 @@
-/* ---------- Sidebar.tsx  (drop-in file) ---------- */
+/* ---------- Sidebar.tsx (Complete Responsive Version) ---------- */
 "use client";
 
 import * as React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   Gauge,
@@ -28,6 +28,7 @@ import {
   Menu,
   LogOut,
   X,
+  Loader2,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -44,7 +45,7 @@ interface NavItem {
 const NAV_SECTIONS: NavItem[] = [
   {
     name: "Dashboard",
-    route: "/dashboard",
+    route: "/live",
     icon: Gauge,
   },
   {
@@ -52,8 +53,8 @@ const NAV_SECTIONS: NavItem[] = [
     icon: ListTodo,
     children: [
       { name: "Create Call", route: "/task-manager/create-task", icon: Phone },
-      { name: "Call List", route: "/task-manager/task-call", icon: ClipboardList, roles: ["superadmin","admin"],},
-      { name: "MY Calls", route: "/task-manager/my-task", icon: ClipboardList, roles: ["support","admin"],},
+      { name: "Call List", route: "/task-manager/task-call", icon: ClipboardList, roles: ["superadmin", "admin"] },
+      { name: "My Calls", route: "/task-manager/my-task", icon: ClipboardList, roles: ["support", "admin"] },
       {
         name: "Task-Control",
         route: "/task_control",
@@ -63,7 +64,7 @@ const NAV_SECTIONS: NavItem[] = [
     ],
   },
   {
-    name: "Live terminals",
+    name: "Live Terminals",
     icon: Monitor,
     roles: ["support", "admin", "superadmin"],
     children: [
@@ -71,7 +72,7 @@ const NAV_SECTIONS: NavItem[] = [
       { name: "PBL POS", route: "/pubalibank", icon: CreditCard },
       { name: "IBBL POS", route: "/islamibank", icon: CreditCard },
       { name: "MTBL POS", route: "/mtbbank", icon: CreditCard },
-      { name: "SDBL POS", route: "/standardbank", icon: CreditCard },
+      { name: "SBL POS", route: "/standardbank", icon: CreditCard },
     ],
   },
   {
@@ -97,12 +98,12 @@ const NAV_SECTIONS: NavItem[] = [
   },
 ];
 
-/* ---------- logout ---------- */
-const logout = async () => {
+/* ---------- logout function ---------- */
+const logout = async (router: ReturnType<typeof useRouter>) => {
   try {
     const token = localStorage.getItem("access_token");
     if (token) {
-      await fetch("http://127.0.0.1:8000/auth/logout", {
+      await fetch("http://127.0.0.1:8000/auth/logout", { // FIXED: Removed trailing space
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -114,7 +115,8 @@ const logout = async () => {
     console.error("Logout API error:", err);
   } finally {
     localStorage.removeItem("access_token");
-    window.location.replace("/login");
+    localStorage.removeItem("role");
+    router.replace("/login");
   }
 };
 
@@ -139,13 +141,15 @@ export function Sidebar({
   role?: string;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [collapsed, setCollapsed] = React.useState(false);
   const [expandedSections, setExpandedSections] = React.useState<Record<string, boolean>>({
     "Task Update": false,
-    "Live terminals": false,
+    "Live Terminals": false,
     "Inventory Terminals": false,
     "System": false,
   });
+  const [isLoggingOut, setIsLoggingOut] = React.useState(false);
 
   const toggleSection = (name: string) =>
     setExpandedSections((prev) => ({ ...prev, [name]: !prev[name] }));
@@ -165,7 +169,7 @@ export function Sidebar({
           <div
             onClick={() => toggleSection(item.name)}
             className={cn(
-              "flex items-center justify-between rounded-lg py-2 px-2 text-sm font-medium cursor-pointer transition",
+              "flex items-center justify-between rounded-lg py-2 px-2 text-sm font-medium cursor-pointer transition-all",
               active
                 ? "bg-[#E0E7FF] text-[#1F628E]"
                 : "text-gray-800 hover:bg-[#E0E7FF] hover:text-[#1F628E]"
@@ -196,7 +200,7 @@ export function Sidebar({
                     key={child.route}
                     href={child.route!}
                     className={cn(
-                      "flex items-center gap-2 rounded-md px-2 py-1.5 text-xs font-medium transition",
+                      "flex items-center gap-2 rounded-md px-2 py-1.5 text-xs font-medium transition-all",
                       activeChild
                         ? "bg-[#E0E7FF] text-[#1F628E]"
                         : "text-gray-700 hover:bg-[#E0E7FF] hover:text-[#1F628E]"
@@ -219,7 +223,7 @@ export function Sidebar({
         key={item.route}
         href={item.route!}
         className={cn(
-          "flex items-center gap-3 rounded-lg py-2 px-2 text-sm font-medium transition",
+          "flex items-center gap-3 rounded-lg py-2 px-2 text-sm font-medium transition-all",
           active
             ? "bg-[#E0E7FF] text-[#1F628E]"
             : "text-gray-800 hover:bg-[#E0E7FF] hover:text-[#1F628E]"
@@ -249,12 +253,21 @@ export function Sidebar({
 
       <nav className="mt-6 space-y-2 px-3 flex-1 overflow-y-auto">
         {NAV_SECTIONS.map(renderNavItem)}
-        {showLogout && (
+        {showLogout && role && (
           <Button
-            onClick={logout}
+            onClick={async () => {
+              setIsLoggingOut(true);
+              await logout(router);
+            }}
+            disabled={isLoggingOut}
             className="w-full bg-[#1F628E] hover:bg-[#164A73] text-white mt-6 flex gap-2"
           >
-            <LogOut className="h-4 w-4" /> Logout
+            {isLoggingOut ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <LogOut className="h-4 w-4" />
+            )}
+            Logout
           </Button>
         )}
       </nav>
@@ -272,63 +285,146 @@ export function Sidebar({
 export function MobileSidebarButton({ role }: { role?: string }) {
   const [open, setOpen] = React.useState(false);
   const pathname = usePathname();
+  const router = useRouter();
   const [expandedSections, setExpandedSections] = React.useState<Record<string, boolean>>({
     "Task Update": false,
-    "Live terminals": false,
+    "Live Terminals": false,
     "Inventory Terminals": false,
     "System": false,
   });
+  const [isLoggingOut, setIsLoggingOut] = React.useState(false);
 
   const toggleSection = (name: string) =>
     setExpandedSections((prev) => ({ ...prev, [name]: !prev[name] }));
 
-  return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
-        <Button className="md:hidden fixed top-4 right-4 z-50 bg-[#1F628E] text-white">
-          <Menu />
-        </Button>
-      </SheetTrigger>
+  const renderMobileNavItem = (item: NavItem) => {
+    const hasChildren = item.children?.length;
+    const Icon = item.icon;
 
-      <SheetContent side="left" className="bg-[#AEC6CF] w-52 p-6">
-        <div className="flex justify-end mb-4">
-          <Button
-            onClick={() => setOpen(false)}
-            className="bg-[#1F628E] text-white h-8 w-8"
+    if (!isItemVisible(item, role)) return null;
+
+    if (hasChildren) {
+      const active = isParentActive(item.children, pathname);
+      const isExpanded = expandedSections[item.name];
+
+      return (
+        <div key={item.name} className="space-y-1">
+          <div
+            onClick={() => toggleSection(item.name)}
+            className={cn(
+              "flex items-center justify-between rounded-lg py-2 px-3 text-sm font-medium cursor-pointer transition-all",
+              active
+                ? "bg-[#E0E7FF] text-[#1F628E]"
+                : "text-gray-800 hover:bg-[#E0E7FF] hover:text-[#1F628E]"
+            )}
           >
-            <X />
-          </Button>
-        </div>
-
-        <nav className="space-y-3">
-          {NAV_SECTIONS.map((item) => (
-            <div key={item.name}>
-              {isItemVisible(item, role) && (
-                <Link
-                  href={item.route || "#"}
-                  onClick={() => setOpen(false)}
-                  className="block rounded-md px-3 py-2 font-medium text-gray-800 hover:bg-[#E0E7FF]"
-                >
-                  {item.name}
-                </Link>
-              )}
+            <div className="flex items-center gap-3">
+              <Icon className="h-5 w-5" />
+              <span>{item.name}</span>
             </div>
-          ))}
+            {isExpanded ? (
+              <ChevronUp className="h-4 w-4" />
+            ) : (
+              <ChevronDown className="h-4 w-4" />
+            )}
+          </div>
 
-          {role && (
-            <Button
-              onClick={logout}
-              className="w-full bg-[#1F628E] text-white mt-6"
-            >
-              <LogOut className="h-4 w-4 mr-2" /> Logout
-            </Button>
+          {isExpanded && (
+            <div className="ml-6 space-y-1">
+              {item.children!.map((child) => {
+                if (!isItemVisible(child, role)) return null;
+                const ChildIcon = child.icon;
+                const activeChild = child.route && pathname.startsWith(child.route);
+
+                return (
+                  <Link
+                    key={child.route}
+                    href={child.route!}
+                    onClick={() => setOpen(false)}
+                    className={cn(
+                      "flex items-center gap-2 rounded-md px-3 py-1.5 text-xs font-medium transition-all",
+                      activeChild
+                        ? "bg-[#E0E7FF] text-[#1F628E]"
+                        : "text-gray-700 hover:bg-[#E0E7FF] hover:text-[#1F628E]"
+                    )}
+                  >
+                    <ChildIcon className="h-4 w-4" />
+                    {child.name}
+                  </Link>
+                );
+              })}
+            </div>
           )}
-        </nav>
-
-        <div className="text-center text-xs text-gray-700 mt-6">
-          VERSION: 1.0.1
         </div>
-      </SheetContent>
-    </Sheet>
+      );
+    }
+
+    const active = item.route && pathname.startsWith(item.route);
+    return (
+      <Link
+        key={item.route}
+        href={item.route!}
+        onClick={() => setOpen(false)}
+        className={cn(
+          "flex items-center gap-3 rounded-lg py-2 px-3 text-sm font-medium transition-all",
+          active
+            ? "bg-[#E0E7FF] text-[#1F628E]"
+            : "text-gray-800 hover:bg-[#E0E7FF] hover:text-[#1F628E]"
+        )}
+      >
+        <Icon className="h-5 w-5" />
+        <span>{item.name}</span>
+      </Link>
+    );
+  };
+
+  return (
+    <>
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetTrigger asChild>
+          <Button className="md:hidden fixed top-4 right-4 z-50 bg-[#1F628E] text-white shadow-lg">
+            <Menu className="h-5 w-5" />
+          </Button>
+        </SheetTrigger>
+
+        <SheetContent side="left" className="bg-[#AEC6CF] w-64 p-6 overflow-y-auto">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-bold text-gray-800">Menu</h2>
+            <Button
+              onClick={() => setOpen(false)}
+              className="bg-[#1F628E] text-white h-8 w-8 p-0"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+
+          <nav className="space-y-3">
+            {NAV_SECTIONS.map(renderMobileNavItem)}
+            
+            {role && (
+              <Button
+                onClick={async () => {
+                  setIsLoggingOut(true);
+                  await logout(router);
+                }}
+                disabled={isLoggingOut}
+                className="w-full bg-[#1F628E] hover:bg-[#164A73] text-white mt-6 flex gap-2"
+              >
+                {isLoggingOut ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <LogOut className="h-4 w-4" />
+                )}
+                Logout
+              </Button>
+            )}
+          </nav>
+
+          <div className="text-center text-xs text-gray-700 mt-6">
+            VERSION: 1.0.1
+          </div>
+        </SheetContent>
+      </Sheet>
+    </>
   );
 }

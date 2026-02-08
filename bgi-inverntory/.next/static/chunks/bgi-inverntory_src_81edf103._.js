@@ -494,7 +494,7 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 // ==========================
-// ✅ Validation Schema
+// ✅ FIXED Validation Schema
 // ==========================
 const loginSchema = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$zod$2f$v4$2f$classic$2f$schemas$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["object"]({
     email: __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$zod$2f$v4$2f$classic$2f$schemas$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["string"]().email("Please enter a valid email address"),
@@ -504,7 +504,7 @@ const loginSchema = __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inver
         "admin",
         "support"
     ], {
-        required_error: "Please select a role"
+        message: "Please select a role"
     })
 });
 function LoginPage() {
@@ -535,12 +535,8 @@ function LoginPage() {
             localStorage.setItem("access_token", response.data.access_token);
             localStorage.setItem("auth", "true");
             localStorage.setItem("role", data.role);
-            // ✅ Redirect by role
-            if (data.role === "superadmin" || data.role === "admin") {
-                router.push("/dashboard");
-            } else {
-                router.push("/support/dashboard");
-            }
+            // ✅ Navigate to live dashboard
+            router.push("/live");
         } catch (err) {
             var _err_response_data, _err_response;
             console.error("Login error:", err);
@@ -562,7 +558,7 @@ function LoginPage() {
     // ✅ Render UI
     // ==========================
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "min-h-screen flex items-center justify-center bg-muted",
+        className: "min-h-screen flex items-center justify-center bg-muted py-8",
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
             className: "w-full max-w-md shadow-lg border border-border",
             children: [
@@ -572,12 +568,12 @@ function LoginPage() {
                         children: "Login"
                     }, void 0, false, {
                         fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                        lineNumber: 108,
+                        lineNumber: 104,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                    lineNumber: 107,
+                    lineNumber: 103,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -593,7 +589,7 @@ function LoginPage() {
                                         children: "Email"
                                     }, void 0, false, {
                                         fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                                        lineNumber: 117,
+                                        lineNumber: 113,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -603,7 +599,7 @@ function LoginPage() {
                                         ...register("email")
                                     }, void 0, false, {
                                         fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                                        lineNumber: 118,
+                                        lineNumber: 114,
                                         columnNumber: 15
                                     }, this),
                                     errors.email && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -611,13 +607,13 @@ function LoginPage() {
                                         children: errors.email.message
                                     }, void 0, false, {
                                         fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                                        lineNumber: 125,
+                                        lineNumber: 121,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                                lineNumber: 116,
+                                lineNumber: 112,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -628,7 +624,7 @@ function LoginPage() {
                                         children: "Password"
                                     }, void 0, false, {
                                         fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                                        lineNumber: 131,
+                                        lineNumber: 127,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -638,7 +634,7 @@ function LoginPage() {
                                         ...register("password")
                                     }, void 0, false, {
                                         fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                                        lineNumber: 132,
+                                        lineNumber: 128,
                                         columnNumber: 15
                                     }, this),
                                     errors.password && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -646,13 +642,13 @@ function LoginPage() {
                                         children: errors.password.message
                                     }, void 0, false, {
                                         fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                                        lineNumber: 139,
+                                        lineNumber: 135,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                                lineNumber: 130,
+                                lineNumber: 126,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -663,7 +659,7 @@ function LoginPage() {
                                         children: "Role"
                                     }, void 0, false, {
                                         fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                                        lineNumber: 147,
+                                        lineNumber: 143,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -676,12 +672,12 @@ function LoginPage() {
                                                     placeholder: "Select your role"
                                                 }, void 0, false, {
                                                     fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                                                    lineNumber: 153,
+                                                    lineNumber: 149,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                                                lineNumber: 152,
+                                                lineNumber: 148,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -691,7 +687,7 @@ function LoginPage() {
                                                         children: "Superadmin"
                                                     }, void 0, false, {
                                                         fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                                                        lineNumber: 156,
+                                                        lineNumber: 152,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
@@ -699,7 +695,7 @@ function LoginPage() {
                                                         children: "Admin"
                                                     }, void 0, false, {
                                                         fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                                                        lineNumber: 157,
+                                                        lineNumber: 153,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
@@ -707,19 +703,19 @@ function LoginPage() {
                                                         children: "Support"
                                                     }, void 0, false, {
                                                         fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                                                        lineNumber: 158,
+                                                        lineNumber: 154,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                                                lineNumber: 155,
+                                                lineNumber: 151,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                                        lineNumber: 148,
+                                        lineNumber: 144,
                                         columnNumber: 15
                                     }, this),
                                     errors.role && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -727,23 +723,23 @@ function LoginPage() {
                                         children: errors.role.message
                                     }, void 0, false, {
                                         fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                                        lineNumber: 162,
+                                        lineNumber: 158,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                                lineNumber: 146,
+                                lineNumber: 142,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
                                 type: "submit",
-                                className: "w-full flex items-center justify-center gap-2",
+                                className: "w-full flex items-center justify-center gap-2 bg-[#1F628E] hover:bg-[#164A73] text-white",
                                 disabled: isSubmitting,
                                 children: isSubmitting ? "Signing in..." : "Sign In"
                             }, void 0, false, {
                                 fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                                lineNumber: 167,
+                                lineNumber: 163,
                                 columnNumber: 13
                             }, this),
                             error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$bgi$2d$inverntory$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -751,29 +747,29 @@ function LoginPage() {
                                 children: error
                             }, void 0, false, {
                                 fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                                lineNumber: 177,
+                                lineNumber: 173,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                        lineNumber: 114,
+                        lineNumber: 110,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-                    lineNumber: 113,
+                    lineNumber: 109,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-            lineNumber: 106,
+            lineNumber: 102,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/bgi-inverntory/src/app/page.tsx",
-        lineNumber: 105,
+        lineNumber: 101,
         columnNumber: 5
     }, this);
 }

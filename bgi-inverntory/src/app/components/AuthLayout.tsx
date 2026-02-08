@@ -1,41 +1,68 @@
+// app/(auth)/layout.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Sidebar, MobileSidebarButton } from "@/app/components/Sidebar";
+import { Loader2 } from "lucide-react";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check for access token
     const token = localStorage.getItem("access_token");
-    const role = localStorage.getItem("role"); // store role on login
-    setIsAuthenticated(!!token);
-    setUserRole(role);
+    const role = localStorage.getItem("role");
 
-    const publicPaths = ["/login",];
+    // List of public paths that don't require authentication
+    const publicPaths = ["/login", "/register", "/forgot-password"];
 
-    // Redirect to login if not authenticated
     if (!token && !publicPaths.includes(pathname)) {
       router.push("/login");
+      return;
     }
 
-    // Redirect to dashboard if authenticated and on login/registration page
-    if (token && publicPaths.includes(pathname)) {
-      router.push("/dashboard");
+    if (token) {
+      try {
+        // Validate token expiry
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        const isExpired = payload.exp && Date.now() > payload.exp * 1000;
+        
+        if (isExpired) {
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("role");
+          router.push("/login");
+        } else {
+          setUserRole(role);
+        }
+      } catch {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("role");
+        router.push("/login");
+      }
     }
+
+    setIsLoading(false);
   }, [pathname, router]);
 
-  if (isAuthenticated === null) return null; // Prevent flicker
+  // Show loading spinner while checking auth
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-muted/10">
+        <Loader2 className="w-10 h-10 text-gray-800 animate-spin" />
+      </div>
+    );
+  }
 
-  // If not authenticated, render login/registration pages
-  if (!isAuthenticated) return <>{children}</>;
+  // For public pages (login/register), render without sidebar
+  const publicPaths = ["/login", "/register", "/forgot-password"];
+  if (publicPaths.includes(pathname)) {
+    return <>{children}</>;
+  }
 
-  // Full-page layout after login
+  // For protected pages, show layout with sidebar
   return (
     <div className="flex min-h-screen w-screen bg-muted/10">
       {/* Desktop sidebar */}

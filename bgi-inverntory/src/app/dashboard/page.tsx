@@ -1,3 +1,4 @@
+// app/dashboard/page.tsx
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -29,14 +30,9 @@ function DashboardCard({
         bg-[#e6e9ef]
         flex flex-col items-center justify-center
         transition-all duration-300 ease-in-out
-
-        /* dark outer shadow for visibility */
         shadow-[10px_10px_18px_rgba(0,0,0,0.18),-8px_-8px_16px_#ffffff]
-
         hover:shadow-[6px_6px_14px_rgba(0,0,0,0.22),-6px_-6px_14px_#ffffff]
-
         active:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25),inset_-6px_-6px_12px_#ffffff]
-
         disabled:opacity-60 disabled:cursor-not-allowed
         focus:outline-none
       `}
@@ -79,55 +75,19 @@ function useRole() {
   return { role, isLoading };
 }
 
-/* ---------- mobile navigation bar ---------- */
-function MobileNav({ onLogout }: { onLogout: () => void }) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  return (
-    <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-[#e6e9ef] shadow-md">
-      <div className="flex justify-between items-center p-4">
-        <span className="text-lg font-bold text-gray-800">BGI</span>
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="
-            p-2 rounded-lg
-            shadow-[6px_6px_10px_rgba(0,0,0,0.2),-4px_-4px_8px_#ffffff]
-          "
-        >
-          <svg
-            className="w-6 h-6 text-gray-800"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-      </div>
-
-      {isMenuOpen && (
-        <div className="p-4">
-          <button
-            onClick={onLogout}
-            className="
-              w-full py-2 rounded-xl text-red-600 font-medium
-              shadow-[6px_6px_10px_rgba(0,0,0,0.2),-4px_-4px_8px_#ffffff]
-              active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.25),inset_-4px_-4px_8px_#ffffff]
-            "
-          >
-            Logout
-          </button>
-        </div>
-      )}
-    </div>
-  );
-}
-
 /* ---------- main dashboard ---------- */
 export default function HomePage() {
   const router = useRouter();
   const { role, isLoading } = useRole();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  // Redirect if not logged in
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      router.push("/login");
+    }
+  }, [router]);
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
@@ -146,6 +106,7 @@ export default function HomePage() {
       console.error("Logout API error:", err);
     } finally {
       localStorage.removeItem("access_token");
+      localStorage.removeItem("role");
       router.replace("/login");
     }
   };
@@ -155,7 +116,7 @@ export default function HomePage() {
 
     const all = [
       { name: "Live Terminals", route: "/live", icon: iconMap.live },
-      { name: "Task Update", route: "/task-manager", icon: iconMap.tasks },
+     
     ];
 
     if (role === "superadmin") {
@@ -179,9 +140,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-[#e6e9ef]">
-      <MobileNav onLogout={handleLogout} />
-
-      {/* Header (moved slightly down) */}
+      {/* Header */}
       <header className="hidden md:flex mt-10">
         <h1 className="text-3xl font-bold text-gray-800 tracking-wide">
           BGI INVENTORY SYSTEM

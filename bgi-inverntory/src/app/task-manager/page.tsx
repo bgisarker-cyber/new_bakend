@@ -107,12 +107,8 @@ export default function HomePage() {
           route: "/task-manager/task-call",
           icon: iconMap.pos,
         },
-        {
-          name: "UIT Task",
-          route: "/uit-task",
-          icon: iconMap.tasks,
-        }
-      );
+        
+   );
     }
 
     return all;

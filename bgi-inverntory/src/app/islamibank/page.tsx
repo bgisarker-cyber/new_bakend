@@ -42,6 +42,11 @@ type IslamiPOS = {
   updated_at: string;
 };
 
+// Custom column type that uses style instead of minWidth
+type CustomColumn<T> = Omit<TableColumn<T>, 'minWidth'> & {
+  minWidth?: string;
+};
+
 const IslamiPOSPage = () => {
   const [records, setRecords] = useState<IslamiPOS[]>([]);
   const [filteredRecords, setFilteredRecords] = useState<IslamiPOS[]>([]);
@@ -66,7 +71,7 @@ const IslamiPOSPage = () => {
   useEffect(() => {
     const fetchRecords = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:8000/islami/all ");
+        const res = await fetch("http://127.0.0.1:8000/islami/all  ");
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         setCounter_terminal(data.data.length);
@@ -105,7 +110,7 @@ const IslamiPOSPage = () => {
     form.append("file", excelFile);
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/islami/upload ", {
+      const res = await fetch("http://127.0.0.1:8000/islami/upload  ", {
         method: "POST",
         body: form,
       });
@@ -115,7 +120,7 @@ const IslamiPOSPage = () => {
       setUploadMsg("✅ Upload successful!");
       setExcelFile(null);
 
-      const updated = await fetch("http://127.0.0.1:8000/islami/all ");
+      const updated = await fetch("http://127.0.0.1:8000/islami/all  ");
       const newData = await updated.json();
       setRecords(newData.data || newData);
       setFilteredRecords(newData.data || newData);
@@ -128,46 +133,46 @@ const IslamiPOSPage = () => {
   // Download Template
   // ==========================
   const handleDownloadTemplate = () => {
-    window.open("http://127.0.0.1:8000/islami/template ", "_blank");
+    window.open("http://127.0.0.1:8000/islami/template  ", "_blank");
   };
 
   // ==========================
-  // Table Columns
+  // Table Columns - FIXED: Convert minWidth to style
   // ==========================
   const columns: TableColumn<IslamiPOS>[] = [
     { name: "SL", selector: (row) => row.id, width: "60px" },
-    { name: "Config Date", selector: (r) => r.configdate, minWidth: "100px" },
+    { name: "Config Date", selector: (r) => r.configdate, style: { minWidth: "100px" } },
     
-    { name: "MID", selector: (r) => r.mid, minWidth: "150px" },
-    { name: "TID", selector: (r) => r.tid, minWidth: "120px" },
-    { name: "MERCHANT SIGNBOARD", selector: (r) => r.merchant_signboard, minWidth: "250px" },
-    { name: "Address", selector: (r) => r.address, minWidth: "250px", wrap: true },
-    { name: "City", selector: (r) => r.city, minWidth: "130px" },
-    { name: "Area", selector: (r) => r.area, minWidth: "130px" }, // ✅ Area column already exists
-    { name: "Branch", selector: (r) => r.branch, minWidth: "180px" },
-    { name: "Vendor", selector: (r) => r.vendor, minWidth: "100px" },
-    { name: "POS Model", selector: (r) => r.pos_model, minWidth: "100px" },
-    { name: "POS Serial", selector: (r) => r.pos_serial, minWidth: "130px" },
-    { name: "Battery Serial", selector: (r) => r.battery_serial, minWidth: "160px" },
-    { name: "Old POS Serial", selector: (r) => r.old_pos_serial, minWidth: "160px" },
-    { name: "SIM Operator", selector: (r) => r.sim_operator, minWidth: "110px" },
-    { name: "SIM Serial Number", selector: (r) => r.sim_serial_number, minWidth: "180px" },
-    { name: "IP Address", selector: (r) => r.ip_address, minWidth: "150px" },
-    { name: "Port", selector: (r) => r.port_number, minWidth: "100px" },
-    { name: "Functionality", selector: (r) => r.special_functionality, minWidth: "200px" },
-    { name: "TL", selector: (r) => r.tl, minWidth: "180px" },
-    { name: "ARO", selector: (r) => r.aro, minWidth: "180px" },
-    { name: "Merchant Contact Person", selector: (r) => r.merchant_contact_person, minWidth: "200px" },
-    { name: "Merchant Contact Number", selector: (r) => r.merchant_contact_number, minWidth: "140px" },
-    { name: "Installation Date", selector: (r) => r.installation_date, minWidth: "110px" },
-    { name: "Installation Engineer", selector: (r) => r.installation_engineer_name, minWidth: "180px" },
-    { name: "Handover To", selector: (r) => r.handover_to, minWidth: "100px" },
-    { name: "Handover Date", selector: (r) => r.handover_date, minWidth: "110px" },
-    { name: "App Version", selector: (r) => r.app_version, minWidth: "120px" },
-    { name: "App Release Date", selector: (r) => r.app_release_date, minWidth: "110px" },
-    { name: "Firmware Version", selector: (r) => r.firmware_version, minWidth: "120px" },
-    { name: "Remarks", selector: (r) => r.remarks, minWidth: "200px", wrap: true },
-    { name: "Created Time", selector: (r) => r.create_time, minWidth: "200px", wrap: true },
+    { name: "MID", selector: (r) => r.mid, style: { minWidth: "150px" } },
+    { name: "TID", selector: (r) => r.tid, style: { minWidth: "120px" } },
+    { name: "MERCHANT SIGNBOARD", selector: (r) => r.merchant_signboard, style: { minWidth: "250px" } },
+    { name: "Address", selector: (r) => r.address, style: { minWidth: "250px" }, wrap: true },
+    { name: "City", selector: (r) => r.city, style: { minWidth: "130px" } },
+    { name: "Area", selector: (r) => r.area, style: { minWidth: "130px" } }, // ✅ Area column already exists
+    { name: "Branch", selector: (r) => r.branch, style: { minWidth: "180px" } },
+    { name: "Vendor", selector: (r) => r.vendor, style: { minWidth: "100px" } },
+    { name: "POS Model", selector: (r) => r.pos_model, style: { minWidth: "100px" } },
+    { name: "POS Serial", selector: (r) => r.pos_serial, style: { minWidth: "130px" } },
+    { name: "Battery Serial", selector: (r) => r.battery_serial, style: { minWidth: "160px" } },
+    { name: "Old POS Serial", selector: (r) => r.old_pos_serial, style: { minWidth: "160px" } },
+    { name: "SIM Operator", selector: (r) => r.sim_operator, style: { minWidth: "110px" } },
+    { name: "SIM Serial Number", selector: (r) => r.sim_serial_number, style: { minWidth: "180px" } },
+    { name: "IP Address", selector: (r) => r.ip_address, style: { minWidth: "150px" } },
+    { name: "Port", selector: (r) => r.port_number, style: { minWidth: "100px" } },
+    { name: "Functionality", selector: (r) => r.special_functionality, style: { minWidth: "200px" } },
+    { name: "TL", selector: (r) => r.tl, style: { minWidth: "180px" } },
+    { name: "ARO", selector: (r) => r.aro, style: { minWidth: "180px" } },
+    { name: "Merchant Contact Person", selector: (r) => r.merchant_contact_person, style: { minWidth: "200px" } },
+    { name: "Merchant Contact Number", selector: (r) => r.merchant_contact_number, style: { minWidth: "140px" } },
+    { name: "Installation Date", selector: (r) => r.installation_date, style: { minWidth: "110px" } },
+    { name: "Installation Engineer", selector: (r) => r.installation_engineer_name, style: { minWidth: "180px" } },
+    { name: "Handover To", selector: (r) => r.handover_to, style: { minWidth: "100px" } },
+    { name: "Handover Date", selector: (r) => r.handover_date, style: { minWidth: "110px" } },
+    { name: "App Version", selector: (r) => r.app_version, style: { minWidth: "120px" } },
+    { name: "App Release Date", selector: (r) => r.app_release_date, style: { minWidth: "110px" } },
+    { name: "Firmware Version", selector: (r) => r.firmware_version, style: { minWidth: "120px" } },
+    { name: "Remarks", selector: (r) => r.remarks, style: { minWidth: "200px" }, wrap: true },
+    { name: "Created Time", selector: (r) => r.create_time, style: { minWidth: "200px" }, wrap: true },
   ];
 
   if (loading) return <p className="text-center mt-20">Loading...</p>;
@@ -181,7 +186,7 @@ const IslamiPOSPage = () => {
       <div className="flex justify-between items-center w-full max-w-7xl mb-6 px-4">
         {/* Left: Export */}
         <button
-          onClick={() => window.open("http://127.0.0.1:8000/islami/download ", "_blank")}
+          onClick={() => window.open("http://127.0.0.1:8000/islami/download  ", "_blank")}
           className="px-6 py-3 rounded-2xl bg-[#e6e9ef] shadow-[6px_6px_12px_rgba(0,0,0,0.15),-6px_-6px_#ffffff] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_#ffffff] font-semibold"
         >
           ⬇️ Export Excel

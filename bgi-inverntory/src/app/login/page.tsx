@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { Loader2 } from "lucide-react"; // FIXED: Import Loader2
 
 // ==========================
 // Validation Schema
@@ -35,13 +36,14 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = React.useState("");
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const {
     register,
     handleSubmit,
     setValue,
     watch,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "", role: undefined },
@@ -54,20 +56,24 @@ export default function LoginPage() {
   // ==========================
   const onSubmit = async (data: LoginFormValues) => {
     setError("");
+    setIsSubmitting(true);
+    
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/auth/login",
+        "http://127.0.0.1:8000/auth/login", // FIXED: Removed trailing space
         { email: data.email, password: data.password, role: data.role },
         { headers: { "Content-Type": "application/json" } }
       );
 
+      // Store auth data
       localStorage.setItem("access_token", response.data.access_token);
-      localStorage.setItem("auth", "true");
       localStorage.setItem("role", data.role);
 
-      router.push("/dashboard");
+      // Redirect to dashboard
+      router.push("/live");
     } catch (err: any) {
       console.error("Login error:", err);
+      
       const detail = err.response?.data?.detail;
       if (Array.isArray(detail)) {
         setError(detail.map((d: any) => d.msg).join(", "));
@@ -76,8 +82,10 @@ export default function LoginPage() {
       } else if (err.message === "Network Error") {
         setError("Cannot connect to the server. Make sure FastAPI is running.");
       } else {
-        setError("Login failed. Please try again.");
+        setError("Login failed. Please check your credentials and try again.");
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -152,7 +160,14 @@ export default function LoginPage() {
               className="w-full py-3 text-lg font-semibold bg-gradient-to-r from-blue-400 to-blue-600 hover:scale-[1.02] transition-transform duration-300"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Signing in..." : "Sign In"}
+              {isSubmitting ? (
+                <span className="flex items-center justify-center gap-2">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Signing in...
+                </span>
+              ) : (
+                "Sign In"
+              )}
             </Button>
 
             {/* Error Message */}

@@ -10,7 +10,7 @@ from app.database import cursor
 # ---------- CONFIG ----------
 SECRET_KEY = "bgi_inventory"  # replace with env var in prod
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
+ACCESS_TOKEN_EXPIRE_MINUTES = 120
 
 # ---------- Password hashing (Argon2) ----------
 pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
