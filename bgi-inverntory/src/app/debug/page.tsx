@@ -65,7 +65,7 @@ const DebugPage = () => {
         const token = localStorage.getItem("access_token");
         if (!token) throw new Error("Please log in first.");
 
-        const response = await fetch("http://127.0.0.1:8000/debug/all ", {
+        const response = await fetch("/api/debug/all ", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!response.ok)
@@ -115,7 +115,7 @@ const DebugPage = () => {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/debug/add ", {
+      const response = await fetch("/api/debug/add ", {
         method: "POST",
         headers: getAuthHeaders(),
         body: JSON.stringify(formData),
@@ -130,7 +130,7 @@ const DebugPage = () => {
       setShowForm(false);
       setFormData({ pos_serial: "", model: "", oem: "", assigned_bank: "" });
 
-      const updated = await fetch("http://127.0.0.1:8000/debug/all ", {
+      const updated = await fetch("/api/debug/all ", {
         headers: getAuthHeaders(),
       });
       const newData = await updated.json();
@@ -166,7 +166,7 @@ const DebugPage = () => {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/debug/edit/ ${editingRecord.id}`,
+        `/api/debug/edit/ ${editingRecord.id}`,
         {
           method: "PUT",
           headers: getAuthHeaders(),
@@ -184,7 +184,7 @@ const DebugPage = () => {
       setEditingRecord(null);
       setFormData({ pos_serial: "", model: "", oem: "", assigned_bank: "" });
 
-      const updated = await fetch("http://127.0.0.1:8000/debug/all ", {
+      const updated = await fetch("/api/debug/all ", {
         headers: getAuthHeaders(),
       });
       const newData = await updated.json();
@@ -205,7 +205,7 @@ const DebugPage = () => {
     if (!confirmDelete) return;
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/debug/delete/ ${id}`, {
+      const response = await fetch(`/api/debug/delete/ ${id}`, {
         method: "DELETE",
         headers: getAuthHeaders(),
       });

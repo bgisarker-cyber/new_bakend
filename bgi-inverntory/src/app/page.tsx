@@ -63,7 +63,7 @@ export default function LoginPage() {
     setError("");
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/auth/login", // FIXED: Removed trailing space
+        "/api/auth/login", // FIXED: Removed trailing space
         data,
         { headers: { "Content-Type": "application/json" } }
       );

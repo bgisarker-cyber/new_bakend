@@ -1,1 +1,215 @@
-{"version":3,"caseSensitive":false,"basePath":"","rewrites":{"beforeFiles":[],"afterFiles":[],"fallback":[]},"redirects":[{"source":"/:path+/","destination":"/:path+","permanent":true,"internal":true,"regex":"^(?:\\/((?:[^\\/]+?)(?:\\/(?:[^\\/]+?))*))\\/$"}],"headers":[]}
+{
+  "version": 3,
+  "pages404": true,
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/citybank",
+      "regex": "^/citybank(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/citybank(?:/)?$"
+    },
+    {
+      "page": "/citybank/city-replace",
+      "regex": "^/citybank/city\\-replace(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/citybank/city\\-replace(?:/)?$"
+    },
+    {
+      "page": "/dashboard",
+      "regex": "^/dashboard(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard(?:/)?$"
+    },
+    {
+      "page": "/debug",
+      "regex": "^/debug(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/debug(?:/)?$"
+    },
+    {
+      "page": "/demo",
+      "regex": "^/demo(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/demo(?:/)?$"
+    },
+    {
+      "page": "/devices",
+      "regex": "^/devices(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/devices(?:/)?$"
+    },
+    {
+      "page": "/faulty",
+      "regex": "^/faulty(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/faulty(?:/)?$"
+    },
+    {
+      "page": "/favicon.ico",
+      "regex": "^/favicon\\.ico(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/favicon\\.ico(?:/)?$"
+    },
+    {
+      "page": "/inventory",
+      "regex": "^/inventory(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/inventory(?:/)?$"
+    },
+    {
+      "page": "/islamibank",
+      "regex": "^/islamibank(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/islamibank(?:/)?$"
+    },
+    {
+      "page": "/live",
+      "regex": "^/live(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/live(?:/)?$"
+    },
+    {
+      "page": "/login",
+      "regex": "^/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/login(?:/)?$"
+    },
+    {
+      "page": "/mtbbank",
+      "regex": "^/mtbbank(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/mtbbank(?:/)?$"
+    },
+    {
+      "page": "/pubalibank",
+      "regex": "^/pubalibank(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/pubalibank(?:/)?$"
+    },
+    {
+      "page": "/pubalibank/pubali-replace",
+      "regex": "^/pubalibank/pubali\\-replace(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/pubalibank/pubali\\-replace(?:/)?$"
+    },
+    {
+      "page": "/pubalibank/pubali-withdraw",
+      "regex": "^/pubalibank/pubali\\-withdraw(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/pubalibank/pubali\\-withdraw(?:/)?$"
+    },
+    {
+      "page": "/standardbank",
+      "regex": "^/standardbank(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/standardbank(?:/)?$"
+    },
+    {
+      "page": "/store",
+      "regex": "^/store(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/store(?:/)?$"
+    },
+    {
+      "page": "/task_control",
+      "regex": "^/task_control(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/task_control(?:/)?$"
+    },
+    {
+      "page": "/task-manager",
+      "regex": "^/task\\-manager(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/task\\-manager(?:/)?$"
+    },
+    {
+      "page": "/task-manager/create-task",
+      "regex": "^/task\\-manager/create\\-task(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/task\\-manager/create\\-task(?:/)?$"
+    },
+    {
+      "page": "/task-manager/my-task",
+      "regex": "^/task\\-manager/my\\-task(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/task\\-manager/my\\-task(?:/)?$"
+    },
+    {
+      "page": "/task-manager/task-call",
+      "regex": "^/task\\-manager/task\\-call(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/task\\-manager/task\\-call(?:/)?$"
+    },
+    {
+      "page": "/uit-task",
+      "regex": "^/uit\\-task(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/uit\\-task(?:/)?$"
+    },
+    {
+      "page": "/user-log",
+      "regex": "^/user\\-log(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/user\\-log(?:/)?$"
+    },
+    {
+      "page": "/user-show",
+      "regex": "^/user\\-show(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/user\\-show(?:/)?$"
+    },
+    {
+      "page": "/users-add",
+      "regex": "^/users\\-add(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/users\\-add(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSuffix": ".prefetch.rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments"
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

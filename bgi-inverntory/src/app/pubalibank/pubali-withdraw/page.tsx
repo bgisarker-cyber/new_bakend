@@ -38,7 +38,7 @@ type PubaliWithdraw = {
   "QR": string;
 };
 
-const API_BASE = "http://127.0.0.1:8000/pubali_withdraw";
+const API_BASE = "/api/pubali_withdraw";
 
 const PubaliWithdrawPage = () => {
   const router = useRouter();

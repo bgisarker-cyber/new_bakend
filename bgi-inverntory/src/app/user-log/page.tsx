@@ -21,7 +21,7 @@ export default function UserLogsPage() {
     const fetchLogs = async () => {
       try {
         const token = localStorage.getItem("access_token");
-        const res = await fetch("http://127.0.0.1:8000/logs/show", {
+        const res = await fetch("/api/logs/show", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();

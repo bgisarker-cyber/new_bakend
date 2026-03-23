@@ -17,33 +17,33 @@ from app.tasks.task_control import banks_router, problem_types_router
 app = FastAPI()
 
 # Include routers
-app.include_router(users.router, prefix="/api")
-app.include_router(citypos.router, prefix="/api")
-app.include_router(pubalipos.router, prefix="/api")
-app.include_router(islami.router, prefix="/api")
-app.include_router(mtb.router, prefix="/api")
-app.include_router(standard.router, prefix="/api")
-app.include_router(pb_wittdraw.router, prefix="/api")
-app.include_router(pb_replace.router, prefix="/api")
-app.include_router(city_replace.router, prefix="/api")
-app.include_router(terminals.router, prefix="/api")
+app.include_router(users.router)
+app.include_router(citypos.router)
+app.include_router(pubalipos.router)
+app.include_router(islami.router)
+app.include_router(mtb.router)
+app.include_router(standard.router)
+app.include_router(pb_wittdraw.router)
+app.include_router(pb_replace.router)
+app.include_router(city_replace.router)
+app.include_router(terminals.router)
 
 # Include for local routers
-app.include_router(store.router, prefix="/api")
-app.include_router(debug.router, prefix="/api")
-app.include_router(demo.router, prefix="/api")
-app.include_router(faulty.router, prefix="/api")
-app.include_router(logger.router, prefix="/api")
+app.include_router(store.router)
+app.include_router(debug.router)
+app.include_router(demo.router)
+app.include_router(faulty.router)
+app.include_router(logger.router)
 
 
 # Include the new routers from task_control
-app.include_router(banks_router, prefix="/api")
-app.include_router(problem_types_router, prefix="/api")
+app.include_router(banks_router)
+app.include_router(problem_types_router)
 
 # Include remaining task routers
-app.include_router(tasks.router, prefix="/api")
-app.include_router(uit_task.router, prefix="/api")
-app.include_router(my_task.router, prefix="/api")
+app.include_router(tasks.router)
+app.include_router(uit_task.router)
+app.include_router(my_task.router)
 
 app.add_middleware(
     CORSMiddleware,

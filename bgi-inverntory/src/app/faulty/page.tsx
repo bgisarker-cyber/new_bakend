@@ -71,7 +71,7 @@ const FaultyPage = () => {
         const token = localStorage.getItem("access_token");
         if (!token) throw new Error("Please log in first.");
 
-        const response = await fetch("http://127.0.0.1:8000/faulty/all", {
+        const response = await fetch("/api/faulty/all", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!response.ok)
@@ -121,7 +121,7 @@ const FaultyPage = () => {
   const handleExport = async () => {
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch("http://127.0.0.1:8000/faulty/download", {
+      const response = await fetch("/api/faulty/download", {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -152,7 +152,7 @@ const FaultyPage = () => {
       const email = localStorage.getItem("email") || "unknown";
       const role = localStorage.getItem("role") || "user";
 
-      const response = await fetch("http://127.0.0.1:8000/faulty/add", {
+      const response = await fetch("/api/faulty/add", {
         method: "POST",
         headers: getAuthHeaders(),
         body: JSON.stringify({
@@ -171,7 +171,7 @@ const FaultyPage = () => {
       setShowForm(false);
       setFormData({ pos_serial: "", fault_type: "", fault_cause: "", approach: "", replaced_part: "" });
 
-      const updated = await fetch("http://127.0.0.1:8000/faulty/all", {
+      const updated = await fetch("/api/faulty/all", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const newData = await updated.json();
@@ -209,7 +209,7 @@ const FaultyPage = () => {
       const role = localStorage.getItem("role") || "user";
 
       const response = await fetch(
-        `http://127.0.0.1:8000/faulty/edit/${editingFaulty.id}`,
+        `/api/faulty/edit/${editingFaulty.id}`,
         {
           method: "PUT",
           headers: getAuthHeaders(),
@@ -231,7 +231,7 @@ const FaultyPage = () => {
       setEditingFaulty(null);
       setFormData({ pos_serial: "", fault_type: "", fault_cause: "", approach: "", replaced_part: "" });
 
-      const updated = await fetch("http://127.0.0.1:8000/faulty/all", {
+      const updated = await fetch("/api/faulty/all", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const newData = await updated.json();
@@ -256,7 +256,7 @@ const FaultyPage = () => {
       const email = localStorage.getItem("email") || "unknown";
       const role = localStorage.getItem("role") || "user";
 
-      const response = await fetch(`http://127.0.0.1:8000/faulty/delete/${id}`, {
+      const response = await fetch(`/api/faulty/delete/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -300,7 +300,7 @@ const FaultyPage = () => {
     form.append("log_user_role", role);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/faulty/upload", {
+      const response = await fetch("/api/faulty/upload", {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: form,
@@ -312,7 +312,7 @@ const FaultyPage = () => {
       setUploadMsg("✅ Upload complete!");
       setExcelFile(null);
 
-      const updated = await fetch("http://127.0.0.1:8000/faulty/all", {
+      const updated = await fetch("/api/faulty/all", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const newData = await updated.json();
@@ -561,7 +561,7 @@ const FaultyPage = () => {
             <button
               onClick={async () => {
                 const token = localStorage.getItem("access_token");
-                const res = await fetch("http://127.0.0.1:8000/faulty/template", {
+                const res = await fetch("/api/faulty/template", {
                   headers: { Authorization: `Bearer ${token}` },
                 });
                 if (!res.ok) {

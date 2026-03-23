@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv/
+pip-log.txt
+*.egg-info/
+dist/
+build/
+
+# Database & backups
+*.sqlite
+*.db
+backup.sql
+*.dump
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Frontend build files
+bgi-inverntory/.next/
+bgi-inverntory/build/
+bgi-inverntory/node_modules/
+
+# Misc
+*.tar.gz
+*.zip

@@ -23,7 +23,7 @@ type TabKey = "banks" | "problem-types";
 
 // ========================== Main Component ==========================
 const TaskSettingsPage = () => {
-  const API_BASE = "http://127.0.0.1:8000"; // ✅ FIXED: Removed trailing spaces
+  const API_BASE = "/api"; // ✅ FIXED: Removed trailing spaces
 
   // Tab state
   const [activeTab, setActiveTab] = useState<TabKey>("banks");

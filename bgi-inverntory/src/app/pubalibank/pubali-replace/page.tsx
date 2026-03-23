@@ -40,7 +40,7 @@ type PubaliReplace = {
   updated_at: string;
 };
 
-const API_BASE = "http://127.0.0.1:8000/pubali_replace";
+const API_BASE = "/api/pubali_replace";
 
 const PubaliReplacePage = () => {
   const router = useRouter();

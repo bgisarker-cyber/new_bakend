@@ -1,19 +1,21 @@
-
-
-# app/database.py
 import os
+from dotenv import load_dotenv
+from pathlib import Path
+
+# Load .env from the same directory as this file
+env_path = Path(__file__).parent / '.env'
+load_dotenv(dotenv_path=env_path)
+
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
-# Prefer environment variables for credentials
+# Get from environment
 DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_PORT = os.getenv("DB_PORT", "5432")
 DB_NAME = os.getenv("DB_NAME", "bgi_inventory")
-DB_USER = os.getenv("DB_USER", "postgres")
-DB_PASS = os.getenv("DB_PASS", "1234")
+DB_USER = os.getenv("DB_USER", "bgi_user")
+DB_PASS = os.getenv("DB_PASS", "123456")
 
-# Create connection and a "global" cursor using RealDictCursor for JSON-friendly dict rows.
-# In production consider using a connection pool (psycopg2.pool.SimpleConnectionPool)
 try:
     conn = psycopg2.connect(
         host=DB_HOST,
@@ -22,9 +24,7 @@ try:
         user=DB_USER,
         password=DB_PASS
     )
-    # autocommit False by default; we will commit/rollback manually
     cursor = conn.cursor(cursor_factory=RealDictCursor)
+    print("Database connected successfully")
 except Exception as e:
-    # If connection fails, raise so app startup reveals the problem
     raise RuntimeError(f"Failed to connect to the database: {e}")
-

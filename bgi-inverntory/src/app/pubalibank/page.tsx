@@ -38,7 +38,7 @@ type PubaliPOS = {
   create_time: string;
 };
 
-const API_BASE = "http://127.0.0.1:8000/pubali";
+const API_BASE = "/api/pubali";
 
 const PubaliPOSPage = () => {
   const [records, setRecords] = useState<PubaliPOS[]>([]);

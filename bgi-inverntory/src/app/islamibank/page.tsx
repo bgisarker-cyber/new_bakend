@@ -71,7 +71,7 @@ const IslamiPOSPage = () => {
   useEffect(() => {
     const fetchRecords = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:8000/islami/all  ");
+        const res = await fetch("/api/islami/all  ");
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         setCounter_terminal(data.data.length);
@@ -110,7 +110,7 @@ const IslamiPOSPage = () => {
     form.append("file", excelFile);
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/islami/upload  ", {
+      const res = await fetch("/api/islami/upload  ", {
         method: "POST",
         body: form,
       });
@@ -120,7 +120,7 @@ const IslamiPOSPage = () => {
       setUploadMsg("✅ Upload successful!");
       setExcelFile(null);
 
-      const updated = await fetch("http://127.0.0.1:8000/islami/all  ");
+      const updated = await fetch("/api/islami/all  ");
       const newData = await updated.json();
       setRecords(newData.data || newData);
       setFilteredRecords(newData.data || newData);
@@ -133,7 +133,7 @@ const IslamiPOSPage = () => {
   // Download Template
   // ==========================
   const handleDownloadTemplate = () => {
-    window.open("http://127.0.0.1:8000/islami/template  ", "_blank");
+    window.open("/api/islami/template  ", "_blank");
   };
 
   // ==========================
@@ -186,7 +186,7 @@ const IslamiPOSPage = () => {
       <div className="flex justify-between items-center w-full max-w-7xl mb-6 px-4">
         {/* Left: Export */}
         <button
-          onClick={() => window.open("http://127.0.0.1:8000/islami/download  ", "_blank")}
+          onClick={() => window.open("/api/islami/download  ", "_blank")}
           className="px-6 py-3 rounded-2xl bg-[#e6e9ef] shadow-[6px_6px_12px_rgba(0,0,0,0.15),-6px_-6px_#ffffff] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_#ffffff] font-semibold"
         >
           ⬇️ Export Excel

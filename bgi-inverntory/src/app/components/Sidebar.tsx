@@ -103,7 +103,7 @@ const logout = async (router: ReturnType<typeof useRouter>) => {
   try {
     const token = localStorage.getItem("access_token");
     if (token) {
-      await fetch("http://127.0.0.1:8000/auth/logout", { // FIXED: Removed trailing space
+      await fetch("/api/auth/logout", { // FIXED: Removed trailing space
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

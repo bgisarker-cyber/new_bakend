@@ -94,7 +94,7 @@ export default function HomePage() {
     try {
       const token = localStorage.getItem("access_token");
       if (token) {
-        await fetch("http://127.0.0.1:8000/auth/logout", {
+        await fetch("/api/auth/logout", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,

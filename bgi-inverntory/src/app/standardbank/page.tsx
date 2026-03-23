@@ -31,7 +31,7 @@ type StandardPOS = {
 
 type RawPOS = Record<string, unknown>;
 
-const API_BASE = "http://127.0.0.1:8000/standard";
+const API_BASE = "/api/standard";
 
 /* ------------------------------------------------------------------ */
 export default function StandardPOSPage() {

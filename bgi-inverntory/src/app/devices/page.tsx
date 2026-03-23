@@ -60,7 +60,7 @@ const DevicesPage = () => {
   useEffect(() => {
     const fetchDevices = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/all ");
+        const response = await fetch("/api/all ");
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
         setCounter_terminal(data.data.length);
@@ -95,7 +95,7 @@ const DevicesPage = () => {
   // ==========================
   const handleExport = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/download ");
+      const response = await fetch("/api/download ");
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
@@ -120,7 +120,7 @@ const DevicesPage = () => {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/device ", {
+      const response = await fetch("/api/device ", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -145,7 +145,7 @@ const DevicesPage = () => {
         telephone: "",
       });
 
-      const updated = await fetch("http://127.0.0.1:8000/all ");
+      const updated = await fetch("/api/all ");
       const newData = await updated.json();
       setCounter_terminal(newData.data.length);
       setDevices(newData.data);
@@ -168,7 +168,7 @@ const DevicesPage = () => {
     formData.append("file", excelFile);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/upload ", {
+      const response = await fetch("/api/upload ", {
         method: "POST",
         body: formData,
       });
@@ -179,7 +179,7 @@ const DevicesPage = () => {
       setUploadMsg("✅ Upload complete successfully!");
       setExcelFile(null);
 
-      const updated = await fetch("http://127.0.0.1:8000/all ");
+      const updated = await fetch("/api/all ");
       const newData = await updated.json();
       setCounter_terminal(newData.data.length);
       setDevices(newData.data);

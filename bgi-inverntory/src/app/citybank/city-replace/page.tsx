@@ -42,7 +42,7 @@ type CityReplace = {
   updated_at?: string;
 };
 
-const API_BASE = "http://127.0.0.1:8000/city_replace";
+const API_BASE = "/api/city_replace";
 
 export default function CityReplacePage() {
   const router = useRouter();

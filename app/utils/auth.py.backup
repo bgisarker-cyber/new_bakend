@@ -1,11 +1,4 @@
-import os
-from pathlib import Path
-from dotenv import load_dotenv
-
-# Load .env from app directory
-env_path = Path(__file__).parent.parent / '.env'
-load_dotenv(dotenv_path=env_path)
-
+# app/utils/auth.py
 from datetime import datetime, timedelta
 from passlib.context import CryptContext
 from jose import jwt, JWTError
@@ -15,10 +8,7 @@ from typing import Optional
 from app.database import cursor
 
 # ---------- CONFIG ----------
-SECRET_KEY = os.getenv("SECRET_KEY")
-if not SECRET_KEY:
-    raise ValueError("SECRET_KEY environment variable is not set!")
-
+SECRET_KEY = "bgi_inventory"  # replace with env var in prod
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 120
 
@@ -32,6 +22,7 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
 # ---------- OAuth2 ----------
+# NOTE: tokenUrl should point to the path of your login endpoint
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 # ---------- Token helpers ----------
@@ -64,15 +55,18 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
         if not email:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication data")
 
+        # Adjust SELECT as per your users table structure
         cursor.execute("SELECT id, username, email, role, password FROM users WHERE email = %s", (email,))
         user = cursor.fetchone()
 
         if not user:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
+        # Normalize to dict if driver returns tuple
         if isinstance(user, tuple):
             user = {"id": user[0], "username": user[1], "email": user[2], "role": user[3], "password": user[4]}
 
+        # Ensure role from token is available (but prefer DB role)
         user["role"] = user.get("role") or role
         return user
 

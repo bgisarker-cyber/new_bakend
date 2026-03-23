@@ -47,7 +47,7 @@ type CityPOS = {
   create_time: string;
 };
 
-const API_BASE = "http://127.0.0.1:8000/city";
+const API_BASE = "/api/city";
 
 // =============================
 // Main Component

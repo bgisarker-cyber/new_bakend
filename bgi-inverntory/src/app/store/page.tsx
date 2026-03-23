@@ -68,7 +68,7 @@ const StorePage = () => {
         const token = localStorage.getItem("access_token");
         if (!token) throw new Error("Please log in first.");
 
-        const response = await fetch("http://127.0.0.1:8000/store/all", {
+        const response = await fetch("/api/store/all", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!response.ok)
@@ -113,7 +113,7 @@ const StorePage = () => {
   const handleExport = async () => {
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch("http://127.0.0.1:8000/store/download", {
+      const response = await fetch("/api/store/download", {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -144,7 +144,7 @@ const StorePage = () => {
       const email = localStorage.getItem("email") || "unknown";
       const role = localStorage.getItem("role") || "user";
 
-      const response = await fetch("http://127.0.0.1:8000/store/add", {
+      const response = await fetch("/api/store/add", {
         method: "POST",
         headers: getAuthHeaders(),
         body: JSON.stringify({
@@ -163,7 +163,7 @@ const StorePage = () => {
       setShowForm(false);
       setFormData({ pos_serial: "", model: "", oem: "", assigned: "" });
 
-      const updated = await fetch("http://127.0.0.1:8000/store/all", {
+      const updated = await fetch("/api/store/all", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const newData = await updated.json();
@@ -203,7 +203,7 @@ const StorePage = () => {
       const role = localStorage.getItem("role") || "user";
 
       const response = await fetch(
-        `http://127.0.0.1:8000/store/edit/${editingStore.sl}`,
+        `/api/store/edit/${editingStore.sl}`,
         {
           method: "PUT",
           headers: getAuthHeaders(),
@@ -225,7 +225,7 @@ const StorePage = () => {
       setEditingStore(null);
       setFormData({ pos_serial: "", model: "", oem: "", assigned: "" });
 
-      const updated = await fetch("http://127.0.0.1:8000/store/all", {
+      const updated = await fetch("/api/store/all", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const newData = await updated.json();
@@ -250,7 +250,7 @@ const StorePage = () => {
       const email = localStorage.getItem("email") || "unknown";
       const role = localStorage.getItem("role") || "user";
 
-      const response = await fetch(`http://127.0.0.1:8000/store/delete/${sl}`, {
+      const response = await fetch(`/api/store/delete/${sl}`, {
         method: "DELETE",
         headers: getAuthHeaders(),
         body: JSON.stringify({
@@ -291,7 +291,7 @@ const StorePage = () => {
     form.append("log_user_role", role);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/store/upload", {
+      const response = await fetch("/api/store/upload", {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: form,
@@ -303,7 +303,7 @@ const StorePage = () => {
       setUploadMsg("✅ Upload complete!");
       setExcelFile(null);
 
-      const updated = await fetch("http://127.0.0.1:8000/store/all", {
+      const updated = await fetch("/api/store/all", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const newData = await updated.json();
@@ -533,7 +533,7 @@ const StorePage = () => {
             <button
               onClick={async () => {
                 const token = localStorage.getItem("access_token");
-                const res = await fetch("http://127.0.0.1:8000/store/template", {
+                const res = await fetch("/api/store/template", {
                   headers: { Authorization: `Bearer ${token}` },
                 });
                 if (!res.ok) {

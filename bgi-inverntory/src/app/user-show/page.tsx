@@ -35,7 +35,7 @@ const UsersPage = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
-  const API_BASE = "http://127.0.0.1:8000/auth"; // Removed trailing space
+  const API_BASE = "/api/auth"; // Removed trailing space
 
   // ==========================
   // Auth Headers

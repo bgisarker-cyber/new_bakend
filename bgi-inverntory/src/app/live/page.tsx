@@ -97,7 +97,7 @@ export default function HomePage() {
         return;
       }
 
-      const response = await axios.get("http://127.0.0.1:8000/terminals/counts", {
+      const response = await axios.get("/api/terminals/counts", {
         headers: { Authorization: `Bearer ${token}` },
       });
       

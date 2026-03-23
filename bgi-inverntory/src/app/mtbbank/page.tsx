@@ -133,7 +133,7 @@ const MTBPOSPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:8000/mtb/all", {
+        const res = await fetch("/api/mtb/all", {
           headers: getAuthHeaders(),
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -175,7 +175,7 @@ const MTBPOSPage = () => {
     form.append("file", excelFile);
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/mtb/upload", {
+      const res = await fetch("/api/mtb/upload", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -190,7 +190,7 @@ const MTBPOSPage = () => {
       setExcelFile(null);
 
       // Refresh data
-      const updated = await fetch("http://127.0.0.1:8000/mtb/all", {
+      const updated = await fetch("/api/mtb/all", {
         headers: getAuthHeaders(),
       });
       const newData = await updated.json();
@@ -207,7 +207,7 @@ const MTBPOSPage = () => {
   // Download Template
   // ==========================
   const handleDownloadTemplate = () => {
-    window.open("http://127.0.0.1:8000/mtb/template", "_blank");
+    window.open("/api/mtb/template", "_blank");
   };
 
   // ==========================
@@ -254,7 +254,7 @@ const MTBPOSPage = () => {
       <div className="flex justify-between items-center w-full max-w-7xl mb-6 px-4">
         {/* Left: Export */}
         <button
-          onClick={() => window.open("http://127.0.0.1:8000/mtb/download", "_blank")}
+          onClick={() => window.open("/api/mtb/download", "_blank")}
           className="px-6 py-3 rounded-2xl bg-[#e6e9ef] shadow-[6px_6px_12px_rgba(0,0,0,0.15),-6px_-6px_#ffffff] hover:shadow-[4px_4px_8px_rgba(0,0,0,0.2),-4px_-4px_#ffffff] font-semibold"
         >
           ⬇️ Export Excel
